@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Autorant - table screen</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Phung Khanh Linh">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=0.7">
+
+	<link rel="stylesheet" href="reveal/css/reset.css">
+	<link rel="stylesheet" href="reveal/css/reveal.css">
+	<link rel="stylesheet" href="reveal/css/theme/beige.css" id="theme">
+
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="reveal/lib/css/monokai.css">
+
+
+
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	<style>
+		.multipleColumns {
+			column-count: 3;
+			height: 209px;
+			column-fill: balance;
+		}
+
+		.currentItemGrid {
+			display: grid;
+			grid-template-columns: 7fr 1fr;
+			grid-gap: 10px;
+			text-align: center;
+		}
+
+		.twoColumns {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-gap: 10px;
+			text-align: center;
+		}
+
+		.payGrid {
+			display: grid;
+			grid-template-columns: 1fr 2fr;
+			grid-gap: 5px;
+			text-align: center;
+		}
+
+		.textBoxStyle {
+			width: 100%;
+			height: 20%;
+			text-align: center;
+			font-size: large;
+		}
+
+		.button {
+			background-color: #002147;
+			border: none;
+			color: white;
+			padding: 12px 28px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 20px;
+			border-radius: 12px;
+			transition: 0.4s;
+			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+		}
+
+		.button:hover {
+			background-color: white;
+			border: 3px solid #002147;
+			color: black
+		}
+
+		.blink {
+			animation: blinking steps(1) 1s infinite alternate;
+
+		}
+
+		@keyframes blinking {
+			0% {
+				visibility: visible;
+			}
+
+			50% {
+				visibility: hidden;
+			}
+
+			100% {
+				visibility: visible;
+			}
+		}
+	</style>
+</head>
+<script src="js/vue.js"></script>
+<script src="js/client.js"></script>
+
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section id="homepage" data-background-image="bg4.jpg">
+				<div style=" margin-right: -1em;text-align: right; font-family:'Trebuchet MS'">
+					<h2 style="color: black; ">Welcome to</h2>
+					<h1 style="color:#003152;"> Autorant</h1>
+					<p style="color:black; font-size: 28pt;">Enjoy your meal </br>
+						with minimum human contact </p>
+					<p data-auto-animate class="blink" style="cursor:pointer; font-size: 28pt; color:rgb(150, 117, 75)"
+						v-on:click="jumpSlide(1)">
+						Click to continue
+					</p>
+				</div>
+
+
+			</section>
+			<section id="select-table-screen">
+				<h2 style="color:#003152; font-size:50pt">꧁ Select table ꧂ </h2></br>
+				<div class="multipleColumns">
+					<ol>
+						<li v-for="table in tables" v-on:click="setup(table.Id)" style="cursor:pointer">{{table.Code}}
+						</li>
+					</ol>
+				</div>
+
+			</section>
+			<section id="main-screen">
+				<h2 style="color:#003152; font-size:50pt">꧁ Current Meals ꧂ </h2></br>
+				<p>
+					<span style="color: rgb(150, 117, 75)"> ────── TABLE:
+						{{mainData.currentInfo.tableCode}} ──────</span>
+
+				</p>
+				<div class="twoColumns">
+					<div style="color:teal; font-size: 22pt; font-family:'Trebuchet MS'">
+						BILL ID: {{mainData.currentInfo.billId}}
+					</div>
+					<div style="color:teal; font-size: 22pt; font-family:'Trebuchet MS'">
+						TOTAL COST: {{mainData.currentInfo.currentTotalMoney}}
+					</div>
+				</div>
+
+
+				<div class="currentItemGrid">
+					<div>
+						<table>
+							<tr style="font-size:20pt" v-for="currentItem in mainData.currentInfo.orderedItems">
+								<td>{{currentItem.Name}}</td>
+								<td>State:{{states[currentItem.State]}}</td>
+							</tr>
+						</table>
+					</div>
+					<div>
+						<button class="button" v-on:click="order">ORDER</button>
+						<button class="button" v-on:click="pay">PAY</button>
+					</div>
+				</div>
+
+
+
+			</section>
+			<section id="order-screen">
+				<h2 style="color:#003152; font-size:50pt">꧁ Menu ꧂ </h2></br>
+				<div class="twoColumns">
+					<!-- Item -->
+					<div>
+						<p style="color:teal; text-align: center; font-family:'Trebuchet MS'">ITEMS</p>
+						<table>
+							<tr style="font-size:20pt" v-for="item in items">
+								<td>{{item.Id}}. {{item.Name}}</td>
+								<td>
+									<input type="checkbox" id="checkboxItem" v-model="chosenItemIds"
+										v-bind:value="item.Id">
+
+								</td>
+							</tr>
+						</table>
+						</p>
+					</div>
+					<!-- Combo -->
+					<div>
+						<p style="color: teal; text-align: center; font-family:'Trebuchet MS'">COMBOS</p>
+						<table>
+							<tr style="font-size:20pt" v-for="combo in combos">
+								<td>{{combo.Id}}. {{combo.Name}}</td>
+								<p style="font-size:15pt" v-for="items in itemsInCombos">{{item.Name}} </p>
+								<td>
+									<input type="checkbox" id="checkboxCombo" v-model="chosenComboIds"
+										v-bind:value="combo.Id">
+									<!-- <p>{{item.Id}}</p> -->
+								</td>
+							</tr>
+						</table>
+						<button class="button" v-on:click="orderMeals">ORDER</button>
+					</div>
+				</div>
+
+			</section>
+			<section id="pay-screen">
+				<h2 style="color:#003152; font-size:50pt">꧁ Payment Confirmation ꧂ </h2></br>
+				<div class="payGrid">
+					<div>
+						<p style="font-size:23pt">Card number</p>
+						<p style="font-size:23pt">Security code</p>
+					</div>
+					<div>
+						<input class="textBoxStyle" type="text" placeholder="Enter card number" v-bind:v-model="cardNo">
+						</br>
+						<input class="textBoxStyle" type="password" placeholder="Enter cvv number" v-bind:v-model="cvv">
+
+					</div>
+				</div>
+
+				<button class="button" v-on:click="pay">CONFIRM</button>
+			</section>
+		</div>
+	</div>
+
+	<script src=" reveal/js/reveal.js"></script>
+
+	<script>
+
+		// More info https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
+
+			width: 960,
+			height: 700,
+
+			// Factor of the display size that should remain empty around
+			// the content
+			margin: 0.03,
+
+			// Bounds for smallest/largest possible scale to apply to content
+			minScale: 0.2,
+			maxScale: 2.0,
+			transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+			// More info https://github.com/hakimel/reveal.js#dependencies
+			dependencies: [
+				{ src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'reveal/plugin/highlight/highlight.js' },
+				{ src: 'reveal/plugin/search/search.js', async: true },
+				{ src: 'reveal/plugin/zoom-js/zoom.js', async: true },
+				{ src: 'reveal/plugin/notes/notes.js', async: true }
+			]
+		});
+
+	</script>
+	<script>
+		//------------------------------------- screen 1
+
+		var screen0 = new Vue({
+			el: "#homepage",
+			methods: {
+				jumpSlide: function (slideNo) {
+					Reveal.slide(slideNo);
+				}
+			}
+		})
+
+		//------------------------------------- screen 2
+		let mainData = {
+			tables: [],
+			currentInfo: {},
+			items: [],
+			combos: [],
+			itemsInCombos: [],
+			chosenItemIds: [],
+			chosenComboIds: [],
+			cardNo: {},
+			cvv: {}
+		}
+
+
+		async function getTables() {
+			let response = await fetch('/general/get-tables');
+			let data = await response.json();
+
+			if (data.error) {
+				throw new Error();
+			}
+
+			return data.result;
+
+		}
+
+		getTables().then(function (result) {
+			console.log("Success!", result);
+			mainData.tables = result;
+			return result;
+		}).catch(function (error) {
+			console.log("Failed!", error);
+		});
+
+		var screen1 = new Vue({
+			el: '#select-table-screen',
+			data: mainData,
+			methods: {
+				setup: async function (id) {
+					let result = await setUpTable(id);
+
+					mainData.currentInfo = await getCurrentTableInfo();
+					alert(result);
+					console.log(mainData.currentInfo);
+					//change to slide 2
+					Reveal.slide(2);
+
+				}
+			}
+
+		})
+
+		setInterval(async () => {
+			mainData.currentInfo = await getCurrentTableInfo();
+		}, 5000);
+		//-------------------------------------- screen 3
+		var screen2 = new Vue({
+			el: '#main-screen',
+			data: {
+				mainData,
+				states: [
+					'Waiting',
+					'Cooking',
+					'Served'
+				]
+			},
+			methods: {
+				order: async function () {
+					alert('order');
+					mainData.chosenItemIds = [];
+					mainData.chosenComboIds = [];
+					Reveal.slide(3);
+				},
+				pay: async function () {
+					alert('pay');
+					Reveal.slide(4);
+				}
+			}
+
+		})
+		console.log(mainData);
+
+		//-------------------------------------- screen 4
+
+		async function getMenuItems() {
+			let response = await fetch('/general/get-menu-item');
+			let data = await response.json();
+
+			if (data.error) {
+				throw new Error();
+			}
+
+			return data.result;
+		}
+
+
+		getMenuItems().then(function (result) {
+			console.log("Items get successfully!", result);
+			mainData.items = result;
+			return result;
+		}).catch(function (error) {
+			console.log("Failed!", error);
+		});
+
+		async function getCombos() {
+			let response = await fetch('/general/get-combos');
+			let data = await response.json();
+
+			if (data.error) {
+				throw new Error();
+			}
+
+			return data.result;
+		}
+
+		getCombos().then(function (result) {
+			console.log("Combo get successfully!", result);
+			mainData.combos = result;
+			return result;
+		}).catch(function (error) {
+			console.log("Failed!", error);
+		});
+
+
+		var screen3 = new Vue({
+			el: '#order-screen',
+			data: mainData,
+			methods: {
+				orderMeals: async function () {
+					let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
+					if (result) {
+						mainData.currentInfo = await getCurrentTableInfo();
+						alert(result);
+						Reveal.slide(2);
+					}
+
+				}
+			}
+
+		})
+
+		//-------------------------------------- screen 5
+
+
+		var screen4 = new Vue({
+			el: '#pay-screen',
+			data: mainData,
+			methods: {
+				pay: async function () {
+					let result = await checkPayment(mainData.cardNo, mainData.cvv);
+					if (result) {
+						alert(result.payment);
+						Reveal.slide(0);
+					}
+
+				}
+			}
+		})
+
+
+	</script>
+
+</body>
+
+</html>
