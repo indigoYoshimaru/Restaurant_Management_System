@@ -4,7 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./theme/index.css">
+    <style>
+        .bg {
+            background-image: url("bg4.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <!-- import Vue before Element -->
@@ -14,29 +23,38 @@
 <script src="js/client.js"></script>
 
 <body>
-    <div id="setup-table-screen">
-        <template>
-            <el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange"
-                height="75vh" margin style="width: 75vw">
-                <el-table-column prop="Id" label="No." width="75">
-                </el-table-column>
-                <el-table-column prop="Code" label="Code" width="180">
-                </el-table-column>
-                <el-table-column prop="tag" label="Status">
-                    <template slot-scope="scope">
-                        <el-tag :type="scope.row.tag === 'Available' ? 'success' : 'danger'" disable-transitions
-                            effect="dark">
-                            {{scope.row.tag}}</el-tag>
-                    </template>
-                </el-table-column>
-            </el-table>
+    <template id="ui-template">
+        <div>
+            <section id="setup-table" v-if="screenName ==='setup-table'">
+                <el-table ref="singleTable" :data="tableData" highlight-current-row
+                    @current-change="handleCurrentChange" height="75vh" margin style="width: 75vw">
+                    <el-table-column prop="Id" label="No." width="75">
+                    </el-table-column>
+                    <el-table-column prop="Code" label="Code" width="180">
+                    </el-table-column>
+                    <el-table-column prop="tag" label="Status">
+                        <template slot-scope="scope">
+                            <el-tag :type="scope.row.tag === 'Available' ? 'success' : 'danger'" disable-transitions
+                                effect="dark">
+                                {{scope.row.tag}}</el-tag>
+                        </template>
+                    </el-table-column>
+                </el-table>
 
-            <el-button @click="setUp()">Set Up Table</el-button>
+                <el-button type="primary" @click="setUp()">Set Up Table</el-button>
 
-        </template>
+            </section>
+            <section id="welcome" v-if="screenName ==='welcome'">
+                <div style=" margin-right: 1em;text-align: right;" class="bg">
+                    <p style="color: black; font-size: 20pt;">Welcome to</p>
+                    <h1 style="color:#003152; font-size: 28pt;">AUTORANT</h1>
+                    <p style="color:black; font-size: 20pt;">Enjoy your meal </br>
+                        with minimum human contact </p>
+                </div>
+            </section>
+        </div>
+    </template>
 
-
-    </div>
 </body>
 
 <script>
@@ -53,11 +71,14 @@
         cvv: {}
     }
 
-    var setUpTableScreen = {
+    var uiData = {
+        template: "#ui-template",
         data() {
             return {
+                screenName: 'setup-table',
                 tableData: mainData.tables,
-                currentRow: null
+                currentRow: null,
+                mainData
             }
         },
         methods: {
@@ -68,7 +89,7 @@
                 mainData.currentInfo = await getCurrentTableInfo();
                 alert(result);
                 console.log(mainData.currentInfo);
-
+                this.screenName = "welcome"
             },
             handleCurrentChange(val) {
 
@@ -81,17 +102,18 @@
     }
 
     var v;
-
+    var Ctor;
     getTables().then(async function (result) {
         for (var table of result) {
             let res = await getCurrentBillByTableId(table.Id);
             table.tag = res.tag;
         }
         mainData.tables = result;
-        var Ctor = Vue.extend(setUpTableScreen);
-        v = new Ctor().$mount('#setup-table-screen')
+        Ctor = Vue.extend(uiData);
+        v = new Ctor().$mount('#ui-template')
         return result;
     })
+
 
 </script>
 
