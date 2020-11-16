@@ -8,12 +8,28 @@
     <style>
         .bg {
             background-image: url("bg4.jpg");
-            height: 100%;
-            background-position: center;
+            height: 90vh;
+            width: 98vw;
             background-repeat: no-repeat;
             background-size: cover;
         }
+
+        .el-menu-vertical:not(.el-menu--collapse) {
+            width: 200px;
+            min-height: 400px;
+        }
+
+        .el-row {
+            margin-bottom: 20px;
+        }
+
+        .el-col {
+            border-radius: 4px;
+        }
     </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@1,900&family=Galada&amily=Voces&display=swap"
+        rel="stylesheet">
 </head>
 
 <!-- import Vue before Element -->
@@ -27,7 +43,7 @@
         <div>
             <section id="setup-table" v-if="screenName ==='setup-table'">
                 <el-table ref="singleTable" :data="tableData" highlight-current-row
-                    @current-change="handleCurrentChange" height="75vh" margin style="width: 75vw">
+                    @current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
                     <el-table-column prop="Id" label="No." width="75">
                     </el-table-column>
                     <el-table-column prop="Code" label="Code" width="180">
@@ -40,18 +56,87 @@
                         </template>
                     </el-table-column>
                 </el-table>
+                <el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Table</el-button>
 
-                <el-button type="primary" @click="setUp()">Set Up Table</el-button>
-
+                </el-row>
             </section>
             <section id="welcome" v-if="screenName ==='welcome'">
                 <div style=" margin-right: 1em;text-align: right;" class="bg">
-                    <p style="color: black; font-size: 20pt;">Welcome to</p>
-                    <h1 style="color:#003152; font-size: 28pt;">AUTORANT</h1>
-                    <p style="color:black; font-size: 20pt;">Enjoy your meal </br>
+                    <p style="color: black; font-size: 30pt; font-family: 'Galada', cursive;">Welcome to</p>
+                    <h1 style="color:#003152; font-size: 40pt; font-family: 'Chivo', sans-serif;">Autorant</h1>
+                    <p style="color:black; font-size: 30pt; font-family: 'Galada';">Enjoy your meal </br>
                         with minimum human contact </p>
+                    <el-button style="margin-top:20px" type="primary" @click="enterApp()">Click to continue</el-button>
                 </div>
+
             </section>
+            <section id="app" v-if="screenName ==='app'">
+                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                    <el-radio-button :label="false">expand</el-radio-button>
+                    <el-radio-button :label="true">collapse</el-radio-button>
+                </el-radio-group>
+                <el-menu default-active="1" class="el-menu-vertical" @open="handleOpen" @close="handleClose"
+                    @select="handleSelect" :collapse="isCollapse">
+                    <el-menu-item index="1">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">Menu</span>
+                    </el-menu-item>
+                    <el-menu-item index="2">
+                        <i class="el-icon-edit"></i>
+                        <span slot="title">Ordered</span>
+                    </el-menu-item>
+                    <el-menu-item index="3">
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">Payment</span>
+                    </el-menu-item>
+                </el-menu>
+
+                <section id="Menu" v-if="subScreen ===1 ">
+                    <el-row :gutter="20">
+                        <el-col :span="20">
+                            <el-table ref="multipleTable" :data="mainData.items" height="80vh"
+                                @selection-change="handleSelectionChange" margin style="width: 40vw">
+                                <el-table-column type="selection" width="55">
+                                </el-table-column>
+                                <el-table-column prop="Id" label="Index" width="120">
+                                </el-table-column>
+                                <el-table-column prop="Name" label="Name" width="200">
+                                </el-table-column>
+                                <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                </el-table-column>
+                            </el-table>
+
+                        </el-col>
+                        <el-col :span="20">
+                            <el-table ref="multipleTable" :data="mainData.combos" height="80vh"
+                                @selection-change="handleSelectionChange" margin style="width: 40vw">
+                                <el-table-column type="selection" width="55">
+                                </el-table-column>
+                                <el-table-column prop="Id" label="Index" width="120">
+                                </el-table-column>
+                                <el-table-column prop="Name" label="Name" width="200">
+                                </el-table-column>
+                                <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                </el-table-column>
+                            </el-table>
+                        </el-col>
+                    </el-row>
+                    <div style="margin-top: 20px">
+                        <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of
+                            second and third rows
+                        </el-button>
+                        <el-button @click="toggleSelection()">Clear selection</el-button>
+                    </div>
+                </section>
+                <section id="Ordered" v-if="subScreen ===2">
+                    <p>order</p>
+                </section>
+                <section id="Payment" v-if="subScreen===3">
+                    <p>pay</p>
+                </section>
+            </section>
+
+
         </div>
     </template>
 
@@ -78,6 +163,8 @@
                 screenName: 'setup-table',
                 tableData: mainData.tables,
                 currentRow: null,
+                isCollapse: true,
+                subScreen: 2,
                 mainData
             }
         },
@@ -85,16 +172,44 @@
             setUp: async function () {
 
                 let result = await setUpTable(this.currentRow.Id);
-
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.screenName = "welcome";
+                })
                 mainData.currentInfo = await getCurrentTableInfo();
-                alert(result);
                 console.log(mainData.currentInfo);
-                this.screenName = "welcome"
+                // if (result)
+                //     this.screenName = "welcome";
+
             },
             handleCurrentChange(val) {
 
                 this.currentRow = val;
                 console.log(this.currentRow);
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            enterApp() {
+                this.screenName = "app"
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+                this.subScreen = parseInt(key);
+                console.log(this.subScreen);
+            },
+            orderMeals: async function () {
+                let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
+                if (result) {
+                    mainData.currentInfo = await getCurrentTableInfo();
+                    alert(result);
+                    Reveal.slide(2);
+                }
+
             }
         }
 
@@ -114,6 +229,26 @@
         return result;
     })
 
+
+    getMenuItems().then(function (result) {
+        console.log("Items get successfully!", result);
+        mainData.items = result;
+        return result;
+    }).catch(function (error) {
+        console.log("Failed!", error);
+    });
+
+    getCombos().then(function (result) {
+        console.log("Combo get successfully!", result);
+        mainData.combos = result;
+        return result;
+    }).catch(function (error) {
+        console.log("Failed!", error);
+    });
+
+    // setInterval(async () => {
+    //     mainData.currentInfo = await getCurrentTableInfo();
+    // }, 5000);
 
 </script>
 

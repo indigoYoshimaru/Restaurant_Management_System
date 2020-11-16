@@ -28,6 +28,29 @@ async function getTables() {
     return data.result;
 
 }
+// newly added
+async function getMenuItems() {
+    let response = await fetch('/general/get-menu-item');
+    let data = await response.json();
+
+    if (data.error) {
+        throw new Error();
+    }
+
+    return data.result;
+}
+
+async function getCombos() {
+    let response = await fetch('/general/get-combos');
+    let data = await response.json();
+
+    if (data.error) {
+        throw new Error();
+    }
+
+    return data.result;
+}
+//
 
 async function getCurrentBillByTableId(tableId) {
     let data = await getJson('/general/get-current-bill-by-table-id', { tableId }); // call the server and pass the 
