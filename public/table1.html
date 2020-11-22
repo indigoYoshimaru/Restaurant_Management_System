@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="./theme/index.css">
+    <link rel="stylesheet" href="./reset.css">
     <style>
         .bg {
             background-image: url("bg4.jpg");
-            height: 90vh;
-            width: 98vw;
+            height: 100vh;
+            width: 100vw;
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -25,6 +26,20 @@
 
         .el-col {
             border-radius: 4px;
+        }
+
+        .currentItemGrid {
+            display: grid;
+            grid-template-columns: 7fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
+        }
+
+        .twoColumns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
         }
     </style>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -61,7 +76,7 @@
                 </el-row>
             </section>
             <section id="welcome" v-if="screenName ==='welcome'">
-                <div style=" margin-right: 1em;text-align: right;" class="bg">
+                <div style=" margin-right: -2em;text-align: right;" class="bg">
                     <p style="color: black; font-size: 30pt; font-family: 'Galada', cursive;">Welcome to</p>
                     <h1 style="color:#003152; font-size: 40pt; font-family: 'Chivo', sans-serif;">Autorant</h1>
                     <p style="color:black; font-size: 30pt; font-family: 'Galada';">Enjoy your meal </br>
@@ -71,69 +86,110 @@
 
             </section>
             <section id="app" v-if="screenName ==='app'">
-                <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-                    <el-radio-button :label="false">expand</el-radio-button>
-                    <el-radio-button :label="true">collapse</el-radio-button>
-                </el-radio-group>
-                <el-menu default-active="1" class="el-menu-vertical" @open="handleOpen" @close="handleClose"
-                    @select="handleSelect" :collapse="isCollapse">
-                    <el-menu-item index="1">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">Menu</span>
-                    </el-menu-item>
-                    <el-menu-item index="2">
-                        <i class="el-icon-edit"></i>
-                        <span slot="title">Ordered</span>
-                    </el-menu-item>
-                    <el-menu-item index="3">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">Payment</span>
-                    </el-menu-item>
-                </el-menu>
+                <el-container>
+                    <el-header>
+                        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                            <el-radio-button :label="false">expand</el-radio-button>
+                            <el-radio-button :label="true">collapse</el-radio-button>
+                        </el-radio-group>
+                    </el-header>
 
-                <section id="Menu" v-if="subScreen ===1 ">
-                    <el-row :gutter="20">
-                        <el-col :span="20">
-                            <el-table ref="multipleTable" :data="mainData.items" height="80vh"
-                                @selection-change="handleSelectionChange" margin style="width: 40vw">
-                                <el-table-column type="selection" width="55">
-                                </el-table-column>
-                                <el-table-column prop="Id" label="Index" width="120">
-                                </el-table-column>
-                                <el-table-column prop="Name" label="Name" width="200">
-                                </el-table-column>
-                                <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
-                                </el-table-column>
-                            </el-table>
+                    <el-container>
+                        <el-aside>
+                            <el-menu default-active="1" class="el-menu-vertical" @open="handleOpen" @close="handleClose"
+                                @select="handleSelect" :collapse="isCollapse">
+                                <el-menu-item index="1">
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">Menu</span>
+                                </el-menu-item>
+                                <el-menu-item index="2">
+                                    <i class="el-icon-edit"></i>
+                                    <span slot="title">Ordered</span>
+                                </el-menu-item>
+                                <el-menu-item index="3">
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">Payment</span>
+                                </el-menu-item>
+                            </el-menu>
+                        </el-aside>
+                        <el-main>
+                            <section id="Menu" v-if="subScreen ===1 ">
+                                <el-row :gutter="20">
+                                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                        <el-table ref="multipleTable" :data="mainData.items" height="80vh"
+                                            @selection-change="handleItemSelectionChange" margin style="width: 40vw">
+                                            <el-table-column type="selection" width="55">
+                                            </el-table-column>
+                                            <el-table-column prop="Id" label="Index" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="Name" label="Name" width="200">
+                                            </el-table-column>
+                                            <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                            </el-table-column>
+                                        </el-table>
 
-                        </el-col>
-                        <el-col :span="20">
-                            <el-table ref="multipleTable" :data="mainData.combos" height="80vh"
-                                @selection-change="handleSelectionChange" margin style="width: 40vw">
-                                <el-table-column type="selection" width="55">
-                                </el-table-column>
-                                <el-table-column prop="Id" label="Index" width="120">
-                                </el-table-column>
-                                <el-table-column prop="Name" label="Name" width="200">
-                                </el-table-column>
-                                <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
-                                </el-table-column>
-                            </el-table>
-                        </el-col>
-                    </el-row>
-                    <div style="margin-top: 20px">
-                        <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of
-                            second and third rows
-                        </el-button>
-                        <el-button @click="toggleSelection()">Clear selection</el-button>
-                    </div>
-                </section>
-                <section id="Ordered" v-if="subScreen ===2">
-                    <p>order</p>
-                </section>
-                <section id="Payment" v-if="subScreen===3">
-                    <p>pay</p>
-                </section>
+                                    </el-col>
+                                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                        <el-table ref="multipleTable1" :data="mainData.combos" height="80vh"
+                                            @selection-change="handleComboSelectionChange" margin style="width: 40vw">
+                                            <el-table-column type="selection" width="55">
+                                            </el-table-column>
+                                            <el-table-column prop="Id" label="Index" width="120">
+                                            </el-table-column>
+                                            <el-table-column prop="Name" label="Name" width="200">
+                                            </el-table-column>
+                                            <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                            </el-table-column>
+                                        </el-table>
+                                    </el-col>
+                                </el-row>
+                                <div style="margin-top: 20px; position: center">
+                                    <el-button type="primary" @click="orderMeals()">Order
+                                    </el-button>
+                                    <el-button type="primary" @click="toggleSelection()">Clear selection</el-button>
+                                    <el-button type="primary" @click="backToMainScreen()">Back to main screen
+                                    </el-button>
+                                </div>
+                            </section>
+                            <section id="Ordered" v-if="subScreen ===2">
+                                <el-container style=" position: center;">
+                                    <el-header
+                                        style=" color: black; text-align: center; font-size: 30pt; font-family: 'Galada' , cursive;">
+                                        ────── Table: {{mainData.currentInfo.tableCode}} ──────
+                                    </el-header>
+                                    <el-main>
+                                        <el-row>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                                <p style="color:teal; font-size: 22pt; font-family:'Voces'">
+                                                    Bill ID: {{mainData.currentInfo.billId}}</p>
+                                            </el-col>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                                <p
+                                                    style="color:teal; text-align: right; font-size: 22pt; font-family:'Voces'">
+                                                    Total cost: {{mainData.currentInfo.currentTotalMoney}}</p>
+                                            </el-col>
+
+                                        </el-row>
+                                        <el-row v-for="currentItem in mainData.currentInfo.orderedItems">
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">{{currentItem.Name}}
+                                            </el-col>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">{{states[currentItem.State]}}
+                                            </el-col>
+                                        </el-row>
+                                    </el-main>
+
+                                </el-container>
+                            </section>
+                            <section id="Payment" v-if="subScreen===3">
+                                <p>pay</p>
+                            </section>
+                        </el-main>
+                    </el-container>
+                </el-container>
+
+
+
+
             </section>
 
 
@@ -165,6 +221,11 @@
                 currentRow: null,
                 isCollapse: true,
                 subScreen: 2,
+                states: [
+                    'Waiting',
+                    'In progress',
+                    'Served'
+                ],
                 mainData
             }
         },
@@ -179,8 +240,7 @@
                 })
                 mainData.currentInfo = await getCurrentTableInfo();
                 console.log(mainData.currentInfo);
-                // if (result)
-                //     this.screenName = "welcome";
+
 
             },
             handleCurrentChange(val) {
@@ -202,14 +262,43 @@
                 this.subScreen = parseInt(key);
                 console.log(this.subScreen);
             },
+            backToMainScreen() {
+                toggleSelection();
+                this.jump(2);
+            },
+            jump: async function (screen) {
+                this.subScreen = screen;
+            },
             orderMeals: async function () {
                 let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
-                if (result) {
-                    mainData.currentInfo = await getCurrentTableInfo();
-                    alert(result);
-                    Reveal.slide(2);
-                }
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.jump(2);
+                })
+                mainData.currentInfo = await getCurrentTableInfo();
 
+            },
+
+            toggleSelection(rows) {
+
+                this.$refs.multipleTable.clearSelection();
+                this.$refs.multipleTable1.clearSelection();
+                this.mainData.chosenItemIds.splice(0, this.mainData.chosenItemIds.length);
+                this.mainData.chosenComboIds.splice(0, this.mainData.chosenComboIds.length);;
+
+            },
+            handleItemSelectionChange(val) {
+                console.log(val);
+                var item = val[val.length - 1];
+                if (item)
+                    this.mainData.chosenItemIds.push(item.Id); // invalid! how to get ID?
+            },
+            handleComboSelectionChange(val) {
+                console.log(val);
+                var combo = val[val.length - 1];
+                if (combo)
+                    this.mainData.chosenComboIds.push(combo.Id);
             }
         }
 
