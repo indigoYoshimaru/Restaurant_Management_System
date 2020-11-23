@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="./theme/index.css">
     <link rel="stylesheet" href="./reset.css">
     <style>
@@ -45,6 +46,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@1,900&family=Galada&amily=Voces&display=swap"
         rel="stylesheet">
+
 </head>
 
 <!-- import Vue before Element -->
@@ -76,12 +78,13 @@
                 </el-row>
             </section>
             <section id="welcome" v-if="screenName ==='welcome'">
-                <div style=" margin-right: -2em;text-align: right;" class="bg">
+                <div style=" margin-right: -20px;text-align: right;" class="bg">
                     <p style="color: black; font-size: 30pt; font-family: 'Galada', cursive;">Welcome to</p>
                     <h1 style="color:#003152; font-size: 40pt; font-family: 'Chivo', sans-serif;">Autorant</h1>
                     <p style="color:black; font-size: 30pt; font-family: 'Galada';">Enjoy your meal </br>
                         with minimum human contact </p>
-                    <el-button style="margin-top:20px" type="primary" @click="enterApp()">Click to continue</el-button>
+                    <el-button style="margin-top:20px" type="primary" @click="enterScreen('app')">Click to continue
+                    </el-button>
                 </div>
 
             </section>
@@ -96,18 +99,18 @@
 
                     <el-container>
                         <el-aside>
-                            <el-menu default-active="1" class="el-menu-vertical" @open="handleOpen" @close="handleClose"
-                                @select="handleSelect" :collapse="isCollapse">
+                            <el-menu default-active="1" class="el-menu-horizontal" @open="handleOpen"
+                                @close="handleClose" @select="handleSelect" :collapse="isCollapse">
                                 <el-menu-item index="1">
                                     <i class="el-icon-menu"></i>
                                     <span slot="title">Menu</span>
                                 </el-menu-item>
                                 <el-menu-item index="2">
-                                    <i class="el-icon-edit"></i>
+                                    <i class="el-icon-s-order"></i>
                                     <span slot="title">Ordered</span>
                                 </el-menu-item>
                                 <el-menu-item index="3">
-                                    <i class="el-icon-menu"></i>
+                                    <i class="el-icon-s-finance"></i>
                                     <span slot="title">Payment</span>
                                 </el-menu-item>
                             </el-menu>
@@ -116,7 +119,7 @@
                             <section id="Menu" v-if="subScreen ===1 ">
                                 <el-row :gutter="20">
                                     <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                        <el-table ref="multipleTable" :data="mainData.items" height="80vh"
+                                        <el-table ref="multipleTable" :data="mainData.items" height="75vh"
                                             @selection-change="handleItemSelectionChange" margin style="width: 40vw">
                                             <el-table-column type="selection" width="55">
                                             </el-table-column>
@@ -130,8 +133,14 @@
 
                                     </el-col>
                                     <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                        <el-table ref="multipleTable1" :data="mainData.combos" height="80vh"
+                                        <el-table ref="multipleTable1" :data="mainData.combos" height="75vh"
                                             @selection-change="handleComboSelectionChange" margin style="width: 40vw">
+                                            <el-table-column type="expand">
+                                                <template slot-scope="props">
+                                                    <p v-for="item in props.row.items">
+                                                        {{item.Id}},{{item.Name}}</p>
+                                                </template>
+                                            </el-table-column>
                                             <el-table-column type="selection" width="55">
                                             </el-table-column>
                                             <el-table-column prop="Id" label="Index" width="120">
@@ -140,40 +149,48 @@
                                             </el-table-column>
                                             <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
                                             </el-table-column>
+
                                         </el-table>
+
                                     </el-col>
                                 </el-row>
-                                <div style="margin-top: 20px; position: center">
+                                <div style="margin-top: 2px; text-align: center">
                                     <el-button type="primary" @click="orderMeals()">Order
                                     </el-button>
-                                    <el-button type="primary" @click="toggleSelection()">Clear selection</el-button>
+                                    <el-button type="primary" @click="toggleSelection()">Clear selection
+                                    </el-button>
                                     <el-button type="primary" @click="backToMainScreen()">Back to main screen
                                     </el-button>
                                 </div>
+
+
                             </section>
                             <section id="Ordered" v-if="subScreen ===2">
-                                <el-container style=" position: center;">
+                                <el-container>
                                     <el-header
-                                        style=" color: black; text-align: center; font-size: 30pt; font-family: 'Galada' , cursive;">
-                                        ────── Table: {{mainData.currentInfo.tableCode}} ──────
+                                        style=" color: #013a72;margin-left: 500px; font-size: 30pt; font-family: 'Galada' , cursive;">
+                                        Table: {{mainData.currentInfo.tableCode}}
                                     </el-header>
-                                    <el-main>
+                                    <el-main style="margin-left: 150px;">
                                         <el-row>
                                             <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                                <p style="color:teal; font-size: 22pt; font-family:'Voces'">
+                                                <p style="color:#013a72; font-size: 22pt; font-family:'Galada'">
                                                     Bill ID: {{mainData.currentInfo.billId}}</p>
                                             </el-col>
                                             <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                                <p
-                                                    style="color:teal; text-align: right; font-size: 22pt; font-family:'Voces'">
+                                                <p style="color:#013a72; font-size: 22pt; font-family:'Galada'">
                                                     Total cost: {{mainData.currentInfo.currentTotalMoney}}</p>
                                             </el-col>
 
                                         </el-row>
                                         <el-row v-for="currentItem in mainData.currentInfo.orderedItems">
-                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">{{currentItem.Name}}
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12"
+                                                style="font-size: 16pt; font-family:'Voces'">
+                                                {{currentItem.Name}}
                                             </el-col>
-                                            <el-col :xs="24" :sm="24" :md="24" :lg="12">{{states[currentItem.State]}}
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12"
+                                                style="font-size: 16pt; font-family:'Voces'">
+                                                {{states[currentItem.State]}}
                                             </el-col>
                                         </el-row>
                                     </el-main>
@@ -181,7 +198,15 @@
                                 </el-container>
                             </section>
                             <section id="Payment" v-if="subScreen===3">
-                                <p>pay</p>
+                                <p style="color:#013a72; font-size: 22pt; font-family:'Galada'">
+                                    Total cost: {{mainData.currentInfo.currentTotalMoney}}</p>
+                                <span style="font-size: 16pt; font-family:'Voces'">Card Number: </span>
+                                <el-input placeholder="Please input card number" v-model="cardNo" size="medium">
+                                </el-input>
+                                <span style="font-size: 16pt; font-family:'Voces'">Security Number: </span>
+                                <el-input placeholder="Please input cvv" v-model="cvv" show-password size="medium">
+                                </el-input>
+                                <el-button type="primary" @click="pay()">Pay</el-button>
                             </section>
                         </el-main>
                     </el-container>
@@ -207,9 +232,7 @@
         combos: [],
         itemsInCombos: [],
         chosenItemIds: [],
-        chosenComboIds: [],
-        cardNo: {},
-        cvv: {}
+        chosenComboIds: []
     }
 
     var uiData = {
@@ -226,7 +249,9 @@
                     'In progress',
                     'Served'
                 ],
-                mainData
+                mainData,
+                cardNo: '',
+                cvv: ''
             }
         },
         methods: {
@@ -254,21 +279,21 @@
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
-            enterApp() {
-                this.screenName = "app"
+            enterScreen(screenName) {
+                this.screenName = screenName;
+            },
+            jump(subScreen) {
+                this.subScreen = subScreen;
             },
             handleSelect(key, keyPath) {
                 console.log(key, keyPath);
                 this.subScreen = parseInt(key);
-                console.log(this.subScreen);
             },
             backToMainScreen() {
                 toggleSelection();
                 this.jump(2);
             },
-            jump: async function (screen) {
-                this.subScreen = screen;
-            },
+
             orderMeals: async function () {
                 let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
                 this.$alert(result, 'Confirm', {
@@ -299,6 +324,15 @@
                 var combo = val[val.length - 1];
                 if (combo)
                     this.mainData.chosenComboIds.push(combo.Id);
+            },
+            pay: async function () {
+                let result = await checkPayment(this.cardNo, this.cvv);
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    enterScreen('welcome');
+                })
+
             }
         }
 
@@ -327,17 +361,35 @@
         console.log("Failed!", error);
     });
 
-    getCombos().then(function (result) {
+    getCombos().then(async function (result) {
         console.log("Combo get successfully!", result);
         mainData.combos = result;
+        for (combo of mainData.combos) {
+            console.log(combo);
+            items = await getMenuItemsByComboId(combo.Id);
+            console.log(items);
+            combo.items = items;
+            //mainData.itemsInCombos.push({ comboId: combo.Id, items });
+        }
         return result;
     }).catch(function (error) {
         console.log("Failed!", error);
     });
 
-    // setInterval(async () => {
-    //     mainData.currentInfo = await getCurrentTableInfo();
-    // }, 5000);
+    // async function getMenuItemsFromCombos() {
+    //     for (combo of mainData.combos) {
+    //         console.log(combo);
+    //         items = await getMenuItemsByComboId(combo.Id);
+    //         console.log(items);
+    //         combo.items = items;
+    //         mainData.itemsInCombos.push({ comboId: combo.Id, items });
+    //     }
+    // }
+
+    // getMenuItemsFromCombos();
+    setInterval(async () => {
+        mainData.currentInfo = await getCurrentTableInfo();
+    }, 5000);
 
 </script>
 

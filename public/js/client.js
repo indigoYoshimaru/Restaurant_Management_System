@@ -51,6 +51,13 @@ async function getCombos() {
     return data.result;
 }
 //
+async function getMenuItemsByComboId(comboId) {
+    let data = await getJson('/general/get-menu-items-by-combo-id', { comboId }); // call the server and pass the 
+
+    if (data.error)
+        throw new Error(data.error);
+    return data.result;
+}
 
 async function getCurrentBillByTableId(tableId) {
     let data = await getJson('/general/get-current-bill-by-table-id', { tableId }); // call the server and pass the 

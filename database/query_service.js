@@ -102,10 +102,10 @@ module.exports = {
 
     async getMenuItemsByComboId(id) {
         // we at first also call the function for the raw sql query
-        let [rows, _] = await Database.raw(`select *
+        let [rows, _] = await Database.raw(`select mi.Id as Id, mi.Name as Name,ci.Price as Price, DefaultDuration, ItemTypeId
         from MenuItems mi 
         join ComboItems ci on ci.MenuItemsId = mi.Id
-        where ci.CombosId = ? `, [parseInt(id)]); // the question mark will be interpreted as the requirements of passing arguments
+        where ci.CombosId =  ? `, [parseInt(id)]); // the question mark will be interpreted as the requirements of passing arguments
         // furthermore, we must use the parseInt function to make sure the datatype of the field 
         if (!rows.length)
             return null;

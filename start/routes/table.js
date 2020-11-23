@@ -143,15 +143,10 @@ Route.post('/table/payment', async ({ request, session }) => {
     // assume that this will always return okay
     let tableId = session.get('tableId', null);
     let bill = await query_service.getCurrentBillByTableId(tableId);
-    let total = await query_service.getBillTotal(bill.Id);
+    //let total = await query_service.getBillTotal(bill.Id);
     await update_service.closeCurrentBill(bill.Id);
     return {
-        result: {
-            bill: bill.Id,
-            totalMoney: total,
-            payment: "The payment is valid."
-        }
-
+        result: "The payment is valid."
     }
 })
 
