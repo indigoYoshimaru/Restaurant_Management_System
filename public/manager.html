@@ -1,578 +1,282 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="utf-8">
-
-	<title>reveal.js – The HTML Presentation Framework</title>
-
-	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-	<meta name="author" content="Hakim El Hattab">
-
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="reveal/css/reset.css">
-	<link rel="stylesheet" href="reveal/css/reveal.css">
-	<link rel="stylesheet" href="reveal/css/theme/league.css" id="theme">
-
-	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="reveal/lib/css/monokai.css">
-
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
-		document.getElementsByTagName('head')[0].appendChild(link);
-	</script>
-
-	<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-
-	<style>
-		.multipleColumns {
-			column-count: 2;
-			height: 320px;
-			column-fill: balance;
-		}
-
-		.currentItemGrid {
-			display: grid;
-			grid-template-columns: 7fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
-		}
-
-		.twoColumns {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
-		}
-
-		.textBoxStyle {
-			width: 100%;
-			height: 100%;
-			text-align: center;
-			font-size: xx-large;
-		}
-
-		.cookGrid {
-			display: grid;
-			grid-template-columns: 1fr 2fr;
-			grid-gap: 5px;
-			text-align: center;
-		}
-
-		.button {
-			border:none;
-  			color: black;
-  			padding: 10px 50px;
-  			text-align: center;
-  			text-decoration: none;
-  			display: inline-block;
-  			font-size: 20px;
-  			margin: 50px 50px;
-  			cursor: pointer;
-		}
-	</style>
-
-</head>
-<script src="js/vue.js"></script>
-<script src="js/client.js"></script>
-</script>
-
-<body>
-
-	<div class="reveal">
-
-		<!-- Any section element inside of this container is displayed as a slide -->
-		<div class="slides">
-
-			<section id="manager-main-screen">
-				<h2>SELECT OPTION</h2>
-				<div class="twoColumns">
-					<!-- Item -->
-					<div>
-						<p style="color:rgb(17, 7, 112); text-align: center">Add</p>
-						<table>
-							<tr style="font-size:20pt" v-for="(add,index) in adds" v-on:click="changeSlide(index+1)">
-								<td>{{index+1}}. {{ add.value }}</td>
-
-							</tr>
-						</table>
-						</p>
-					</div>
-					<!-- Combo -->
-					<div>
-						<p style="color: rgb(17, 7, 112); text-align: center">Update</p>
-						<table>
-							<tr style="font-size:20pt" v-for="(update,index) in updates" v-on:click="changeSlide(index+5)">
-								<td>{{index+5}}. {{ update.value }}</td>
-
-							</tr>
-						</table>
-					</div>
-				</div>
-			</section>
-
-
-			<section id="add-cook">
-				<h2>ADD COOK</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="personalId">Personal ID:</label>
-						</br>
-						<label for="firstName">First name:</label>
-						</br>
-						<label for="lastName">Last name:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's Personal Id"
-							v-bind:v-value="cook.perId" v-model="cook.perId">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's First Name"
-							v-bind:v-value="cook.fName" v-model="cook.fName">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's Last Name"
-							v-bind:v-value="cook.lName" v-model="cook.lName">
-
-					</div>
-				</div>
-				<button class="button" v-on:click="addC">ADD</button>
-
-			</section>
-
-			<section id="add-table">
-				<h2>ADD TABLE</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="code">Table Code:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Table's Code"
-							v-bind:v-value="table.code" v-model="table.code">
-
-					</div>
-				</div>
-				<button class="button" v-on:click="addT">ADD</button>
-			</section>
-
-			<section id="add-item">
-				<h2>ADD ITEM</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="name">Item Name:</label>
-						</br>
-						<label for="price">Price:</label>
-						</br>
-						<label for="DefaultDuration">Default Duration:</label>
-						</br>
-						<label for="Available">Available:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Item's Name"
-							v-bind:v-value="item.name" v-model="item.name">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Item's Price"
-							v-bind:v-value="item.price" v-model="item.price">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Default Duration"
-							v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Available?"
-							v-bind:v-value="item.available" v-model="item.available">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="addI">ADD</button>
-				
-			</section>
-
-			<section id="add-combo">
-				<h2>ADD COMBO</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="name">Combo Name:</label>
-						</br>
-						<label for="price">Price:</label>
-						</br>
-						<label for="mItemIds">ItemIds:</label>
-						</br>
-						<label for="Available">Available:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Combo's Name"
-							v-bind:v-value="combo.name" v-model="combo.name">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Combo's Price"
-							v-bind:v-value="combo.price" v-model="combo.price">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
-							v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Available?"
-							v-bind:v-value="combo.available" v-model="combo.available">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="addCo">ADD</button>
-				
-			</section>
-
-
-			<section id="update-cook">
-				<h2>UPDATE COOK</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="NcookId">Cook ID:</label>
-						</br>
-						<label for="NpersonalId">Personal ID:</label>
-						</br>
-						<label for="NfirstName">First name:</label>
-						</br>
-						<label for="NlastName">Last name:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Id of cook you want to update"
-							v-bind:v-value="uCook.id" v-model="uCook.id">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's Personal Id"
-							v-bind:v-value="uCook.perId" v-model="uCook.perId">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's First Name"
-							v-bind:v-value="uCook.fName" v-model="uCook.fName">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Cook's Last Name"
-							v-bind:v-value="uCook.lName" v-model="uCook.lName">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="updateC">CONFIRM</button>
-			</section>
-
-
-			<section id="update-table">
-				<h2>UPDATE TABLE</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="NTableId">Table ID:</label>
-						</br>
-						<label for="NCode">Code:</label>
-						</br>
-						<label for="ServedState">Served State:</label>
-						</br>
-						<label for="PayState">Pay State:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Id of table you want to update"
-							v-bind:v-value="uTable.tableId" v-model="uTable.tableId">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter New Code"
-							v-bind:v-value="uTable.code" v-model="uTable.code">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Served State"
-							v-bind:v-value="uTable.ServedState" v-model="uTable.ServedState">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter Pay State"
-							v-bind:v-value="uTable.PayState" v-model="uTable.PayState">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="updateT">CONFIRM</button>
-			</section>
-
-
-			<section id="update-item">
-				<h2>UPDATE ITEM</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="NItemId">Item ID:</label>
-						</br>
-						<label for="NItemId">Item Name:</label>
-						</br>
-						<label for="NItemPrice">Item Price:</label>
-						</br>
-						<label for="NItemDu">Duration:</label>
-						</br>
-						<label for="NItemAva">Available:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Id of item you want to update"
-							v-bind:v-value="uItem.itemId" v-model="uItem.itemId">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter new item name"
-							v-bind:v-value="uItem.itemName" v-model="uItem.itemName">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter new price"
-							v-bind:v-value="uItem.itemPrice" v-model="uItem.itemPrice">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter new duration"
-							v-bind:v-value="uItem.duration" v-model="uItem.duration">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Available?"
-							v-bind:v-value="uItem.available" v-model="uItem.available">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="updateI">CONFIRM</button>
-			</section>
-
-
-			<section id="update-combo">
-				<h2>UPDATE COMBO</h2>
-				<div class="cookGrid">
-					<div>
-						<label for="NCoId">Combo ID:</label>
-						</br>
-						<label for="NCoName">Combo Name:</label>
-						</br>
-						<label for="NCoPrice">Combo Price:</label>
-						</br>
-						<label for="NItemIds">Item Ids:</label>
-						</br>
-						<label for="NCoAva">Available:</label>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter Id of combo you want to update"
-							v-bind:v-value="uCombo.comboId" v-model="uCombo.comboId">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter new combo name"
-							v-bind:v-value="uCombo.name" v-model="uCombo.name">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Enter new price"
-							v-bind:v-value="uCombo.price" v-model="uCombo.price">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Include items with ids?"
-							v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-						</br>
-						<input class="textBoxStyle" type="text" placeholder="Avaliable?"
-							v-bind:v-value="uCombo.available" v-model="uCombo.available">
-
-					</div>
-				</div>
-					<button class="button" v-on:click="updateCo">CONFIRM</button>
-			</section>
-
-		</div>
-	</div>
-
-	<script src="reveal/js/reveal.js"></script>
-
-	<script>
-
-		// More info https://github.com/hakimel/reveal.js#configuration
-		Reveal.initialize({
-			controls: true,
-			progress: true,
-			center: true,
-			hash: true,
-
-			transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-			// More info https://github.com/hakimel/reveal.js#dependencies
-			dependencies: [
-				{ src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/highlight/highlight.js' },
-				{ src: 'reveal/plugin/search/search.js', async: true },
-				{ src: 'reveal/plugin/zoom-js/zoom.js', async: true },
-				{ src: 'reveal/plugin/notes/notes.js', async: true }
-			]
-		});
-
-	</script>
-
-	<script>
-		let mainData = {
-			adds: [
-				{ value: "Add Cook" },
-				{ value: "Add Table" },
-				{ value: "Add Item" },
-				{ value: "Add Combo" }
-			],
-			updates: [
-				{ value: "Update Cook" },
-				{ value: "Update Table" },
-				{ value: "Update Item" },
-				{ value: "Update Combo" }
-			],
-			cook: {
-				perId: "",
-				fName: "",
-				lName: ""
-			},
-			table: {
-				code: ""
-			},
-			item: {
-				name: "",
-				price: "",
-				defaultDuration: "",
-				available: ""
-			},
-			combo: {
-				name: "",
-				price: "",
-				mItemIds: "",
-				available: ""
-			},
-			uCook: {
-				id: "",
-				perId: "",
-				fName: "",
-				lName: ""
-			},
-			uTable: {
-				tableId: "",
-				code: "",
-				ServedState: "",
-				PayState: ""
-			},
-			uItem: {
-				itemId: "",
-				itemName: "",
-				itemPrice: "",
-				duration: "",
-				available: ""
-			},
-			uCombo: {
-				comboId: "",
-				name: "",
-				price: "",
-				itemIds: "",
-				available: ""
-			}
-		}
-
-
-		var screen0 = new Vue({
-			el: '#manager-main-screen',
-			data: mainData,
-			methods: {
-				changeSlide: function (idx) {
-					Reveal.slide(idx);
-				}
-			}
-		})
-
-		var screen1 = new Vue({
-			el: '#add-cook',
-			data: mainData,
-			methods: {
-				addC: async function () {
-					let result = await addCook(mainData.cook.perId, mainData.cook.fName, mainData.cook.lName);
-
-					alert("added");
-					console.log("Success!", result.result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen2 = new Vue({
-			el: '#add-table',
-			data: mainData,
-			methods: {
-				addT: async function () {
-					let result = await addTable(mainData.table.code);
-
-					alert('added');
-					console.log("Success!", result);
-				}
-			}
-		})
-
-		var screen3 = new Vue({
-			el: '#add-item',
-			data: mainData,
-			methods: {
-				addI: async function () {
-					let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available);
-
-					alert('added');
-					console.log("Success!", result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen4 = new Vue({
-			el: '#add-combo',
-			data: mainData,
-			methods: {
-				addCo: async function () {
-					let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.available);
-
-					alert('added');
-					console.log("Success!", result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen5 = new Vue({
-			el: '#update-cook',
-			data: mainData,
-			methods: {
-				updateC: async function () {
-					let result = await updateCook(mainData.uCook.id, mainData.uCook.perId, mainData.uCook.fName, mainData.uCook.lName);
-
-					alert("updated");
-					console.log("Success!", result.result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen6 = new Vue({
-			el: '#update-table',
-			data: mainData,
-			methods: {
-				updateT: async function () {
-					let result = await updateTable(mainData.uTable.tableId, mainData.uTable.code, mainData.uTable.ServedState, mainData.uTable.PayState);
-
-					alert("updated");
-					console.log("Success!", result.result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen7 = new Vue({
-			el: '#update-item',
-			data: mainData,
-			methods: {
-				updateI: async function () {
-					let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available);
-
-					alert("updated");
-					console.log("Success!", result.result);
-					Reveal.slide(0);
-				}
-			}
-		})
-
-		var screen8 = new Vue({
-			el: '#update-combo',
-			data: mainData,
-			methods: {
-				updateCo: async function () {
-					let result = await updateCombo(mainData.uCombo.comboId, mainData.uCombo.name, mainData.uCombo.price, mainData.uCombo.itemIds, mainData.uCombo.available);
-
-					alert("updated");
-					console.log("Success!", result.result);
-					Reveal.slide(0);
-				}
-			}
-		})
-	</script>
-
-</body>
-
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Resume - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/client.js"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none">Clarence Taylor</span>
+                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.png" alt="" /></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <div class="manager">Manager Soma</div>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addItem">Add Item</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateItem">Update Item</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addCombo">Add Combo</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateCombo">Update Combo</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Page Content-->
+        <div class="container-fluid p-0">
+            <!-- Add Item-->
+            <section class="resume-section" style="background-size: cover; background-image: url('background.png');" id="addItem">
+                <div class="resume-section-content">
+                    <section id="add-item">
+                        <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
+                        <div class="cookGrid">
+                            <div>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Item's Name"
+                                    v-bind:v-value="item.name" v-model="item.name">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Item's Price"
+                                    v-bind:v-value="item.price" v-model="item.price">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Default Duration"
+                                    v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Available?"
+                                    v-bind:v-value="item.available" v-model="item.available">
+        
+                            </div>
+                        </div>
+                            <button class="button" v-on:click="addI">ADD</button>
+                        
+                    </section>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Update Item-->
+            <section class="resume-section" style="background-size: cover; background-image: url('background2.png');" id="updateItem">
+                <div class="resume-section-content">
+                    <section id="update-item">
+                        <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
+                        <div class="cookGrid">
+                            <div>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Id of item you want to update"
+                                    v-bind:v-value="uItem.itemId" v-model="uItem.itemId">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter new item name"
+                                    v-bind:v-value="uItem.itemName" v-model="uItem.itemName">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
+                                    v-bind:v-value="uItem.itemPrice" v-model="uItem.itemPrice">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter new duration"
+                                    v-bind:v-value="uItem.duration" v-model="uItem.duration">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Available?"
+                                    v-bind:v-value="uItem.available" v-model="uItem.available">
+                            </div>
+                        </div>
+                            <button class="button" v-on:click="updateI">CONFIRM</button>
+                    </section>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Add Combo-->
+            <section class="resume-section" style="background-size: cover; background-image: url('background2.jpg'); "id="addCombo">
+                <div class="resume-section-content">
+                    <section id="add-combo">
+                        <h2 class="mb-5" style="text-align: center">ADD COMBO</h2>
+                        <div class="cookGrid">
+                            <div>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's Name"
+                                    v-bind:v-value="combo.name" v-model="combo.name">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's Price"
+                                    v-bind:v-value="combo.price" v-model="combo.price">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
+                                    v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Available?"
+                                    v-bind:v-value="combo.available" v-model="combo.available">
+        
+                            </div>
+                        </div>
+                            <button class="button" v-on:click="addCo">ADD</button>
+                        
+                    </section>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <!-- Update Combo-->
+            <section class="resume-section" style="background-size: cover; background-image: url('background3.png');"id="updateCombo">
+                <div class="resume-section-content">
+                    <section id="update-combo">
+                        <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
+                        <div class="cookGrid">
+                            <div>
+                                <input class="textBoxStyle" type="text" placeholder="Enter Id of combo you want to update"
+                                    v-bind:v-value="uCombo.comboId" v-model="uCombo.comboId">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter new combo name"
+                                    v-bind:v-value="uCombo.name" v-model="uCombo.name">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
+                                    v-bind:v-value="uCombo.price" v-model="uCombo.price">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
+                                    v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="Avaliable?"
+                                    v-bind:v-value="uCombo.available" v-model="uCombo.available">
+        
+                            </div>
+                        </div>
+                            <button class="button" v-on:click="updateCo">CONFIRM</button>
+                    </section>
+                </div>
+            </section>
+            <hr class="m-0" />
+            
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="reveal/js/reveal.js"></script>
+
+        <script>
+
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                center: true,
+                hash: true,
+    
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+    
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                    { src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                    { src: 'reveal/plugin/highlight/highlight.js' },
+                    { src: 'reveal/plugin/search/search.js', async: true },
+                    { src: 'reveal/plugin/zoom-js/zoom.js', async: true },
+                    { src: 'reveal/plugin/notes/notes.js', async: true }
+                ]
+            });
+    
+        </script>
+    
+        <script>
+            let mainData = {
+                adds: [
+                    { value: "Add Item" },
+                    { value: "Add Combo" }
+                ],
+                updates: [
+                    { value: "Update Item" },
+                    { value: "Update Combo" }
+                ],
+                item: {
+                    name: "",
+                    price: "",
+                    defaultDuration: "",
+                    available: ""
+                },
+                combo: {
+                    name: "",
+                    price: "",
+                    mItemIds: "",
+                    available: ""
+                },
+                uItem: {
+                    itemId: "",
+                    itemName: "",
+                    itemPrice: "",
+                    duration: "",
+                    available: ""
+                },
+                uCombo: {
+                    comboId: "",
+                    name: "",
+                    price: "",
+                    itemIds: "",
+                    available: ""
+                }
+            }
+    
+    
+            var screen0 = new Vue({
+                el: '#add-item',
+                data: mainData,
+                methods: {
+                    addI: async function () {
+                        let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available);
+    
+                        alert('added');
+                        console.log("Success!", result);
+                        Reveal.slide(0);
+                    }
+                }
+            })
+    
+            var screen1 = new Vue({
+                el: '#add-combo',
+                data: mainData,
+                methods: {
+                    addCo: async function () {
+                        let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.available);
+    
+                        alert('added');
+                        console.log("Success!", result);
+                        Reveal.slide(0);
+                    }
+                }
+            })
+    
+            var screen2 = new Vue({
+                el: '#update-item',
+                data: mainData,
+                methods: {
+                    updateI: async function () {
+                        let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available);
+    
+                        alert("updated");
+                        console.log("Success!", result.result);
+                        Reveal.slide(0);
+                    }
+                }
+            })
+    
+            var screen3 = new Vue({
+                el: '#update-combo',
+                data: mainData,
+                methods: {
+                    updateCo: async function () {
+                        let result = await updateCombo(mainData.uCombo.comboId, mainData.uCombo.name, mainData.uCombo.price, mainData.uCombo.itemIds, mainData.uCombo.available);
+    
+                        alert("updated");
+                        console.log("Success!", result.result);
+                        Reveal.slide(0);
+                    }
+                }
+            })
+        </script>
+    </body>
 </html>

@@ -11,6 +11,7 @@ Route.post('/manager/item/add', async ({ request, session }) => {
     let itemPrice = query.itemPrice;
     let duration = query.duration;
     let available = query.available;
+    let itemTypeId = query.itemTypeId;
 
     let item = await query_service.getMenuItemByName(itemName);
     if (item) {
@@ -18,7 +19,7 @@ Route.post('/manager/item/add', async ({ request, session }) => {
             error: "Item already exists!"
         }
     }
-    var isAdded = await update_service.addItem(itemName, itemPrice, duration, available);
+    var isAdded = await update_service.addItem(itemName, itemPrice, duration, available, itemTypeId);
     //console.log('Item is added: ', isAdded);
     if (isAdded) {
         let item = await query_service.getMenuItemByName(itemName);
@@ -37,6 +38,7 @@ Route.post('/manager/item/update', async ({ request, session }) => {
     let itemPrice = query.itemPrice;
     let duration = query.duration;
     let available = query.available;
+    let itemTypeId = query.itemTypeId;
     let item = await query_service.getMenuItemById(itemId);
 
     if (!item) {
@@ -45,7 +47,7 @@ Route.post('/manager/item/update', async ({ request, session }) => {
         }
     }
 
-    var isUpdated = await update_service.updateItem(itemId, itemName, itemPrice, duration, available);
+    var isUpdated = await update_service.updateItem(itemId, itemName, itemPrice, duration, available, itemTypeId);
     if (isUpdated) {
         return {
             result: "Update successfully"

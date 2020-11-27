@@ -3,20 +3,21 @@ var query_service = require('./query_service');
 
 
 module.exports = {
-    async addItem(itemName, itemPrice, duration, available) {
+    async addItem(itemName, itemPrice, duration, available, itemTypeId) {
         var isAdded = false;
-        await Database.raw(`INSERT INTO MenuItems (Name, Price, DefaultDuration, Available) values (?, ?, ?, ?)`, [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available)]);
+        await Database.raw(`INSERT INTO MenuItems (Name, Price, DefaultDuration, Available, ItemTypeId) values (?, ?, ?, ?,?)`, [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available), parseInt(itemTypeId)]);
         isAdded = true;
         return isAdded;
     },
-    async updateItem(itemId, itemName, itemPrice, duration, available) {
+    async updateItem(itemId, itemName, itemPrice, duration, available, itemTypeId) {
         var updated = false;
-        let params = [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available), parseInt(itemId)];
+        let params = [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available), parseInt(itemId), parseInt(itemTypeId)];
         await Database.raw(`UPDATE menuitems SET
 	Name = ?,
 	Price = ?,
 	DefaultDuration = ?,
-	Available = ?
+    Available = ?,
+    ItemTypeId=?,
 	WHERE Id = ?`, params);
         updated = true;
         return updated;
