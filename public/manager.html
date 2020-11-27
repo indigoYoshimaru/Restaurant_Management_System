@@ -38,7 +38,7 @@
         <!-- Page Content-->
         <div class="container-fluid p-0">
             <!-- Add Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('background.png');" id="addItem">
+            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res1.jpg');" id="addItem">
                 <div class="resume-section-content">
                     <section id="add-item">
                         <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
@@ -55,17 +55,20 @@
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Available?"
                                     v-bind:v-value="item.available" v-model="item.available">
-        
+                                </br>
+                                <input class="textBoxStyle" type="text" placeholder="TypeID?"
+                                    v-bind:v-value="item.type" v-model="item.type">
+                                </br>
                             </div>
                         </div>
-                            <button class="button" v-on:click="addI">ADD</button>
+                            <button class="button" v-on:click="addI">CONFIRM</button>
                         
                     </section>
                 </div>
             </section>
             <hr class="m-0" />
             <!-- Update Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('background2.png');" id="updateItem">
+            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res2.jpg');" id="updateItem">
                 <div class="resume-section-content">
                     <section id="update-item">
                         <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
@@ -85,6 +88,7 @@
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Available?"
                                     v-bind:v-value="uItem.available" v-model="uItem.available">
+                                </br>
                             </div>
                         </div>
                             <button class="button" v-on:click="updateI">CONFIRM</button>
@@ -93,7 +97,7 @@
             </section>
             <hr class="m-0" />
             <!-- Add Combo-->
-            <section class="resume-section" style="background-size: cover; background-image: url('background2.jpg'); "id="addCombo">
+            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res3.jpg'); "id="addCombo">
                 <div class="resume-section-content">
                     <section id="add-combo">
                         <h2 class="mb-5" style="text-align: center">ADD COMBO</h2>
@@ -110,7 +114,7 @@
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Available?"
                                     v-bind:v-value="combo.available" v-model="combo.available">
-        
+                                </br>
                             </div>
                         </div>
                             <button class="button" v-on:click="addCo">ADD</button>
@@ -120,7 +124,7 @@
             </section>
             <hr class="m-0" />
             <!-- Update Combo-->
-            <section class="resume-section" style="background-size: cover; background-image: url('background3.png');"id="updateCombo">
+            <section class="resume-section" style="background-size: cover; background-image: url('bg4.jpg');"id="updateCombo">
                 <div class="resume-section-content">
                     <section id="update-combo">
                         <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
@@ -140,7 +144,7 @@
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Avaliable?"
                                     v-bind:v-value="uCombo.available" v-model="uCombo.available">
-        
+                                </br>
                             </div>
                         </div>
                             <button class="button" v-on:click="updateCo">CONFIRM</button>
@@ -197,7 +201,8 @@
                     name: "",
                     price: "",
                     defaultDuration: "",
-                    available: ""
+                    available: "",
+                    type: ""
                 },
                 combo: {
                     name: "",
@@ -227,7 +232,7 @@
                 data: mainData,
                 methods: {
                     addI: async function () {
-                        let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available);
+                        let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available, mainData.item.type);
     
                         alert('added');
                         console.log("Success!", result);
