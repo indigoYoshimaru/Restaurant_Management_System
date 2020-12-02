@@ -75,8 +75,6 @@ Route.post('/staff/setup', async ({ request, session }) => {
 Route.post('/staff/start', async ({ request, session }) => {
     let staffId = session.get("staffId", null);
     let query = request.all();
-
-
     if (!staffId) {
         return {
             error: "No staff found"
@@ -84,7 +82,6 @@ Route.post('/staff/start', async ({ request, session }) => {
     }
     console.log("StaffId: ", staffId)
     let detail = await query_service.getNextBillDetailByStaffId(staffId);
-
     if (!detail) {
         return {
             error: "No bill detail found."

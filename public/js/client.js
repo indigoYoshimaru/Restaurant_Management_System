@@ -101,6 +101,16 @@ async function checkPayment(cardNo, cvv) {
 }
 
 //=================================STAFF=============================//
+async function getStaffList() {
+    let data = await (await fetch('/general/get-staffs')).json();
+
+    if (data.error) {
+        throw new Error();
+    }
+
+    return data.result;
+
+}
 /************************** */
 async function getCurrentStaffInfo() {
     let data = await (await fetch('/staff/info')).json();
@@ -151,8 +161,8 @@ async function addTable(Code) {
 }
 
 /**************************** */
-async function addItem(itemName, itemPrice, duration, available) {
-    let data = await getJson('/manager/item/add', { itemName, itemPrice, duration, available });
+async function addItem(itemName, itemPrice, duration, available,itemType) {
+    let data = await getJson('/manager/item/add', { itemName, itemPrice, duration, available, itemType });
     if (data.error)
         throw new Error(data.error);
     return data.result;
@@ -183,8 +193,8 @@ async function updateTable(tableId, Code, ServedState, PayState) {
 }
 
 /****************************** */
-async function updateItem(itemId, itemName, itemPrice, duration, available) {
-    let data = await getJson('/manager/item/update', { itemId, itemName, itemPrice, duration, available });
+async function updateItem(itemId, itemName, itemPrice,  duration, available, itemType) {
+    let data = await getJson('/manager/item/update', { itemId, itemName, itemPrice, duration, available,itemType });
     if (data.error)
         throw new Error(data.error);
     return data.result;

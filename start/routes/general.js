@@ -44,6 +44,19 @@ Route.post('/general/get-menu-items-by-id', async ({ request }) => {
         result: items
     }
 })
+/*******************************/
+Route.post('/general/get-menu-items-type-id-by-type', async ({ request }) => {
+    let query = request.all();
+    let itemTypeId = await query_service.getItemTypeIdByItemType(query.itemType);
+    console.log(itemTypeId);
+    if (!itemTypeId)
+        return {
+            error: 'no menu items type id found'
+        }
+    return {
+        result: itemTypeId
+    }
+})
 
 /*******************************/
 Route.post('/general/get-menu-items-by-bill-id', async ({ request }) => {
@@ -61,6 +74,20 @@ Route.post('/general/get-menu-items-by-bill-id', async ({ request }) => {
 /*******************************/
 Route.post('/general/get-menu-items-by-combo-id', async ({ request }) => {
     let query = request.all();
+    let itemTypeId = await query_service.getMenuItemsByComboId(parseInt(query.comboId)); // the function will be called here
+    // the module.exports is used that other routes from ther files can call the function in this files
+    // now it is quite similar to the non-parameter
+    if (!itemTypeId)
+        return {
+            error: 'no menu items found'
+        }
+    return {
+        result: items
+    }
+})
+
+Route.post('/general/get-item-id', async ({ request }) => {
+    let query = request.all();
     let items = await query_service.getMenuItemsByComboId(parseInt(query.comboId)); // the function will be called here
     // the module.exports is used that other routes from ther files can call the function in this files
     // now it is quite similar to the non-parameter
@@ -72,8 +99,6 @@ Route.post('/general/get-menu-items-by-combo-id', async ({ request }) => {
         result: items
     }
 })
-
-
 
 /*******************************/
 Route.get('/general/get-combos', async ({ request }) => {
