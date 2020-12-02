@@ -38,7 +38,7 @@
         <!-- Page Content-->
         <div class="container-fluid p-0">
             <!-- Add Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res1.jpg');" id="addItem">
+            <section class="resume-section" style="background-size: cover; background-image: url('bg4.jpg');" id="addItem">
                 <div class="resume-section-content">
                     <section id="add-item">
                         <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
@@ -53,9 +53,13 @@
                                 <input class="textBoxStyle" type="text" placeholder="Enter Default Duration"
                                     v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Available?"
-                                    v-bind:v-value="item.available" v-model="item.available">
-                                </br>
+                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                    </select>
+                                </div>
                                 <input class="textBoxStyle" type="text" placeholder="TypeID?"
                                     v-bind:v-value="item.type" v-model="item.type">
                                 </br>
@@ -86,9 +90,13 @@
                                 <input class="textBoxStyle" type="text" placeholder="Enter new duration"
                                     v-bind:v-value="uItem.duration" v-model="uItem.duration">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Available?"
-                                    v-bind:v-value="uItem.available" v-model="uItem.available">
-                                </br>
+                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                             <button class="button" v-on:click="updateI">CONFIRM</button>
@@ -112,9 +120,13 @@
                                 <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
                                     v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Available?"
-                                    v-bind:v-value="combo.available" v-model="combo.available">
-                                </br>
+                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                             <button class="button" v-on:click="addCo">ADD</button>
@@ -142,9 +154,13 @@
                                 <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
                                     v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Avaliable?"
-                                    v-bind:v-value="uCombo.available" v-model="uCombo.available">
-                                </br>
+                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                             <button class="button" v-on:click="updateCo">CONFIRM</button>
