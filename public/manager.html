@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Resume - Start Bootstrap Theme</title>
+        <title>Manager-Restaurant Management System</title>
         <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
         <!-- Page Content-->
         <div class="container-fluid p-0">
             <!-- Add Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('bg4.jpg');" id="addItem">
+            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System\\public\\assets\\img\\res1_adj.jpg')" id="addItem">
                 <div class="resume-section-content">
                     <section id="add-item">
                         <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
@@ -47,22 +47,26 @@
                                 <input class="textBoxStyle" type="text" placeholder="Enter Item's Name"
                                     v-bind:v-value="item.name" v-model="item.name">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Item's Price"
+                                <input class="textBoxStyle" type="number" placeholder="Enter Item's Price"
                                     v-bind:v-value="item.price" v-model="item.price">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Default Duration"
+                                <input class="textBoxStyle" type="number" placeholder="Enter Default Duration"
                                     v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
                                 </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                <div class="select" v-bind:v-value="item.available">
                                     <select name="slct" id="slct">
-                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
+                                      <option selected disabled type="text">Available?</option>
                                       <option value="1">Yes</option>
                                       <option value="2">No</option>
                                     </select>
                                 </div>
-                                <input class="textBoxStyle" type="text" placeholder="TypeID?"
-                                    v-bind:v-value="item.type" v-model="item.type">
-                                </br>
+                                <div class="select" v-bind:v-value="item.type">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text">Item type?</option>
+                                      <option value="1">Food</option>
+                                      <option value="2">Drink</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                             <button class="button" v-on:click="addI">CONFIRM</button>
@@ -72,29 +76,36 @@
             </section>
             <hr class="m-0" />
             <!-- Update Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res2.jpg');" id="updateItem">
+            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\assets\\res2.jpg');" id="updateItem">
                 <div class="resume-section-content">
                     <section id="update-item">
                         <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
                         <div class="cookGrid">
                             <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Id of item you want to update"
+                                <input class="textBoxStyle" type="number" placeholder="Enter Id of item you want to update"
                                     v-bind:v-value="uItem.itemId" v-model="uItem.itemId">
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Enter new item name"
                                     v-bind:v-value="uItem.itemName" v-model="uItem.itemName">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
+                                <input class="textBoxStyle" type="number" placeholder="Enter new price"
                                     v-bind:v-value="uItem.itemPrice" v-model="uItem.itemPrice">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new duration"
+                                <input class="textBoxStyle" type="number" placeholder="Enter new duration"
                                     v-bind:v-value="uItem.duration" v-model="uItem.duration">
                                 </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                <div class="select" v-bind:v-value="uItem.available">
                                     <select name="slct" id="slct">
                                       <option selected disabled type="text" style="text-align: center;">Available?</option>
                                       <option value="1">Yes</option>
                                       <option value="2">No</option>
+                                    </select>
+                                </div>
+                                <div class="select" v-bind:v-value="uItem.type">
+                                    <select name="slct" id="slct">
+                                      <option selected disabled type="text" style="text-align: center;">Item Type?</option>
+                                      <option value="1">Food</option>
+                                      <option value="2">Drink</option>
                                     </select>
                                 </div>
                             </div>
@@ -114,13 +125,13 @@
                                 <input class="textBoxStyle" type="text" placeholder="Enter Combo's Name"
                                     v-bind:v-value="combo.name" v-model="combo.name">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's Price"
+                                <input class="textBoxStyle" type="number" placeholder="Enter Combo's Price"
                                     v-bind:v-value="combo.price" v-model="combo.price">
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
                                     v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
                                 </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                <div class="select" v-bind:v-value="combo.available">
                                     <select name="slct" id="slct">
                                       <option selected disabled type="text" style="text-align: center;">Available?</option>
                                       <option value="1">Yes</option>
@@ -142,19 +153,19 @@
                         <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
                         <div class="cookGrid">
                             <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Id of combo you want to update"
+                                <input class="textBoxStyle" type="number" placeholder="Enter Id of combo you want to update"
                                     v-bind:v-value="uCombo.comboId" v-model="uCombo.comboId">
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Enter new combo name"
                                     v-bind:v-value="uCombo.name" v-model="uCombo.name">
                                 </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
+                                <input class="textBoxStyle" type="number" placeholder="Enter new price"
                                     v-bind:v-value="uCombo.price" v-model="uCombo.price">
                                 </br>
                                 <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
                                     v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
                                 </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                                <div class="select" v-bind:v-value="uCombo.available">
                                     <select name="slct" id="slct">
                                       <option selected disabled type="text" style="text-align: center;">Available?</option>
                                       <option value="1">Yes</option>
@@ -231,7 +242,8 @@
                     itemName: "",
                     itemPrice: "",
                     duration: "",
-                    available: ""
+                    available: "",
+                    type: ""
                 },
                 uCombo: {
                     comboId: "",
