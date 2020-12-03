@@ -205,10 +205,16 @@ module.exports = {
     },
 
     async getComboByName(name) {
-        let [rows, _] = await Database.raw('select * from Combos where Combos.Name = ?', name);
+        let [rows, _] = await Database.raw('select * from Combos where Combos.Name = ?',[name]);
         if (!rows.length)
             return null;
 
         return rows[0];
+    },
+    async getItemTypeIdByItemType(type){
+        let [rows,_] = await Database.raw('select Id from itemtypes where itemtypes.ItemType=?',[type]);
+        if(!rows.length)
+            return null;
+        return rows[0].Id;
     }
 }

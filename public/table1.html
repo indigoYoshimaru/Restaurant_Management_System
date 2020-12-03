@@ -9,11 +9,34 @@
     <link rel="stylesheet" href="./reset.css">
     <style>
         .bg {
-            background-image: url("bg4.jpg");
-            height: 100vh;
-            width: 100vw;
-            background-repeat: no-repeat;
+            background-image: url("./assets/img/bg2.png");
+            background-position: center center;
             background-size: cover;
+            height: auto;
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            background-repeat: no-repeat;
+
+        }
+
+        .title {
+            position: relative;
+            color: white;
+            text-align: center;
+            font-size: 30pt;
+            font-family: 'Galada', cursive;
+        }
+
+        .content {
+            position: relative;
+            color: #041A2F;
+            font-size: 82px;
+            font-family: 'Chivo', sans-serif;
+            text-align: center;
+
         }
 
         .el-menu-vertical:not(.el-menu--collapse) {
@@ -44,7 +67,8 @@
         }
     </style>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@1,900&family=Galada&amily=Voces&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Galada&family=Montserrat&family=Roboto+Slab:wght@400;600&display=swap"
         rel="stylesheet">
 
 </head>
@@ -58,9 +82,10 @@
 <body>
     <template id="ui-template">
         <div>
-            <section id="setup-table" v-if="screenName ==='setup-table'">
+            <section id="setup-table" v-if="screenName ==='setup-table'" style="text-align:center">
                 <el-table ref="singleTable" :data="tableData" highlight-current-row
-                    @current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
+                    @current-change="handleCurrentChange" height="80vh"
+                    style="width:50vw; font-family: 'Montserrat', sans-serif;" class="center" margin-left="50px">
                     <el-table-column prop="Id" label="No." width="75">
                     </el-table-column>
                     <el-table-column prop="Code" label="Code" width="180">
@@ -73,17 +98,14 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Table</el-button>
+                <el-button style="margin-top:20px;" type=" primary" round @click="setUp()">Set Up Table</el-button>
 
                 </el-row>
             </section>
             <section id="welcome" v-if="screenName ==='welcome'">
-                <div style=" margin-right: -20px;text-align: right;" class="bg">
-                    <p style="color: black; font-size: 30pt; font-family: 'Galada', cursive;">Welcome to</p>
-                    <h1 style="color:#003152; font-size: 40pt; font-family: 'Chivo', sans-serif;">Autorant</h1>
-                    <p style="color:black; font-size: 30pt; font-family: 'Galada';">Enjoy your meal </br>
-                        with minimum human contact </p>
-                    <el-button style="margin-top:20px" type="primary" @click="enterScreen('app')">Click to continue
+                <div style="text-align: center;" class="bg">
+                    <el-button style=" margin-top:32%;" type="primary" circle icon="el-icon-caret-right"
+                        @click="enterScreen('app')" size="large">
                     </el-button>
                 </div>
 
@@ -91,16 +113,17 @@
             <section id="app" v-if="screenName ==='app'">
                 <el-container>
                     <el-header>
-                        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-                            <el-radio-button :label="false">expand</el-radio-button>
-                            <el-radio-button :label="true">collapse</el-radio-button>
+                        <el-radio-group v-model="isCollapse" style="margin-top:20px">
+                            <el-radio-button :label="true"><i class="el-icon-caret-left"></i></el-radio-button>
+                            <el-radio-button :label="false"><i class="el-icon-caret-right"></i></el-radio-button>
                         </el-radio-group>
                     </el-header>
 
                     <el-container>
                         <el-aside>
                             <el-menu default-active="1" class="el-menu-horizontal" @open="handleOpen"
-                                @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+                                @close="handleClose" @select="handleSelect" :collapse="isCollapse"
+                                background-color="#253C5F" text-color="#fff" active-text-color="#ffd04b">
                                 <el-menu-item index="1">
                                     <i class="el-icon-menu"></i>
                                     <span slot="title">Menu</span>
@@ -134,7 +157,7 @@
                                     </el-col>
                                     <el-col :xs="24" :sm="24" :md="24" :lg="12">
                                         <el-table ref="multipleTable1" :data="mainData.combos" height="75vh"
-                                            @selection-change="handleComboSelectionChange" margin style="width: 40vw">
+                                            @selection-change="handleComboSelectionChange" style="width: 40vw">
                                             <el-table-column type="expand">
                                                 <template slot-scope="props">
                                                     <p v-for="item in props.row.items">
@@ -155,12 +178,11 @@
                                     </el-col>
                                 </el-row>
                                 <div style="margin-top: 2px; text-align: center">
-                                    <el-button type="primary" @click="orderMeals()">Order
+                                    <el-button type="success" @click="orderMeals()">Order
                                     </el-button>
-                                    <el-button type="primary" @click="toggleSelection()">Clear selection
+                                    <el-button type="danger" @click="toggleSelection()">Clear selection
                                     </el-button>
-                                    <el-button type="primary" @click="backToMainScreen()">Back to main screen
-                                    </el-button>
+
                                 </div>
 
 
@@ -243,7 +265,7 @@
                 tableData: mainData.tables,
                 currentRow: null,
                 isCollapse: true,
-                subScreen: 2,
+                subScreen: 1,
                 states: [
                     'Waiting',
                     'In progress',
@@ -261,7 +283,7 @@
                 this.$alert(result, 'Confirm', {
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    this.screenName = "welcome";
+                    this.enterScreen("welcome");
                 })
                 mainData.currentInfo = await getCurrentTableInfo();
                 console.log(mainData.currentInfo);
@@ -330,7 +352,7 @@
                 this.$alert(result, 'Confirm', {
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    enterScreen('welcome');
+                    this.enterScreen('welcome');
                 })
 
             }

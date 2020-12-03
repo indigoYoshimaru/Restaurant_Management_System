@@ -5,69 +5,184 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./reset.css">
+    <style>
+        .el-row {
+            margin-bottom: 20px;
+        }
+
+        .el-col {
+            border-radius: 4px;
+        }
+
+        .currentItemGrid {
+            display: grid;
+            grid-template-columns: 7fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
+        }
+
+        .twoColumns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
+        }
+    </style>
+
 </head>
 
-<body>
-    <div id="app">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">Processing Center</el-menu-item>
-            <el-submenu index="2">
-                <template slot="title">Workspace</template>
-                <el-menu-item index="2-1">item one</el-menu-item>
-                <el-menu-item index="2-2">item two</el-menu-item>
-                <el-menu-item index="2-3">item three</el-menu-item>
-                <el-submenu index="2-4">
-                    <template slot="title">item four</template>
-                    <el-menu-item index="2-4-1">item one</el-menu-item>
-                    <el-menu-item index="2-4-2">item two</el-menu-item>
-                    <el-menu-item index="2-4-3">item three</el-menu-item>
-                </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3" disabled>Info</el-menu-item>
-            <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
-        </el-menu>
-        <div class="line"></div>
-        <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect"
-            background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-            <el-menu-item index="1">Processing Center</el-menu-item>
-            <el-submenu index="2">
-                <template slot="title">Workspace</template>
-                <el-menu-item index="2-1">item one</el-menu-item>
-                <el-menu-item index="2-2">item two</el-menu-item>
-                <el-menu-item index="2-3">item three</el-menu-item>
-                <el-submenu index="2-4">
-                    <template slot="title">item four</template>
-                    <el-menu-item index="2-4-1">item one</el-menu-item>
-                    <el-menu-item index="2-4-2">item two</el-menu-item>
-                    <el-menu-item index="2-4-3">item three</el-menu-item>
-                </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3" disabled>Info</el-menu-item>
-            <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item>
-        </el-menu>
-    </div>
-</body>
-<script src="//unpkg.com/vue/dist/vue.js"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
 <script src="//unpkg.com/element-ui@2.14.1/lib/index.js"></script>
+<script src="js/client.js"></script>
 
+<body>
+    <template id="ui-template">
+        <div>
+            <section id="setup-staff" v-if="screenName ==='setup-staff'">
+                <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                    <el-table ref="singleTable" :data="staffData" highlight-current-row
+                        @current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
+                        <el-table-column type="index" width="50">
+                        </el-table-column>
+                        <el-table-column property="Id" label="Personal ID" width="120">
+                        </el-table-column>
+                        <el-table-column property="firstName" label="First Name" width="120">
+                        </el-table-column>
+                        <el-table-column property="lastName" label="Last Name" width="120">
+                        </el-table-column>
+                        <el-table-column property="staffType" label="Staff Type">
+                        </el-table-column>
+                    </el-table>
+                </el-col>
+            </section>
+            <div style="margin-top: 20px">
+                <el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Staff
+                </el-button>
+            </div>
+            </section>
+
+            <section id="prepare-process" v-if="screenName ==='prepare-process'">
+                <el-container>
+                    <el-header>
+                        Preparing Process
+                    </el-header>
+                    <el-main style="margin-left: 150px;">
+                        <el-row>
+                            <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                <p style="color:#013a72; font-size: 22pt">
+                                    Staff Name: {{mainData.currentInfo.staff.firstName}}
+                                    {{mainData.currentInfo.staff.lasttName}}
+                                </p>
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                <p style="color:#013a72; font-size: 22pt">
+                                    Staff Type: {{mainData.currentInfo.staff.staffType}}</p>
+                            </el-col>
+
+                        </el-row>
+                        <el-row v-for="currentItem in mainData.currentInfo.currentItem">
+                            <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
+                                {{currentItem.Name}}
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
+                                {{states[currentItem.State]}}
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
+                                {{states[currentItem.State]}}
+                                <el-button type="primary" plain @click="finishProcess">Finish</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col>
+                                <div v-if="currentInfo.nextItem!=null">
+                                    {{currentInfo.nextItem.ItemName}}
+                                </div>
+                                <div v-else>
+                                    No next item found.
+                                </div>
+                            </el-col>
+                            <el-col>
+
+                                <el-button type="primary" plain @click="startProcess">Start</el-button>
+
+                            </el-col>
+                        </el-row>
+                    </el-main>
+                </el-container>
+            </section>
+        </div>
+    </template>
+</body>
 
 <script>
-    var Main = {
+    let mainData = {
+        staffList: [],
+        currentInfo: {},
+        chosenBillDetailIds: [],
+        time: {}
+    }
+
+    var uiData = {
+        template: "#ui-template",
         data() {
             return {
-                activeIndex: '1',
-                activeIndex2: '1'
-            };
-        },
-        methods: {
-            handleSelect(key, keyPath) {
-                console.log(key, keyPath);
+                screenName: 'setup-staff',
+                staffData: mainData.staffList,
+                staffType: ['null', 'Cook', 'Bartender'],
+                currentRow: null,
+                mainData
             }
+        },
+
+        methods: {
+            setUp: async function () {
+                let result = await setUpStaff(this.currentRow.Id);
+                mainData.currentInfo = await getCurrentStaffInfo();
+                this.$alert(result, 'You are set up as ' + currentInfo.firstName + ' ' + currentInfo.lastName, {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.screenName = "prepare-process";
+                })
+
+                console.log(mainData.currentInfo);
+            },
+            startProcess: async function () {
+                let result = await startProcessing(time);
+                mainData.currentInfo = await getCurrentStaffInfo();
+                alert(result);
+                console.log("Success");
+            },
+            finishProcess: async function (time) {
+                let result = await finishProcessing();
+                mainData.currentInfo = await getCurrentStaffInfo();
+                alert(result);
+                console.log("Success");
+            },
+            handleCurrentChange(val) {
+                this.currentRow = val;
+            },
+            enterScreen(screenName) {
+                this.screenName = screenName;
+            }
+
         }
     }
-    var Ctor = Vue.extend(Main)
-    new Ctor().$mount('#app')
-    var Ctor = Vue.extend(Main)
-    new Ctor().$mount('#app')
+
+    var v;
+    var Ctor;
+    getStaffList().then(function (result) {
+        console.log("Success!", result);
+        mainData.staffList = result;
+        Ctor = Vue.extend(uiData);
+        v = new Ctor().$mount('#ui-template');
+        return result;
+    }).catch(function (error) {
+        console.log("Failed!", error);
+    });
 
 </script>
+
+</html>

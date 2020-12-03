@@ -1,6 +1,7 @@
 const Route = use('Route')
 const Database = use('Database'); // use database
 
+const { getMenuItemByName } = require('./../../database/query_service');
 var query_service = require('./../../database/query_service');
 var update_service = require('./../../database/update_service');
 //------------------ITEM-----------------------//
@@ -11,9 +12,14 @@ Route.post('/manager/item/add', async ({ request, session }) => {
     let itemPrice = query.itemPrice;
     let duration = query.duration;
     let available = query.available;
-    let itemTypeId = query.itemTypeId;
+    let itemType = query.itemType;
 
     let item = await query_service.getMenuItemByName(itemName);
+    
+    let itemTypeId = await query_service.getItemTypeIdByItemType(itemType);
+
+    console.log(itemTypeId);
+
     if (item) {
         return {
             error: "Item already exists!"
@@ -38,9 +44,10 @@ Route.post('/manager/item/update', async ({ request, session }) => {
     let itemPrice = query.itemPrice;
     let duration = query.duration;
     let available = query.available;
-    let itemTypeId = query.itemTypeId;
+    let itemType = query.itemType;
     let item = await query_service.getMenuItemById(itemId);
-
+    let itemTypeId = await query_service.getItemTypeIdByItemType(itemType);
+    
     if (!item) {
         return {
             error: "Item Id does not exists!"

@@ -131,8 +131,17 @@ async function finishProcessing() {
         throw new Error(data.error);
     return data.result;
 }
+/************************** */
+async function getStaffList() {
+    let data = await (await fetch('/general/get-staffs')).json();
 
+    if (data.error) {
+        throw new Error(data.error);
+    }
 
+    return data.result;
+
+}
 //=================================MANAGER=============================//
 /*************************** */
 async function addCook(personalId, firstName, lastName) {
