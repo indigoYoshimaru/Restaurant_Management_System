@@ -193,7 +193,7 @@ Route.post('/general/get-current-bill-by-table-id', async ({ request }) => {
     return {
         result: {
             bill: bill,
-            tag: "Not Available"
+            tag: "Unavailable"
         }
     }
 })

@@ -1,453 +1,528 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
-	<meta charset="utf-8">
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./theme/index.css">
+    <link rel="stylesheet" href="./reset.css">
+    <style>
+        .bg {
+            background-image: url("./assets/img/bg2.png");
+            background-position: center center;
+            background-size: cover;
+            height: auto;
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            background-repeat: no-repeat;
 
-	<title>Autorant - table screen</title>
+        }
 
-	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-	<meta name="author" content="Phung Khanh Linh">
+        .bg2 {
+            background-image: url("./assets/img/bg.png");
+            background-position: center center;
+            background-size: cover;
+            height: auto;
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            background-repeat: no-repeat;
 
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        }
 
-	<meta name="viewport" content="width=device-width, initial-scale=0.7">
+        .title {
+            margin-top: 50px;
+            position: relative;
+            color: #253C5F;
+            text-align: center;
+            font-size: 50px;
+            /* font-family: 'Dancing Script', cursive; */
+            font-family: 'Righteous', cursive;
 
-	<link rel="stylesheet" href="reveal/css/reset.css">
-	<link rel="stylesheet" href="reveal/css/reveal.css">
-	<link rel="stylesheet" href="reveal/css/theme/beige.css" id="theme">
+        }
 
+        .header {
+            position: relative;
+            color: black;
+            font-size: 25px;
+            font-family: 'Righteous', cursive;
+            text-align: center;
 
-	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="reveal/lib/css/monokai.css">
+        }
 
+        .content {
+            position: relative;
+            font-size: 1.5rem;
+            font-family: 'Cormorant Upright', serif !important;
+        }
 
+        .subcontent {
+            position: relative;
+            font-size: 1.1rem;
+            /* font-family: 'Martel Sans', sans-serif  */
+            font-family: 'Alef', sans-serif !important;
+        }
 
+        .el-menu-vertical:not(.el-menu--collapse) {
+            width: 200px;
+            min-height: 400px;
+        }
 
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
-		document.getElementsByTagName('head')[0].appendChild(link);
-	</script>
+        .el-row {
+            margin-bottom: 20px;
+        }
 
-	<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+        .el-col {
+            border-radius: 4px;
+        }
 
-	<style>
-		.multipleColumns {
-			column-count: 3;
-			height: 209px;
-			column-fill: balance;
-		}
+        .currentItemGrid {
+            display: grid;
+            grid-template-columns: 7fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
+        }
 
-		.currentItemGrid {
-			display: grid;
-			grid-template-columns: 7fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
-		}
+        .twoColumns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+            text-align: center;
+        }
 
-		.twoColumns {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
-		}
+        .textBox {
+            width: 50%;
+            height: 20%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            margin-left: 25%;
+            margin-top: 1%;
+        }
 
-		.payGrid {
-			display: grid;
-			grid-template-columns: 1fr 2fr;
-			grid-gap: 5px;
-			text-align: center;
-		}
+        html {
+            font-size: 100%;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <!-- <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@439&family=Martel+Sans&family=Righteous&family=Sansita&display=swap"
+        rel="stylesheet"> -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@439&family=Alef:wght@500&family=Cormorant+Upright:wght@600&family=Righteous&display=swap"
+        rel="stylesheet">
 
-		.textBoxStyle {
-			width: 100%;
-			height: 20%;
-			text-align: center;
-			font-size: large;
-		}
-
-		.button {
-			background-color: #002147;
-			border: none;
-			color: white;
-			padding: 12px 28px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 20px;
-			border-radius: 12px;
-			transition: 0.4s;
-			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		}
-
-		.button:hover {
-			background-color: white;
-			border: 3px solid #002147;
-			color: black
-		}
-
-		.blink {
-			animation: blinking steps(1) 1s infinite alternate;
-
-		}
-
-		@keyframes blinking {
-			0% {
-				visibility: visible;
-			}
-
-			50% {
-				visibility: hidden;
-			}
-
-			100% {
-				visibility: visible;
-			}
-		}
-	</style>
 </head>
-<script src="js/vue.js"></script>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="//unpkg.com/element-ui@2.14.1/lib/index.js"></script>
 <script src="js/client.js"></script>
 
-
 <body>
+    <template id="ui-template">
+        <div>
+            <section id="setup-table" v-if="screenName ==='setup-table'" style="text-align:center">
+                <h1 class="title">↼Setup Table⇁</h1>
+                <!-- <el-table ref="singleTable" :data="tableData" highlight-current-row
+                    @current-change="handleCurrentChange" height="80vh" style="width:50vw; " class="center"
+                    margin-left="50px">
+                    <el-table-column prop="Id" label="No." width="75">
+                    </el-table-column>
+                    <el-table-column prop="Code" label="Code" width="180">
+                    </el-table-column>
+                    <el-table-column prop="tag" label="Status">
+                        <template slot-scope="scope">
+                            <el-tag :type="scope.row.tag === 'Available' ? 'success' : 'danger'" disable-transitions
+                                effect="dark">
+                                {{scope.row.tag}}</el-tag>
+                        </template>
+                    </el-table-column>
+                </el-table> -->
+                <el-row>
+                    <el-col :xs="{span:20, offset:2}" :sm="{span:16, offset:4}" :md="{span:16, offset:4}"
+                        :lg="{span:8, offset:8}" :xl="{span:6, offset:9}">
+                        <el-table ref="singleTable" :data="tableData" highlight-current-row
+                            @current-change="handleCurrentChange" width="100%" style="margin-top:30px" class="header">
+                            <el-table-column prop="Id" label="No.">
+                                <template slot-scope="scope">
+                                    <div class="subcontent">{{scope.row.Id}}</div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="Code" label="Code">
+                                <template slot-scope="scope">
+                                    <div class="subcontent">{{scope.row.Code}}</div>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="tag" label="Status">
+                                <template slot-scope="scope">
+                                    <el-tag class="subcontent"
+                                        :type="scope.row.tag === 'Available' ? 'success' : 'danger'" disable-transitions
+                                        effect="dark">{{scope.row.tag}}
+                                    </el-tag>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                </el-row>
+                <el-button style="margin-top:20px;" class="subcontent" type="primary" round @click="setUp()">Set Up
+                    Table
+                </el-button>
 
-	<div class="reveal">
+            </section>
+            <section id="welcome" v-if="screenName ==='welcome'">
+                <div style="text-align: center;" class="bg">
+                    <el-button style=" margin-top:32%;" type="primary" plain circle icon="el-icon-caret-right"
+                        @click="enterScreen('app')">
+                    </el-button>
+                </div>
 
-		<!-- Any section element inside of this container is displayed as a slide -->
-		<div class="slides">
-			<section id="homepage" data-background-image="bg4.jpg">
-				<div style=" margin-right: -1em;text-align: right; font-family:'Trebuchet MS'">
-					<h2 style="color: black; ">Welcome to</h2>
-					<h1 style="color:#003152;"> Autorant</h1>
-					<p style="color:black; font-size: 28pt;">Enjoy your meal </br>
-						with minimum human contact </p>
-					<p data-auto-animate class="blink" style="cursor:pointer; font-size: 28pt; color:rgb(150, 117, 75)"
-						v-on:click="jumpSlide(1)">
-						Click to continue
-					</p>
-				</div>
+            </section>
+            <section id="app" v-if="screenName ==='app'" class="bg2">
+                <el-container>
+                    <el-header>
+                        <el-radio-group v-model="isCollapse" style="margin-top:20px">
+                            <el-radio-button :label="true"><i class="el-icon-caret-left"></i></el-radio-button>
+                            <el-radio-button :label="false"><i class="el-icon-caret-right"></i></el-radio-button>
+                        </el-radio-group>
+                    </el-header>
 
+                    <el-container>
+                        <el-aside>
+                            <el-menu default-active="1" class="el-menu-horizontal" @open="handleOpen"
+                                @close="handleClose" @select="handleSelect" :collapse="isCollapse"
+                                background-color="#253C5F" text-color="#fff" active-text-color="#ffd04b"
+                                class="content">
+                                <el-menu-item index="1" class="content">
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">Menu</span>
+                                </el-menu-item>
+                                <el-menu-item index="2" class="content">
+                                    <i class="el-icon-s-order"></i>
+                                    <span slot="title">Ordered</span>
+                                </el-menu-item>
+                                <el-menu-item index="3" class="content">
+                                    <i class="el-icon-s-finance"></i>
+                                    <span slot="title">Payment</span>
+                                </el-menu-item>
+                            </el-menu>
+                        </el-aside>
+                        <el-main>
+                            <section id="Menu" v-if="subScreen ===1 ">
+                                <h1 class="title" style="margin-top:-2px">↼Menu⇁</h1>
+                                <el-row :gutter="20" style="margin-top:10px">
+                                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                        <el-table ref="multipleTable" :data="mainData.items" height="70vh"
+                                            @selection-change="handleItemSelectionChange" margin style="width: 40vw"
+                                            class="header">
+                                            <el-table-column type="selection" width="55">
+                                            </el-table-column>
+                                            <el-table-column prop="Id" label="Index" width="120">
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Id}}</div>
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column prop="Name" label="Name" width="350">
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Name}}</div>
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Price}}</div>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
 
-			</section>
-			<section id="select-table-screen">
-				<h2 style="color:#003152; font-size:50pt">꧁ Select table ꧂ </h2></br>
-				<div class="multipleColumns">
-					<ol>
-						<li v-for="table in tables" v-on:click="setup(table.Id)" style="cursor:pointer">{{table.Code}}
-						</li>
-					</ol>
-				</div>
+                                    </el-col>
+                                    <el-col :xs="24" :sm="24" :md="24" :lg="12">
+                                        <el-table ref="multipleTable1" :data="mainData.combos" height="70vh"
+                                            @selection-change="handleComboSelectionChange" style="width: 40vw"
+                                            class="header">
+                                            <el-table-column type="expand">
+                                                <template slot-scope="props">
+                                                    <p style="font-family:'Dancing Script', cursive;"
+                                                        v-for="item in props.row.items">
+                                                        {{item.Name}}</p>
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column type="selection" width="55">
+                                            </el-table-column>
+                                            <el-table-column prop="Id" label="Index" width="120">
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Id}}</div>
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column prop="Name" label="Name" width="200">
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Name}}</div>
+                                                </template>
+                                            </el-table-column>
+                                            <el-table-column prop="Price" label="Price (dollars)" show-overflow-tooltip>
+                                                <template slot-scope="scope">
+                                                    <div class="content">{{scope.row.Price}}</div>
+                                                </template>
+                                            </el-table-column>
 
-			</section>
-			<section id="main-screen">
-				<h2 style="color:#003152; font-size:50pt">꧁ Current Meals ꧂ </h2></br>
-				<p>
-					<span style="color: rgb(150, 117, 75)"> ────── TABLE:
-						{{mainData.currentInfo.tableCode}} ──────</span>
+                                        </el-table>
 
-				</p>
-				<div class="twoColumns">
-					<div style="color:teal; font-size: 22pt; font-family:'Trebuchet MS'">
-						BILL ID: {{mainData.currentInfo.billId}}
-					</div>
-					<div style="color:teal; font-siqqze: 22pt; font-family:'Trebuchet MS'">
-						TOTAL COST: {{mainData.currentInfo.currentTotalMoney}}
-					</div>
-				</div>
+                                    </el-col>
+                                </el-row>
+                                <div style="margin-top: 2px; text-align: center">
+                                    <el-button type="success" @click="orderMeals()" round class="subcontent">Order
+                                    </el-button>
+                                    <el-button type="danger" @click="toggleSelection()" round class="subcontent">Clear
+                                        selection
+                                    </el-button>
 
-
-				<div class="currentItemGrid">
-					<div>
-						<table>
-							<tr style="font-size:20pt" v-for="currentItem in mainData.currentInfo.orderedItems">
-								<td>{{currentItem.Name}}</td>
-								<td>State:{{states[currentItem.State]}}</td>
-							</tr>
-						</table>
-					</div>
-					<div>
-						<button class="button" v-on:click="order">ORDER</button>
-						<button class="button" v-on:click="pay">PAY</button>
-					</div>
-				</div>
-
-
-
-			</section>
-			<section id="order-screen">
-				<h2 style="color:#003152; font-size:50pt">꧁ Menu ꧂ </h2></br>
-				<div class="twoColumns">
-					<!-- Item -->
-					<div>
-						<p style="color:teal; text-align: center; font-family:'Trebuchet MS'">ITEMS</p>
-						<table>
-							<tr style="font-size:20pt" v-for="item in items">
-								<td>{{item.Id}}. {{item.Name}}</td>
-								<td>
-									<input type="checkbox" id="checkboxItem" v-model="chosenItemIds"
-										v-bind:value="item.Id">
-
-								</td>
-							</tr>
-						</table>
-						</p>
-					</div>
-					<!-- Combo -->
-					<div>
-						<p style="color: teal; text-align: center; font-family:'Trebuchet MS'">COMBOS</p>
-						<table>
-							<tr style="font-size:20pt" v-for="combo in combos">
-								<td>{{combo.Id}}. {{combo.Name}}</td>
-								<p style="font-size:15pt" v-for="items in itemsInCombos">{{item.Name}} </p>
-								<td>
-									<input type="checkbox" id="checkboxCombo" v-model="chosenComboIds"
-										v-bind:value="combo.Id">
-									<!-- <p>{{item.Id}}</p> -->
-								</td>
-							</tr>
-						</table>
-						<button class="button" v-on:click="orderMeals">ORDER</button>
-					</div>
-				</div>
-
-			</section>
-			<section id="pay-screen">
-				<h2 style="color:#003152; font-size:50pt">꧁ Payment Confirmation ꧂ </h2></br>
-				<div class="payGrid">
-					<div>
-						<p style="font-size:23pt">Card number</p>
-						<p style="font-size:23pt">Security code</p>
-					</div>
-					<div>
-						<input class="textBoxStyle" type="text" placeholder="Enter card number" v-bind:v-model="cardNo">
-						</br>
-						<input class="textBoxStyle" type="password" placeholder="Enter cvv number" v-bind:v-model="cvv">
-
-					</div>
-				</div>
-
-				<button class="button" v-on:click="pay">CONFIRM</button>
-			</section>
-		</div>
-	</div>
-
-	<script src=" reveal/js/reveal.js"></script>
-
-	<script>
-
-		// More info https://github.com/hakimel/reveal.js#configuration
-		Reveal.initialize({
-			controls: true,
-			progress: true,
-			center: true,
-			hash: true,
-
-			width: 960,
-			height: 700,
-
-			// Factor of the display size that should remain empty around
-			// the content
-			margin: 0.03,
-
-			// Bounds for smallest/largest possible scale to apply to content
-			minScale: 0.2,
-			maxScale: 2.0,
-			transition: 'convex', // none/fade/slide/convex/concave/zoom
-
-			// More info https://github.com/hakimel/reveal.js#dependencies
-			dependencies: [
-				{ src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/highlight/highlight.js' },
-				{ src: 'reveal/plugin/search/search.js', async: true },
-				{ src: 'reveal/plugin/zoom-js/zoom.js', async: true },
-				{ src: 'reveal/plugin/notes/notes.js', async: true }
-			]
-		});
-
-	</script>
-	<script>
-		//------------------------------------- screen 1
-
-		var screen0 = new Vue({
-			el: "#homepage",
-			methods: {
-				jumpSlide: function (slideNo) {
-					Reveal.slide(slideNo);
-				}
-			}
-		})
-
-		//------------------------------------- screen 2
-		let mainData = {
-			tables: [],
-			currentInfo: {},
-			items: [],
-			combos: [],
-			itemsInCombos: [],
-			chosenItemIds: [],
-			chosenComboIds: [],
-			cardNo: {},
-			cvv: {}
-		}
+                                </div>
 
 
-		async function getTables() {
-			let response = await fetch('/general/get-tables');
-			let data = await response.json();
+                            </section>
+                            <section id="Ordered" v-if="subScreen ===2" style="text-align: center; margin-right:300px">
+                                <h1 class="title">↼Ordered dishes⇁</h1>
+                                <el-container>
+                                    <el-header class="header" style="margin-top:10px">
+                                        <h2>Table: {{mainData.currentInfo.tableCode}}</h2>
+                                    </el-header>
+                                    <el-main>
+                                        <el-row>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12" class="header">
+                                                Bill ID: {{mainData.currentInfo.billId}}
+                                            </el-col>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12" class="header">
+                                                Total cost: {{mainData.currentInfo.currentTotalMoney}}
+                                            </el-col>
 
-			if (data.error) {
-				throw new Error();
-			}
+                                        </el-row>
+                                        <el-row v-for="currentItem in mainData.currentInfo.orderedItems">
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12" class="content">
+                                                {{currentItem.Name}}
+                                            </el-col>
+                                            <el-col :xs="24" :sm="24" :md="24" :lg="12" class="content">
+                                                {{states[currentItem.State]}}
+                                            </el-col>
+                                        </el-row>
+                                    </el-main>
 
-			return data.result;
-
-		}
-
-		getTables().then(function (result) {
-			console.log("Success!", result);
-			mainData.tables = result;
-			return result;
-		}).catch(function (error) {
-			console.log("Failed!", error);
-		});
-
-		var screen1 = new Vue({
-			el: '#select-table-screen',
-			data: mainData,
-			methods: {
-				setup: async function (id) {
-					let result = await setUpTable(id);
-
-					mainData.currentInfo = await getCurrentTableInfo();
-					alert(result);
-					console.log(mainData.currentInfo);
-					//change to slide 2
-					Reveal.slide(2);
-
-				}
-			}
-
-		})
-
-		setInterval(async () => {
-			mainData.currentInfo = await getCurrentTableInfo();
-		}, 5000);
-		//-------------------------------------- screen 3
-		var screen2 = new Vue({
-			el: '#main-screen',
-			data: {
-				mainData,
-				states: [
-					'Waiting',
-					'Cooking',
-					'Served'
-				]
-			},
-			methods: {
-				order: async function () {
-					alert('order');
-					mainData.chosenItemIds = [];
-					mainData.chosenComboIds = [];
-					Reveal.slide(3);
-				},
-				pay: async function () {
-					alert('pay');
-					Reveal.slide(4);
-				}
-			}
-
-		})
-		console.log(mainData);
-
-		//-------------------------------------- screen 4
-
-		async function getMenuItems() {
-			let response = await fetch('/general/get-menu-item');
-			let data = await response.json();
-
-			if (data.error) {
-				throw new Error();
-			}
-
-			return data.result;
-		}
+                                </el-container>
+                            </section>
+                            <section id="Payment" v-if="subScreen===3" style="margin-right:300px">
+                                <h1 class="title">↼Bill for table {{mainData.currentInfo.tableCode}}⇁</h1>
+                                <h2 class="header" style="margin-top:10px">Total cost:
+                                    {{mainData.currentInfo.currentTotalMoney}}</h2>
+                                <p class="content" style="margin-left: 25%; margin-top:10px">Card Number: </p>
+                                <el-input placeholder="Please input card number" v-model="cardNo" class="textBox">
+                                </el-input>
+                                <p class="content" style="margin-left: 25%; margin-top:10px">Security Number: </p>
+                                <el-input placeholder="Please input cvv" v-model="cvv" show-password size="medium"
+                                    class="textBox">
+                                </el-input>
+                                <div>
+                                    <el-button style="margin-left: 70%; margin-top:10px" round class="subcontent"
+                                        type="primary" @click="pay()">
+                                        Pay</el-button>
+                                </div>
+                            </section>
+                        </el-main>
+                    </el-container>
+                </el-container>
 
 
-		getMenuItems().then(function (result) {
-			console.log("Items get successfully!", result);
-			mainData.items = result;
-			return result;
-		}).catch(function (error) {
-			console.log("Failed!", error);
-		});
-
-		async function getCombos() {
-			let response = await fetch('/general/get-combos');
-			let data = await response.json();
-
-			if (data.error) {
-				throw new Error();
-			}
-
-			return data.result;
-		}
-
-		getCombos().then(function (result) {
-			console.log("Combo get successfully!", result);
-			mainData.combos = result;
-			return result;
-		}).catch(function (error) {
-			console.log("Failed!", error);
-		});
 
 
-		var screen3 = new Vue({
-			el: '#order-screen',
-			data: mainData,
-			methods: {
-				orderMeals: async function () {
-					let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
-					if (result) {
-						mainData.currentInfo = await getCurrentTableInfo();
-						alert(result);
-						Reveal.slide(2);
-					}
-
-				}
-			}
-
-		})
-
-		//-------------------------------------- screen 5
+            </section>
 
 
-		var screen4 = new Vue({
-			el: '#pay-screen',
-			data: mainData,
-			methods: {
-				pay: async function () {
-					let result = await checkPayment(mainData.cardNo, mainData.cvv);
-					if (result) {
-						alert(result.payment);
-						Reveal.slide(0);
-					}
-
-				}
-			}
-		})
-
-
-	</script>
+        </div>
+    </template>
 
 </body>
+
+<script>
+
+    let mainData = {
+        tables: [],
+        currentInfo: {},
+        items: [],
+        combos: [],
+        itemsInCombos: [],
+        chosenItemIds: [],
+        chosenComboIds: []
+    }
+
+    var uiData = {
+        template: "#ui-template",
+        data() {
+            return {
+                screenName: 'setup-table',
+                tableData: mainData.tables,
+                currentRow: null,
+                isCollapse: true,
+                subScreen: 1,
+                states: [
+                    'Waiting',
+                    'In progress',
+                    'Served'
+                ],
+                mainData,
+                cardNo: '',
+                cvv: ''
+            }
+        },
+        methods: {
+            setUp: async function () {
+
+                let result = await setUpTable(this.currentRow.Id);
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.enterScreen("welcome");
+                })
+                mainData.currentInfo = await getCurrentTableInfo();
+                console.log(mainData.currentInfo);
+
+
+            },
+            handleCurrentChange(val) {
+
+                this.currentRow = val;
+                console.log(this.currentRow);
+            },
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            enterScreen(screenName) {
+                this.screenName = screenName;
+            },
+            jump(subScreen) {
+                this.subScreen = subScreen;
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+                this.subScreen = parseInt(key);
+            },
+            backToMainScreen() {
+                toggleSelection();
+                this.jump(2);
+            },
+
+            orderMeals: async function () {
+                let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.jump(2);
+                })
+                mainData.currentInfo = await getCurrentTableInfo();
+
+            },
+
+            toggleSelection(rows) {
+
+                this.$refs.multipleTable.clearSelection();
+                this.$refs.multipleTable1.clearSelection();
+                this.mainData.chosenItemIds.splice(0, this.mainData.chosenItemIds.length);
+                this.mainData.chosenComboIds.splice(0, this.mainData.chosenComboIds.length);;
+
+            },
+            handleItemSelectionChange(val) {
+                this.mainData.chosenItemIds = [];
+                console.log(val);
+                for (var idx = 0; idx < val.length; idx++) {
+                    var item = val[idx];
+                    if (item && !this.mainData.chosenItemIds.includes(item.Id))
+                        this.mainData.chosenItemIds.push(item.Id);
+                }
+                val = [];
+
+            },
+            handleComboSelectionChange(val) {
+                this.mainData.chosenComboIds = [];
+                console.log(val);
+                for (var idx = 0; idx < val.length; idx++) {
+                    var combo = val[idx];
+                    if (combo && !this.mainData.chosenComboIds.includes(combo.Id))
+                        this.mainData.chosenComboIds.push(combo.Id);
+                }
+                val = [];
+            },
+            pay: async function () {
+                let result = await checkPayment(this.cardNo, this.cvv);
+                this.$alert(result, 'Confirm', {
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    this.enterScreen('welcome');
+                })
+
+            }
+        }
+
+
+    }
+
+    var v;
+    var Ctor;
+    getTables().then(async function (result) {
+        for (var table of result) {
+            let res = await getCurrentBillByTableId(table.Id);
+            table.tag = res.tag;
+        }
+        mainData.tables = result;
+        Ctor = Vue.extend(uiData);
+        v = new Ctor().$mount('#ui-template')
+        return result;
+    })
+
+
+    getMenuItems().then(function (result) {
+        console.log("Items get successfully!", result);
+        mainData.items = result;
+        return result;
+    }).catch(function (error) {
+        console.log("Failed!", error);
+    });
+
+    getCombos().then(async function (result) {
+        console.log("Combo get successfully!", result);
+        mainData.combos = result;
+        for (combo of mainData.combos) {
+            console.log(combo);
+            items = await getMenuItemsByComboId(combo.Id);
+            console.log(items);
+            combo.items = items;
+            //mainData.itemsInCombos.push({ comboId: combo.Id, items });
+        }
+        return result;
+    }).catch(function (error) {
+        console.log("Failed!", error);
+    });
+
+    // async function getMenuItemsFromCombos() {
+    //     for (combo of mainData.combos) {
+    //         console.log(combo);
+    //         items = await getMenuItemsByComboId(combo.Id);
+    //         console.log(items);
+    //         combo.items = items;
+    //         mainData.itemsInCombos.push({ comboId: combo.Id, items });
+    //     }
+    // }
+
+    // getMenuItemsFromCombos();
+    setInterval(async () => {
+        mainData.currentInfo = await getCurrentTableInfo();
+    }, 5000);
+
+</script>
 
 </html>

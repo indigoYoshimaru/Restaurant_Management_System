@@ -71,6 +71,16 @@ Route.post('/staff/setup', async ({ request, session }) => {
     }
 })
 
+// Route.post('/staff/login', async ({ request, session }) => {
+//     let query = request.all();
+//     let staffId = session.get("staffId", null);
+//     let username = query.username;
+//     let password = query.password; 
+
+//     let account = await query_service.getAccountByStaffId(staffId);
+//     if (username==account)
+// })
+
 
 Route.post('/staff/start', async ({ request, session }) => {
     let staffId = session.get("staffId", null);
