@@ -147,7 +147,8 @@ module.exports = {
             `select bDetails.Id, mItems.Name as ItemName, bDetails.State, bDetails.PredictedServedTime 
         from BillDetails as bDetails 
         join MenuItems as mItems on bDetails.MenuItemId = mItems.Id 
-        where bDetails.StaffId = ? and state=1 limit 1`, [parseInt(staffId)]);
+        where bDetails.StaffId = ? and state=1 limit 1`, [staffId]);
+        console.log(rows);
         if (!rows.length) {
             return null;
         }
@@ -155,10 +156,10 @@ module.exports = {
     },
 
     async getNextBillDetailByStaffId(staffId) {
-        let detail = await getCurrentBillDetailByStaffId(staffId);
+        let detail = await this.getCurrentBillDetailByStaffId(staffId);
         if (detail)
             return null;
-        let nInQueue = await getNearestInQueueBillDetailByStaffId(staffId);
+        let nInQueue = await this.getNearestInQueueBillDetailByStaffId(staffId);
 
         return nInQueue;
     },
