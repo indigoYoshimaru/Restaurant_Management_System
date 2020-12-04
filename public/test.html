@@ -44,69 +44,75 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="12">
                     <el-table ref="singleTable" :data="staffData" highlight-current-row
                         @current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
-                        <el-table-column type="index" width="50">
+                        <el-table-column type="index" label="Index" width="80">
                         </el-table-column>
-                        <el-table-column property="Id" label="Personal ID" width="120">
+                        <el-table-column property="PersonalId" label="Personal ID" width="120">
                         </el-table-column>
-                        <el-table-column property="firstName" label="First Name" width="120">
+                        <el-table-column property="FirstName" label="First Name" width="120">
                         </el-table-column>
-                        <el-table-column property="lastName" label="Last Name" width="120">
+                        <el-table-column property="LastName" label="Last Name" width="120">
                         </el-table-column>
-                        <el-table-column property="staffType" label="Staff Type">
+                        <el-table-column property="StaffTypeId" label="Staff Type">
                         </el-table-column>
                     </el-table>
                 </el-col>
+                <el-col style="margin-top: 20px">
+                    <el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Staff
+                    </el-button>
+                </el-col>
             </section>
-            <div style="margin-top: 20px">
-                <el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Staff
-                </el-button>
-            </div>
+
             </section>
 
             <section id="prepare-process" v-if="screenName ==='prepare-process'">
                 <el-container>
-                    <el-header>
+                    <el-header style="color:#013a72; font-size: 22pt">
                         Preparing Process
                     </el-header>
                     <el-main style="margin-left: 150px;">
                         <el-row>
                             <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                <p style="color:#013a72; font-size: 22pt">
-                                    Staff Name: {{mainData.currentInfo.staf.firstName}}
-                                    {{mainData.currentInfo.staff.lasttName}}
-                                </p>
+                                Staff Name: {{mainData.currentInfo.staff.FirstName}}
+                                {{mainData.currentInfo.staff.LasttName}}
+
                             </el-col>
                             <el-col :xs="24" :sm="24" :md="24" :lg="12">
-                                <p style="color:#013a72; font-size: 22pt">
-                                    Staff Type: {{mainData.currentInfo.staff.staffType}}</p>
+                                Staff Type: {{mainData.currentInfo.staff.StaffTypeId}}
                             </el-col>
 
                         </el-row>
-                        <el-row v-for="currentItem in mainData.currentInfo.currentItem">
+                        <p style="color:#013a72; font-size: 16pt">Current:</p>
+                        <el-row v-if="mainData.currentInfo.currentItem!=null">
+                            
                             <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
-                                {{currentItem.Name}}
+                                {{mainData.currentInfo.currentItem.Name}}
                             </el-col>
-                            <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
-                                {{states[currentItem.State]}}
-                            </el-col>
-                            <el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
-                                {{states[currentItem.State]}}
+                            <el-col>
                                 <el-button type="primary" plain @click="finishProcess">Finish</el-button>
                             </el-col>
                         </el-row>
+                        <el-row v-else>
+                            <P>>No current item found.</P>
+                        </el-row>
+                        <p style="color:#013a72; font-size: 20pt">Next:</p>
                         <el-row>
                             <el-col>
-                                <div v-if="currentInfo.nextItem!=null">
-                                    {{currentInfo.nextItem.ItemName}}
+                                <div v-if="mainData.currentInfo.nextItem!=null">
+                                    {{mainData.currentInfo.nextItem.ItemName}}
                                 </div>
                                 <div v-else>
                                     No next item found.
                                 </div>
                             </el-col>
                             <el-col>
-
-                                <el-button type="primary" plain @click="startProcess">Start</el-button>
-
+                                <el-row>
+                                    <p>Estimated Preparing Time (in Minnutes)</p>
+                                    <el-input-number v-model="mainData.time" @change="handleChange" :min="0">
+                                    </el-input-number>
+                                </el-row>
+                                <el-row>
+                                    <el-button type="primary" plain @click="startProcess()">Start</el-button>
+                                </el-row>
                             </el-col>
                         </el-row>
                     </el-main>
@@ -140,21 +146,20 @@
             setUp: async function () {
                 let result = await setUpStaff(this.currentRow.Id);
                 mainData.currentInfo = await getCurrentStaffInfo();
-                this.$alert(result, 'You are set up as ' + currentInfo.firstName + ' ' + currentInfo.lastName, {
+                this.$alert('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
                     confirmButtonText: 'OK'
                 }).then(() => {
                     this.screenName = "prepare-process";
                 })
-
                 console.log(mainData.currentInfo);
             },
             startProcess: async function () {
-                let result = await startProcessing(time);
+                let result = await startProcessing(mainData.time);
                 mainData.currentInfo = await getCurrentStaffInfo();
                 alert(result);
                 console.log("Success");
             },
-            finishProcess: async function (time) {
+            finishProcess: async function () {
                 let result = await finishProcessing();
                 mainData.currentInfo = await getCurrentStaffInfo();
                 alert(result);
@@ -162,6 +167,12 @@
             },
             handleCurrentChange(val) {
                 this.currentRow = val;
+                console.log(this.currentRow);
+            },
+            handleChange(value) {
+                mainData.time = value;
+                console.log(value);
+
             },
             enterScreen(screenName) {
                 this.screenName = screenName;
@@ -176,7 +187,7 @@
         console.log("Success!", result);
         mainData.staffList = result;
         Ctor = Vue.extend(uiData);
-        v = new Ctor.$mount('#ui-template');
+        v = new Ctor().$mount('#ui-template');
         return result;
     }).catch(function (error) {
         console.log("Failed!", error);
