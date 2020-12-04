@@ -5,6 +5,11 @@
 	<meta charset="UTF-8">
 	<!-- import CSS -->
 	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- Font -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Martel:wght@900&family=Open+Sans:wght@600&display=swap"
+		rel="stylesheet">
+
 	<style>
 		.el-row {
 			margin-bottom: 20px;
@@ -14,18 +19,8 @@
 			border-radius: 4px;
 		}
 
-		.currentItemGrid {
-			display: grid;
-			grid-template-columns: 7fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
-		}
-
-		.twoColumns {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-gap: 10px;
-			text-align: center;
+		.center {
+			text-align: center
 		}
 	</style>
 
@@ -40,64 +35,90 @@
 <body>
 	<template id="ui-template">
 		<div>
-			<section id="setup-staff" v-if="screenName ==='setup-staff'">
-				<el-col :xs="24" :sm="24" :md="24" :lg="12">
-					<el-table ref="singleTable" :data="staffData" highlight-current-row
-						@current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
-						<el-table-column type="index" label="Index" width="80">
-						</el-table-column>
-
-						<el-table-column property="FirstName" label="First Name" width="120">
-						</el-table-column>
-						<el-table-column property="LastName" label="Last Name" width="120">
-						</el-table-column>
-						<el-table-column property="StaffType" label="Staff Type">
-						</el-table-column>
-					</el-table>
-				</el-col>
-				<el-col style="margin-top: 20px">
-					<el-button style="margin-top:20px" type="primary" @click="setUp()">Set Up Staff
-					</el-button>
-				</el-col>
-			</section>
-
-			</section>
-
-			<section id="prepare-process" v-if="screenName ==='prepare-process'">
+			<section id="setup-staff" v-if="screenName ==='setup-staff'"
+				style="background-size: cover; background-image: url('.//photo/staff-bg-2.jpg')">
 				<el-container>
-					<el-header style="color:#013a72; font-size: 22pt">
+					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
+						Setup
+					</el-header>
+					<el-main>
+						<el-col style="margin-left: 500px; font-size: 18pt; font-family: 'Open Sans', sans-serif;"
+							:xs="24" :sm="24" :md="24" :lg="12">
+							<el-table ref="singleTable" :data="staffData" highlight-current-row
+								@current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
+								<el-table-column type="index" label="Index" width="80">
+								</el-table-column>
+
+								<el-table-column property="FirstName" label="First Name" width="120">
+								</el-table-column>
+								<el-table-column property="LastName" label="Last Name" width="120">
+								</el-table-column>
+								<el-table-column property="StaffType" label="Staff Type">
+								</el-table-column>
+							</el-table>
+						</el-col>
+						<el-col class="center">
+							<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+								@click="setUp()">Set Up Staff
+							</el-button>
+						</el-col>
+					</el-main>
+				</el-container>
+			</section>
+
+			</section>
+
+			<section id="prepare-process" v-if="screenName ==='prepare-process'"
+				style="background-size: cover; background-image: url('.//photo/staff-bg-1.jpg')">
+				<el-container>
+					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Preparing Process
 					</el-header>
 					<el-main style="margin-left: 150px;">
 						<el-row>
-							<el-col :xs="24" :sm="24" :md="24" :lg="12">
-								Staff Name: {{mainData.currentInfo.staff.FirstName}}
-								{{mainData.currentInfo.staff.LasttName}}
+							<el-col :xs="24" :sm="24" :md="24" :lg="6">
+								<span style="color:#030d38; font-family: 'Martel', serif; font-size: 20pt;">
+									Staff Name:
+								</span>
+								<span style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
+									{{mainData.currentInfo.staff.FirstName}}
+									{{mainData.currentInfo.staff.LasttName}}
+								</span>
+							</el-col>
+							<el-col style="color:#030d38; font-family: 'Open Sans', sans-serif; font-size: 20pt;"
+								:xs="24" :sm="24" :md="24" :lg="12">
+								<span style="color:#030d38; font-family: 'Martel', serif; font-size: 20pt;">
+									Staff Type:
+								</span>
+								<span style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
+									{{mainData.currentInfo.staff.StaffType}}
+								</span>
 
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="12">
-								Staff Type: {{mainData.currentInfo.staff.StaffType}}
-							</el-col>
-
 						</el-row>
-						<p style="color:#013a72; font-size: 16pt">Current:</p>
+
 						<el-row>
-							<el-col :xs="24" :sm="24" :md="24" :lg="12" style="font-size: 16pt">
+							<p style="color:#030b2e; font-family: 'Martel', serif; font-size: 20pt;">
+								Current:</p>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24"
+								style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
 								<div v-if="mainData.currentInfo.currentItem!=null">
 									{{mainData.currentInfo.currentItem.ItemName}}
 								</div>
 								<div v-else>
 									<P>No current item found.</P>
 								</div>
-							</el-col>
-							<el-col>
 								<el-button type="primary" plain @click="finishProcess">Finish</el-button>
 							</el-col>
 						</el-row>
 
-						<p style="color:#013a72; font-size: 20pt">Next:</p>
+
 						<el-row>
-							<el-col>
+							<p style="color:#030b2e; font-family: 'Martel', serif; font-size: 20pt;">
+								Next:
+							</p>
+							<el-col :xs="24" :sm="24" :md="24" :lg="12"
+								style="font-family: 'Open Sans', sans-serif;;font-size: 16pt">
 								<div v-if="mainData.currentInfo.nextItem!=null">
 									{{mainData.currentInfo.nextItem.ItemName}}
 								</div>
@@ -105,15 +126,18 @@
 									No next item found.
 								</div>
 							</el-col>
-							<el-col>
-								<el-row>
-									<p>Estimated Preparing Time (in Minnutes)</p>
+
+							<el-col :xs="24" :sm="24" :md="24" :lg="24"
+								style="margin-top: 25px; color:#030d38; font-family: 'Martel', serif; font-size: 18pt;">
+								Estimated Making Time:
+								<span style="margin-left: 20px; margin-right: 20px;">
 									<el-input-number v-model="mainData.time" @change="handleChange" :min="0">
 									</el-input-number>
-								</el-row>
-								<el-row>
-									<el-button type="primary" plain @click="startProcess">Start</el-button>
-								</el-row>
+								</span>
+
+
+								<el-button type="primary" plain @click="startProcess">Start</el-button>
+
 							</el-col>
 						</el-row>
 					</el-main>
@@ -128,6 +152,7 @@
 		staffList: [],
 		currentInfo: {},
 		chosenBillDetailIds: [],
+		staffName: {},
 		time: 0
 	}
 
@@ -150,6 +175,7 @@
 				this.$alert('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
 					confirmButtonText: 'OK'
 				}).then(() => {
+					staffName = mainData.currentInfo.FirstName + mainData.currentInfo.LastName;
 					this.screenName = "prepare-process";
 				})
 				console.log(mainData.currentInfo);
@@ -175,9 +201,9 @@
 				console.log(this.currentRow);
 			},
 			handleChange(value) {
-                mainData.time = value;
-                console.log(value);
-            },
+				mainData.time = value;
+				console.log(value);
+			},
 			enterScreen(screenName) {
 				this.screenName = screenName;
 			}
