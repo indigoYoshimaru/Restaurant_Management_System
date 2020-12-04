@@ -37,7 +37,7 @@ module.exports = {
     async addComboItem(menuItemId, comboId) {
         console.log("run addComboItem");
         let menuItem = await general.getMenuItemById(menuItemId);
-        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), menuItem.Price]);
+        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), parseInt(menuItem.Price)]);
 
     },
     async updateCombo(comboId, name, price, itemIds, available) {
