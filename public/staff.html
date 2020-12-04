@@ -35,8 +35,16 @@
 <body>
 	<template id="ui-template">
 		<div>
-			<section id="setup-staff" v-if="screenName ==='setup-staff'"
-				style="background-size: cover; background-image: url('.//photo/staff-bg-2.jpg')">
+			<section id="setup-staff" v-if="screenName ==='setup-staff'" style="background-position: center center;
+				background-size: cover;
+				height: auto;
+				left: 0;
+				min-height: 100%;
+				min-width: 100%;
+				position: absolute;
+				top: 0;
+				background-repeat: no-repeat;
+				background-image: url('.//photo/staff-bg-2.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Setup
@@ -68,8 +76,15 @@
 
 			</section>
 
-			<section id="prepare-process" v-if="screenName ==='prepare-process'"
-				style="background-size: cover; background-image: url('.//photo/staff-bg-1.jpg')">
+			<section id="prepare-process" v-if="screenName ==='prepare-process'" style="background-position: center center;
+				background-size: cover;
+				height: auto;
+				left: 0;
+				min-height: 100%;
+				min-width: 100%;
+				position: absolute;
+				top: 0;
+				background-repeat: no-repeat; background-image: url('.//photo/staff-bg-1.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Preparing Process
@@ -108,7 +123,8 @@
 								<div v-else>
 									<P>No current item found.</P>
 								</div>
-								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain @click="finishProcess">Finish</el-button>
+								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+									@click="finishProcess">Finish</el-button>
 							</el-col>
 						</el-row>
 
@@ -136,7 +152,8 @@
 								</span>
 
 
-								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain @click="startProcess">Start</el-button>
+								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+									@click="startProcess">Start</el-button>
 
 							</el-col>
 						</el-row>
