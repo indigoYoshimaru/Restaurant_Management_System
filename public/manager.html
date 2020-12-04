@@ -1,303 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Resume - Start Bootstrap Theme</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <script src="js/vue.js"></script>
-        <script src="js/client.js"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none">Clarence Taylor</span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.png" alt="" /></span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    <div class="manager">Manager Soma</div>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addItem">Add Item</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateItem">Update Item</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addCombo">Add Combo</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateCombo">Update Combo</a></li>
-                </ul>
-            </div>
-        </nav>
-        <!-- Page Content-->
-        <div class="container-fluid p-0">
-            <!-- Add Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('bg4.jpg');" id="addItem">
-                <div class="resume-section-content">
-                    <section id="add-item">
-                        <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
-                        <div class="cookGrid">
-                            <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Item's Name"
-                                    v-bind:v-value="item.name" v-model="item.name">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Item's Price"
-                                    v-bind:v-value="item.price" v-model="item.price">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Default Duration"
-                                    v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
-                                </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                                    <select name="slct" id="slct">
-                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
-                                      <option value="1">Yes</option>
-                                      <option value="2">No</option>
-                                    </select>
-                                </div>
-                                <input class="textBoxStyle" type="text" placeholder="TypeID?"
-                                    v-bind:v-value="item.type" v-model="item.type">
-                                </br>
-                            </div>
-                        </div>
-                            <button class="button" v-on:click="addI">CONFIRM</button>
-                        
-                    </section>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Update Item-->
-            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res2.jpg');" id="updateItem">
-                <div class="resume-section-content">
-                    <section id="update-item">
-                        <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
-                        <div class="cookGrid">
-                            <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Id of item you want to update"
-                                    v-bind:v-value="uItem.itemId" v-model="uItem.itemId">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new item name"
-                                    v-bind:v-value="uItem.itemName" v-model="uItem.itemName">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
-                                    v-bind:v-value="uItem.itemPrice" v-model="uItem.itemPrice">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new duration"
-                                    v-bind:v-value="uItem.duration" v-model="uItem.duration">
-                                </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                                    <select name="slct" id="slct">
-                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
-                                      <option value="1">Yes</option>
-                                      <option value="2">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                            <button class="button" v-on:click="updateI">CONFIRM</button>
-                    </section>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Add Combo-->
-            <section class="resume-section" style="background-size: cover; background-image: url('D:\\Restaurant_Management_System-web-app\\public\\photo\\res3.jpg'); "id="addCombo">
-                <div class="resume-section-content">
-                    <section id="add-combo">
-                        <h2 class="mb-5" style="text-align: center">ADD COMBO</h2>
-                        <div class="cookGrid">
-                            <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's Name"
-                                    v-bind:v-value="combo.name" v-model="combo.name">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's Price"
-                                    v-bind:v-value="combo.price" v-model="combo.price">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
-                                    v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
-                                </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                                    <select name="slct" id="slct">
-                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
-                                      <option value="1">Yes</option>
-                                      <option value="2">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                            <button class="button" v-on:click="addCo">ADD</button>
-                        
-                    </section>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Update Combo-->
-            <section class="resume-section" style="background-size: cover; background-image: url('bg4.jpg');"id="updateCombo">
-                <div class="resume-section-content">
-                    <section id="update-combo">
-                        <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
-                        <div class="cookGrid">
-                            <div>
-                                <input class="textBoxStyle" type="text" placeholder="Enter Id of combo you want to update"
-                                    v-bind:v-value="uCombo.comboId" v-model="uCombo.comboId">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new combo name"
-                                    v-bind:v-value="uCombo.name" v-model="uCombo.name">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Enter new price"
-                                    v-bind:v-value="uCombo.price" v-model="uCombo.price">
-                                </br>
-                                <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
-                                    v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                                </br>
-                                <div class="select" v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                                    <select name="slct" id="slct">
-                                      <option selected disabled type="text" style="text-align: center;">Available?</option>
-                                      <option value="1">Yes</option>
-                                      <option value="2">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                            <button class="button" v-on:click="updateCo">CONFIRM</button>
-                    </section>
-                </div>
-            </section>
-            <hr class="m-0" />
-            
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Manager-Restaurant Management System</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/client.js"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
+        type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+            <span class="d-block d-lg-none">Clarence Taylor</span>
+            <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2"
+                    src="assets/img/profile.png" alt="" /></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <div class="manager">Manager Soma</div>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addItem">Add Item</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateItem">Update Item</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#addCombo">Add Combo</a></li>
+                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#updateCombo">Update Combo</a></li>
+            </ul>
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Third party plugin JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <script src="reveal/js/reveal.js"></script>
+    </nav>
+    <!-- Page Content-->
+    <div class="container-fluid p-0">
+        <!-- Add Item-->
+        <section class="resume-section" style="background-size: cover; background-image: url('assets/img/res1_adj.jpg')"
+            id="addItem">
+            <div class="resume-section-content">
+                <section id="add-item">
+                    <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
+                    <div class="cookGrid">
+                        <div>
+                            <input class="textBoxStyle" type="text" placeholder="Enter Item's Name"
+                                v-bind:v-value="item.name" v-model="item.name">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter Item's Price"
+                                v-bind:v-value="item.price" v-model="item.price">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter Default Duration"
+                                v-bind:v-value="item.defaultDuration" v-model="item.defaultDuration">
+                            </br>
+                            <div class="select">
+                                <select v-model="item.available">
+                                    <option selected disabled type="">Available?</option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
 
-        <script>
+                            </div>
+                            <div class="select">
+                                <select v-model="item.type">
+                                    <option selected disabled type="">Item type?</option>
+                                    <option>Food</option>
+                                    <option>Drink</option>
+                                </select>
 
-            // More info https://github.com/hakimel/reveal.js#configuration
-            Reveal.initialize({
-                controls: true,
-                progress: true,
-                center: true,
-                hash: true,
-    
-                transition: 'slide', // none/fade/slide/convex/concave/zoom
-    
-                // More info https://github.com/hakimel/reveal.js#dependencies
-                dependencies: [
-                    { src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-                    { src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-                    { src: 'reveal/plugin/highlight/highlight.js' },
-                    { src: 'reveal/plugin/search/search.js', async: true },
-                    { src: 'reveal/plugin/zoom-js/zoom.js', async: true },
-                    { src: 'reveal/plugin/notes/notes.js', async: true }
-                ]
-            });
-    
-        </script>
-    
-        <script>
-            let mainData = {
-                adds: [
-                    { value: "Add Item" },
-                    { value: "Add Combo" }
-                ],
-                updates: [
-                    { value: "Update Item" },
-                    { value: "Update Combo" }
-                ],
-                item: {
-                    name: "",
-                    price: "",
-                    defaultDuration: "",
-                    available: "",
-                    type: ""
-                },
-                combo: {
-                    name: "",
-                    price: "",
-                    mItemIds: "",
-                    available: ""
-                },
-                uItem: {
-                    itemId: "",
-                    itemName: "",
-                    itemPrice: "",
-                    duration: "",
-                    available: ""
-                },
-                uCombo: {
-                    comboId: "",
-                    name: "",
-                    price: "",
-                    itemIds: "",
-                    available: ""
+                            </div>
+                        </div>
+                    </div>
+                    <span>Item: {{item.type}}</span>
+                    <button class="button" v-on:click="addI">CONFIRM</button>
+
+                </section>
+            </div>
+        </section>
+        <hr class="m-0" />
+        <!-- Update Item-->
+        <section class="resume-section" style="background-size: cover; background-image: url('./assets/img/res2.jpg');"
+            id="updateItem">
+            <div class="resume-section-content">
+                <section id="update-item">
+                    <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
+                    <div class="cookGrid">
+                        <div>
+                            <input class="textBoxStyle" type="number" placeholder="Enter Id of item you want to update"
+                                v-bind:v-value="uItem.itemId" v-model="uItem.itemId">
+                            </br>
+                            <input class="textBoxStyle" type="text" placeholder="Enter new item name"
+                                v-bind:v-value="uItem.itemName" v-model="uItem.itemName">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter new price"
+                                v-bind:v-value="uItem.itemPrice" v-model="uItem.itemPrice">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter new duration"
+                                v-bind:v-value="uItem.duration" v-model="uItem.duration">
+                            </br>
+                            <div class="select" v-bind:v-value="uItem.available">
+                                <select name="slct" id="slct">
+                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    </option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="select" v-bind:v-value="uItem.type">
+                                <select name="slct" id="slct">
+                                    <option selected disabled type="text" style="text-align: center;">Item Type?
+                                    </option>
+                                    <option value="1">Food</option>
+                                    <option value="2">Drink</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" v-on:click="updateI">CONFIRM</button>
+                </section>
+            </div>
+        </section>
+        <hr class="m-0" />
+        <!-- Add Combo-->
+        <section class="resume-section" style="background-size: cover; background-image: url('./assets/img/res3.jpg'); "
+            id="addCombo">
+            <div class="resume-section-content">
+                <section id="add-combo">
+                    <h2 class="mb-5" style="text-align: center">ADD COMBO</h2>
+                    <div class="cookGrid">
+                        <div>
+                            <input class="textBoxStyle" type="text" placeholder="Enter Combo's Name"
+                                v-bind:v-value="combo.name" v-model="combo.name">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter Combo's Price"
+                                v-bind:v-value="combo.price" v-model="combo.price">
+                            </br>
+                            <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
+                                v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
+                            </br>
+                            <div class="select" v-bind:v-value="combo.available">
+                                <select name="slct" id="slct">
+                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    </option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" v-on:click="addCo">ADD</button>
+
+                </section>
+            </div>
+        </section>
+        <hr class="m-0" />
+        <!-- Update Combo-->
+        <section class="resume-section" style="background-size: cover; background-image: url('./assets/img/bg4.jpg');"
+            id="updateCombo">
+            <div class="resume-section-content">
+                <section id="update-combo">
+                    <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
+                    <div class="cookGrid">
+                        <div>
+                            <input class="textBoxStyle" type="number" placeholder="Enter Id of combo you want to update"
+                                v-bind:v-value="uCombo.comboId" v-model="uCombo.comboId">
+                            </br>
+                            <input class="textBoxStyle" type="text" placeholder="Enter new combo name"
+                                v-bind:v-value="uCombo.name" v-model="uCombo.name">
+                            </br>
+                            <input class="textBoxStyle" type="number" placeholder="Enter new price"
+                                v-bind:v-value="uCombo.price" v-model="uCombo.price">
+                            </br>
+                            <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
+                                v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
+                            </br>
+                            <div class="select" v-bind:v-value="uCombo.available">
+                                <select name="slct" id="slct">
+                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    </option>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button" v-on:click="updateCo">CONFIRM</button>
+                </section>
+            </div>
+        </section>
+        <hr class="m-0" />
+
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <script src="reveal/js/reveal.js"></script>
+
+    <!-- <script>
+
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+            // More info https://github.com/hakimel/reveal.js#dependencies
+            dependencies: [
+                { src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'reveal/plugin/highlight/highlight.js' },
+                { src: 'reveal/plugin/search/search.js', async: true },
+                { src: 'reveal/plugin/zoom-js/zoom.js', async: true },
+                { src: 'reveal/plugin/notes/notes.js', async: true }
+            ]
+        });
+
+    </script> -->
+
+    <script>
+        let mainData = {
+            adds: [
+                { value: "Add Item" },
+                { value: "Add Combo" }
+            ],
+            updates: [
+                { value: "Update Item" },
+                { value: "Update Combo" }
+            ],
+            item: {
+                name: "",
+                price: "",
+                defaultDuration: "",
+                available: "",
+                type: ""
+            },
+            combo: {
+                name: "",
+                price: "",
+                mItemIds: "",
+                available: ""
+            },
+            uItem: {
+                itemId: "",
+                itemName: "",
+                itemPrice: "",
+                duration: "",
+                available: "",
+                type: ""
+            },
+            uCombo: {
+                comboId: "",
+                name: "",
+                price: "",
+                itemIds: "",
+                available: ""
+            }
+        }
+
+
+        var screen0 = new Vue({
+            el: '#add-item',
+            data: mainData,
+            methods: {
+                addI: async function () {
+                    let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available, mainData.item.type);
+
+                    alert('added');
+                    console.log("Success!", result);
+                    Reveal.slide(0);
                 }
             }
-    
-    
-            var screen0 = new Vue({
-                el: '#add-item',
-                data: mainData,
-                methods: {
-                    addI: async function () {
-                        let result = await addItem(mainData.item.name, mainData.item.price, mainData.item.defaultDuration, mainData.item.available, mainData.item.type);
-    
-                        alert('added');
-                        console.log("Success!", result);
-                        Reveal.slide(0);
-                    }
+        })
+
+        var screen1 = new Vue({
+            el: '#add-combo',
+            data: mainData,
+            methods: {
+                addCo: async function () {
+                    let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.available);
+
+                    alert('added');
+                    console.log("Success!", result);
+                    Reveal.slide(0);
                 }
-            })
-    
-            var screen1 = new Vue({
-                el: '#add-combo',
-                data: mainData,
-                methods: {
-                    addCo: async function () {
-                        let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.available);
-    
-                        alert('added');
-                        console.log("Success!", result);
-                        Reveal.slide(0);
-                    }
+            }
+        })
+
+        var screen2 = new Vue({
+            el: '#update-item',
+            data: mainData,
+            methods: {
+                updateI: async function () {
+                    let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available);
+
+                    alert("updated");
+                    console.log("Success!", result.result);
+                    Reveal.slide(0);
                 }
-            })
-    
-            var screen2 = new Vue({
-                el: '#update-item',
-                data: mainData,
-                methods: {
-                    updateI: async function () {
-                        let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available);
-    
-                        alert("updated");
-                        console.log("Success!", result.result);
-                        Reveal.slide(0);
-                    }
+            }
+        })
+
+        var screen3 = new Vue({
+            el: '#update-combo',
+            data: mainData,
+            methods: {
+                updateCo: async function () {
+                    let result = await updateCombo(mainData.uCombo.comboId, mainData.uCombo.name, mainData.uCombo.price, mainData.uCombo.itemIds, mainData.uCombo.available);
+
+                    alert("updated");
+                    console.log("Success!", result.result);
+                    Reveal.slide(0);
                 }
-            })
-    
-            var screen3 = new Vue({
-                el: '#update-combo',
-                data: mainData,
-                methods: {
-                    updateCo: async function () {
-                        let result = await updateCombo(mainData.uCombo.comboId, mainData.uCombo.name, mainData.uCombo.price, mainData.uCombo.itemIds, mainData.uCombo.available);
-    
-                        alert("updated");
-                        console.log("Success!", result.result);
-                        Reveal.slide(0);
-                    }
-                }
-            })
-        </script>
-    </body>
+            }
+        })
+    </script>
+</body>
+
 </html>

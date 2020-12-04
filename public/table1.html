@@ -84,8 +84,8 @@
         <div>
             <section id="setup-table" v-if="screenName ==='setup-table'" style="text-align:center">
                 <el-table ref="singleTable" :data="tableData" highlight-current-row
-                    @current-change="handleCurrentChange" height="80vh"
-                    style="width:50vw; font-family: 'Montserrat', sans-serif;" class="center" margin-left="50px">
+                    @current-change="handleCurrentChange" height="80vh" style="width:50vw; " class="center"
+                    margin-left="50px">
                     <el-table-column prop="Id" label="No." width="75">
                     </el-table-column>
                     <el-table-column prop="Code" label="Code" width="180">
@@ -98,7 +98,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <el-button style="margin-top:20px;" type=" primary" round @click="setUp()">Set Up Table</el-button>
+                <el-button style="margin-top:20px;" type="primary" round @click="setUp()">Set Up Table</el-button>
 
                 </el-row>
             </section>

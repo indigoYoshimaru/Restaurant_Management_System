@@ -160,8 +160,8 @@ async function addTable(Code) {
 }
 
 /**************************** */
-async function addItem(itemName, itemPrice, duration, available) {
-    let data = await getJson('/manager/item/add', { itemName, itemPrice, duration, available });
+async function addItem(itemName, itemPrice, duration, available, itemType) {
+    let data = await getJson('/manager/item/add', { itemName, itemPrice, duration, available, itemType });
     if (data.error)
         throw new Error(data.error);
     return data.result;
