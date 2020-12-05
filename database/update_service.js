@@ -77,7 +77,9 @@ module.exports = {
     },
     async orderItem(billId, item) {
         let staff = await query_service.getLowestInQueueStaff(item.ItemTypeId);
-
+        // if (!staff)
+        //     staff = await query_service.getStaffByTypeId(item.ItemTypeId);
+        console.log("staff Id: ", staff.Id);
         let params = [parseInt(billId), parseInt(item.Id), parseInt(staff.Id), parseFloat(item.Price), 0, null, null, null, parseInt(item.DefaultDuration)];
         console.log('params', params);
         await Database.raw(`INSERT INTO Billdetails

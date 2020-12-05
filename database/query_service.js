@@ -179,17 +179,32 @@ module.exports = {
 
     // get the staff that has the fewest prepared food/drink
     async getLowestInQueueStaff(itemType) {
-        let [rows, _] = await Database.raw(
-            `select KitchenStaffs.Id, count(KitchenStaffs.Id) as count_Id, KitchenStaffs.StaffTypeId
-        from KitchenStaffs join BillDetails on KitchenStaffs.Id = BillDetails.StaffId
-        group by KitchenStaffs.Id having count_Id > -1 and KitchenStaffs.StaffTypeId = ?
-        order by(count_Id) asc`, [itemType]);
+        // let [rows, _] = await Database.raw(
+        //     `select KitchenStaffs.Id, count(KitchenStaffs.Id) as count_Id, KitchenStaffs.StaffTypeId
+        // from KitchenStaffs join BillDetails on KitchenStaffs.Id = BillDetails.StaffId
+        // group by KitchenStaffs.Id having count_Id > -1 and KitchenStaffs.StaffTypeId = ?
+        // order by(count_Id) asc`, [itemType]);
+
+        let [rows, _] = await Database.raw(`select Id, sum(num) from(
+        select KitchenStaffs.Id as Id, case  WHEN billdetails.id is null THEN 0 
+        ELSE 1 END as num
+        from KitchenStaffs left join BillDetails on KitchenStaffs.Id = BillDetails.StaffId where KitchenStaffs.StaffTypeId = ?) as t
+        group by Id order by sum(num) asc`, [itemType])
         if (!rows.length)
             return null;
 
         return rows[0];
     },
 
+    // async getStaffByTypeId(typeId) {
+    //     let [rows, _] = await Database.raw(`select ks.Id, ks.PersonalId,ks.FirstName,ks.LastName, ks.StaffTypeId from KitchenStaffs as ks
+    //     join stafftypes on ks.stafftypeId = stafftypes.Id
+    //     where ks.staffTypeId =?`, [typeId]);
+    //     if (!rows.length)
+    //         return null;
+
+    //     return rows[0];
+    // },
 
     /*===================MANAGER================*/
 

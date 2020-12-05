@@ -44,14 +44,15 @@
 				position: absolute;
 				top: 0;
 				background-repeat: no-repeat;
-				background-image: url('.//photo/staff-bg-2.jpg')">
+				background-image: url('./assets/img/staff-bg-2.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Setup
 					</el-header>
 					<el-main>
-						<el-col style="margin-left: 500px; font-size: 18pt; font-family: 'Open Sans', sans-serif;"
-							:xs="24" :sm="24" :md="24" :lg="12">
+						<el-col style="font-size: 18pt; font-family: 'Open Sans', sans-serif;" :xs="{span:20, offset:2}"
+							:sm="{span:16, offset:4}" :md="{span:16, offset:4}" :lg="{span:8, offset:8}"
+							:xl="{span:6, offset:9}">
 							<el-table ref="singleTable" :data="staffData" highlight-current-row
 								@current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
 								<el-table-column type="index" label="Index" width="80">
@@ -84,7 +85,7 @@
 				min-width: 100%;
 				position: absolute;
 				top: 0;
-				background-repeat: no-repeat; background-image: url('.//photo/staff-bg-1.jpg')">
+				background-repeat: no-repeat; background-image: url('./assets/img/staff-bg-1.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Preparing Process
@@ -97,7 +98,7 @@
 								</span>
 								<span style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
 									{{mainData.currentInfo.staff.FirstName}}
-									{{mainData.currentInfo.staff.LasttName}}
+									{{mainData.currentInfo.staff.LastName}}
 								</span>
 							</el-col>
 							<el-col style="color:#030d38; font-family: 'Open Sans', sans-serif; font-size: 20pt;"

@@ -245,7 +245,6 @@ button:hover {
 
 input,
 button,
-select,
 optgroup,
 textarea {
   margin: 0;
@@ -472,7 +471,7 @@ mark,
 
 .textBoxStyle {
   width: 200%;
-  height: 20%;
+  height: 15%;
   text-align: center;
   font-size: x-large;
   margin-left: 50%;
@@ -7677,7 +7676,7 @@ button.bg-dark:focus {
 
 .mb-5,
 .my-5 {
-  margin-bottom: 3rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .ml-5,
@@ -10203,7 +10202,7 @@ select::-ms-expand {
   margin-left: 50%;
   margin-top: 5%;
   width: 200%;
-  height: 20%;
+  height: 15%;
   border: 4px groove #042d5a;
   border-radius: 15px;
 }
@@ -10215,20 +10214,3 @@ select {
   text-align: center;
   text-align-last: center;
 }
-/* Arrow */
-.select::after {
-  position: absolute;
-  right: 0;
-  padding: 0 1em;
-  background: #34495e;
-  cursor: pointer;
-  pointer-events: none;
-  -webkit-transition: .25s all ease;
-  -o-transition: .25s all ease;
-  transition: .25s all ease;
-}
-/* Transition */
-.select:hover::after {
-  color: #f39c12;
-}
-

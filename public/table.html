@@ -10,7 +10,7 @@
     <style>
         .bg {
             background-image: url("./assets/img/bg2.png");
-            background-position: center center;
+            background-position: center;
             background-size: cover;
             height: auto;
             left: 0;
@@ -24,7 +24,7 @@
 
         .bg2 {
             background-image: url("./assets/img/bg.png");
-            background-position: center center;
+            background-position: center;
             background-size: cover;
             height: auto;
             left: 0;
@@ -177,8 +177,8 @@
                 </el-button>
 
             </section>
-            <section id="welcome" v-if="screenName ==='welcome'">
-                <div style="text-align: center;" class="bg">
+            <section id="welcome" v-if="screenName ==='welcome'" class="bg">
+                <div style="text-align: center;">
                     <el-button style=" margin-top:32%;" type="primary" plain circle icon="el-icon-caret-right"
                         @click="enterScreen('app')">
                     </el-button>
@@ -200,36 +200,36 @@
                                 @close="handleClose" @select="handleSelect" :collapse="isCollapse"
                                 background-color="#253C5F" text-color="#fff" active-text-color="#ffd04b"
                                 class="content">
-                                <el-menu-item index="1" class="content">
+                                <el-menu-item index=1 class="content">
                                     <i class="el-icon-menu"></i>
                                     <span slot="title">Menu</span>
                                 </el-menu-item>
-                                <el-menu-item index="2" class="content">
+                                <el-menu-item index=2 class="content">
                                     <i class="el-icon-s-order"></i>
                                     <span slot="title">Ordered</span>
                                 </el-menu-item>
-                                <el-menu-item index="3" class="content">
+                                <el-menu-item index=3 class="content">
                                     <i class="el-icon-s-finance"></i>
                                     <span slot="title">Payment</span>
                                 </el-menu-item>
                             </el-menu>
                         </el-aside>
                         <el-main>
-                            <section id="Menu" v-if="subScreen ===1 ">
+                            <section id="Menu" v-if="subScreen ===1 " style="margin-right:280px">
                                 <h1 class="title" style="margin-top:-2px">↼Menu⇁</h1>
                                 <el-row :gutter="20" style="margin-top:10px">
                                     <el-col :xs="24" :sm="24" :md="24" :lg="12">
                                         <el-table ref="multipleTable" :data="mainData.items" height="70vh"
-                                            @selection-change="handleItemSelectionChange" margin style="width: 40vw"
+                                            @selection-change="handleItemSelectionChange" margin style="width: 45vw"
                                             class="header">
                                             <el-table-column type="selection" width="55">
                                             </el-table-column>
-                                            <el-table-column prop="Id" label="Index" width="120">
+                                            <el-table-column prop="Id" label="Index" width="100">
                                                 <template slot-scope="scope">
                                                     <div class="content">{{scope.row.Id}}</div>
                                                 </template>
                                             </el-table-column>
-                                            <el-table-column prop="Name" label="Name" width="350">
+                                            <el-table-column prop="Name" label="Name" width="280">
                                                 <template slot-scope="scope">
                                                     <div class="content">{{scope.row.Name}}</div>
                                                 </template>
@@ -412,10 +412,6 @@
                 console.log(key, keyPath);
                 this.subScreen = parseInt(key);
             },
-            backToMainScreen() {
-                toggleSelection();
-                this.jump(2);
-            },
 
             orderMeals: async function () {
                 let result = await orderItems(mainData.chosenItemIds, mainData.chosenComboIds);
@@ -425,6 +421,7 @@
                     this.jump(2);
                 })
                 mainData.currentInfo = await getCurrentTableInfo();
+                this.toggleSelection();
 
             },
 
@@ -432,12 +429,13 @@
 
                 this.$refs.multipleTable.clearSelection();
                 this.$refs.multipleTable1.clearSelection();
-                this.mainData.chosenItemIds.splice(0, this.mainData.chosenItemIds.length);
-                this.mainData.chosenComboIds.splice(0, this.mainData.chosenComboIds.length);;
-
+                // this.mainData.chosenItemIds.splice(0, this.mainData.chosenItemIds.length);
+                // this.mainData.chosenComboIds.splice(0, this.mainData.chosenComboIds.length);
+                this.mainData.chosenItemIds = [];
+                this.mainData.chosenComboIds = [];
             },
             handleItemSelectionChange(val) {
-                this.mainData.chosenItemIds = [];
+
                 console.log(val);
                 for (var idx = 0; idx < val.length; idx++) {
                     var item = val[idx];
@@ -448,7 +446,7 @@
 
             },
             handleComboSelectionChange(val) {
-                this.mainData.chosenComboIds = [];
+
                 console.log(val);
                 for (var idx = 0; idx < val.length; idx++) {
                     var combo = val[idx];
@@ -458,16 +456,33 @@
                 val = [];
             },
             pay: async function () {
-                let result = await checkPayment(this.cardNo, this.cvv);
-                this.$alert(result, 'Confirm', {
-                    confirmButtonText: 'OK'
-                }).then(() => {
+                try {
+                    await this.$confirm(`You are going to pay ${mainData.currentInfo.currentTotalMoney} dollars. Continue?`, 'Warning', {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
+                        type: 'warning'
+                    })
+                    let result = await checkPayment(this.cardNo, this.cvv);
+
+                    await this.$alert(result, 'Confirm', {
+                        confirmButtonText: 'OK',
+                        type: 'success'
+                    })
+                    this.cardNo = '';
+                    this.cvv = '';
+                    this.jump(1);
                     this.enterScreen('welcome');
-                })
+                }
+                catch (exc) {
+                    await this.$message({
+                        message: 'Payment canceled',
+                        type: 'info'
+                    })
+                }
 
             }
-        }
 
+        }
 
     }
 
@@ -486,7 +501,6 @@
 
 
     getMenuItems().then(function (result) {
-        console.log("Items get successfully!", result);
         mainData.items = result;
         return result;
     }).catch(function (error) {
@@ -494,12 +508,10 @@
     });
 
     getCombos().then(async function (result) {
-        console.log("Combo get successfully!", result);
+
         mainData.combos = result;
         for (combo of mainData.combos) {
-            console.log(combo);
             items = await getMenuItemsByComboId(combo.Id);
-            console.log(items);
             combo.items = items;
             //mainData.itemsInCombos.push({ comboId: combo.Id, items });
         }

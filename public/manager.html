@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Manager-Restaurant Management System</title>
@@ -78,7 +78,6 @@
                             </div>
                         </div>
                     </div>
-                    <span>Item: {{item.type}}</span>
                     <button class="button" v-on:click="addI">CONFIRM</button>
 
                 </section>
@@ -105,16 +104,16 @@
                             <input class="textBoxStyle" type="number" placeholder="Enter new duration"
                                 v-bind:v-value="uItem.duration" v-model="uItem.duration">
                             </br>
-                            <div class="select" v-bind:v-value="uItem.available">
-                                <select name="slct" id="slct">
+                            <div class="select">
+                                <select v-model="uItem.available">
                                     <option selected disabled type="text" style="text-align: center;">Available?
                                     </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
-                            <div class="select" v-bind:v-value="uItem.type">
-                                <select name="slct" id="slct">
+                            <div class="select">
+                                <select v-model="uItem.type">
                                     <option selected disabled type="text" style="text-align: center;">Item Type?
                                     </option>
                                     <option value="1">Food</option>
@@ -145,8 +144,8 @@
                             <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
                                 v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
                             </br>
-                            <div class="select" v-bind:v-value="combo.available">
-                                <select name="slct" id="slct">
+                            <div class="select">
+                                <select v-model="combo.available">
                                     <option selected disabled type="text" style="text-align: center;">Available?
                                     </option>
                                     <option value="1">Yes</option>
@@ -181,8 +180,8 @@
                             <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
                                 v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
                             </br>
-                            <div class="select" v-bind:v-value="uCombo.available">
-                                <select name="slct" id="slct">
+                            <div class="select">
+                                <select v-model="uCombo.available">
                                     <option selected disabled type="text" style="text-align: center;">Available?
                                     </option>
                                     <option value="1">Yes</option>
