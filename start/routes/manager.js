@@ -15,7 +15,7 @@ Route.post('/manager/item/add', async ({ request, session }) => {
     let itemType = query.itemType;
 
     let item = await query_service.getMenuItemByName(itemName);
-    
+
     let itemTypeId = await query_service.getItemTypeIdByItemType(itemType);
 
     console.log(itemTypeId);
@@ -47,7 +47,7 @@ Route.post('/manager/item/update', async ({ request, session }) => {
     let itemType = query.itemType;
     let item = await query_service.getMenuItemById(itemId);
     let itemTypeId = await query_service.getItemTypeIdByItemType(itemType);
-    
+
     if (!item) {
         return {
             error: "Item Id does not exists!"
@@ -66,12 +66,12 @@ Route.post('/manager/item/update', async ({ request, session }) => {
 //-----------------add combo
 Route.post('/manager/combo/add', async ({ request, session }) => {
     let query = request.all();
-    let name = query.name;
-    let price = query.price;
+    let comboName = query.comboName;
+    let comboPrice = query.comboPrice;
     let mItemIds = query.mItemIds;
     let available = query.available;
 
-    let combo = await query_service.getComboByName(name);
+    let combo = await query_service.getComboByName(comboName);
     let itemNames = []
     if (combo) {
         return {
@@ -91,14 +91,14 @@ Route.post('/manager/combo/add', async ({ request, session }) => {
             }
             itemNames.push(menuItem.Name);
         }
-        await update_service.addCombo(name, price, mItemIds, available);
-        let combo = await query_service.getComboByName(name);
+        await update_service.addCombo(comboName, comboPrice, mItemIds, available);
+        let combo = await query_service.getComboByName(comboName);
 
         return {
             result: {
                 comboId: combo.Id,
                 comboName: combo.Name,
-                price: combo.Price,
+                comboPrice: combo.Price,
                 available: combo.available,
                 itemNames: itemNames
 
@@ -135,7 +135,7 @@ Route.post('/manager/combo/update', async ({ request, session }) => {
                 }
             }
         }
-        await add_service.updateCombo(comboId, name, price, itemIds, available);
+        await update_service.updateCombo(comboId, name, price, itemIds, available);
         return {
             result: "Update successfully"
         }

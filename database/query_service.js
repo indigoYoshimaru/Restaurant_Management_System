@@ -246,7 +246,7 @@ module.exports = {
     },
 
     async getComboByName(name) {
-        let [rows, _] = await Database.raw('select * from Combos where Combos.Name = ?', [name]);
+        let [rows, _] = await Database.raw('select * from Combos where Name = ?', [name]);
         if (!rows.length)
             return null;
 
