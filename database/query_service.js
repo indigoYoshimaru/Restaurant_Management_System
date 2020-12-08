@@ -26,7 +26,8 @@ module.exports = {
     },
 
     async getStaffs() {
-        let [rows, _] = await Database.raw(`select * from KitchenStaffs`);
+        let [rows, _] = await Database.raw(`select ks.Id, FirstName, LastName, StaffType from KitchenStaffs ks
+        join stafftypes on ks.stafftypeId = stafftypes.Id;`);
         if (!rows.length)
             return null;
 
@@ -115,6 +116,14 @@ module.exports = {
 
     /*=================KITCHEN STAFFS==================*/
 
+    async getAccountByStaffId(id) {
+        let [rows, _] = await Database.raw(
+            `select UserName, Password, StaffId from accounts where staffId =?`, [parseInt(id)]);
+        if (!rows.length)
+            return null;
+        return rows[0];
+    },
+
     async getStaffById(id) {
         let [rows, _] = await Database.raw(`select * from KitchenStaffs
         join stafftypes on kitchenstaffs.stafftypeId = stafftypes.Id
@@ -125,12 +134,21 @@ module.exports = {
         return rows[0];
     },
 
+    // async getStaffTypeByTypeId(typeId) {
+    //     let [rows, _] = await Database.raw(``, parseInt[typeId]);
+    //     if (!rows.length)
+    //         return null;
+
+    //     return rows[0];
+    // },
+
     async getCurrentBillDetailByStaffId(staffId) {
         let [rows, _] = await Database.raw(
             `select bDetails.Id, mItems.Name as ItemName, bDetails.State, bDetails.PredictedServedTime 
         from BillDetails as bDetails 
         join MenuItems as mItems on bDetails.MenuItemId = mItems.Id 
-        where bDetails.StaffId = ? and state=1 limit 1`, [parseInt(staffId)]);
+        where bDetails.StaffId = ? and state=1 limit 1`, [staffId]);
+        console.log(rows);
         if (!rows.length) {
             return null;
         }
@@ -138,10 +156,10 @@ module.exports = {
     },
 
     async getNextBillDetailByStaffId(staffId) {
-        let detail = await getCurrentBillDetailByStaffId(staffId);
+        let detail = await this.getCurrentBillDetailByStaffId(staffId);
         if (detail)
             return null;
-        let nInQueue = await getNearestInQueueBillDetailByStaffId(staffId);
+        let nInQueue = await this.getNearestInQueueBillDetailByStaffId(staffId);
 
         return nInQueue;
     },
@@ -161,19 +179,42 @@ module.exports = {
 
     // get the staff that has the fewest prepared food/drink
     async getLowestInQueueStaff(itemType) {
-        let [rows, _] = await Database.raw(
-            `select KitchenStaffs.Id, count(KitchenStaffs.Id) as count_Id, KitchenStaffs.StaffTypeId
-        from KitchenStaffs join BillDetails on KitchenStaffs.Id = BillDetails.StaffId
-        group by KitchenStaffs.Id having count_Id > -1 and KitchenStaffs.StaffTypeId = ?
-        order by(count_Id) asc`, [itemType]);
+        // let [rows, _] = await Database.raw(
+        //     `select KitchenStaffs.Id, count(KitchenStaffs.Id) as count_Id, KitchenStaffs.StaffTypeId
+        // from KitchenStaffs join BillDetails on KitchenStaffs.Id = BillDetails.StaffId
+        // group by KitchenStaffs.Id having count_Id > -1 and KitchenStaffs.StaffTypeId = ?
+        // order by(count_Id) asc`, [itemType]);
+
+        let [rows, _] = await Database.raw(`select Id, sum(num) from(
+        select KitchenStaffs.Id as Id, case  WHEN billdetails.id is null THEN 0 
+        ELSE 1 END as num
+        from KitchenStaffs left join BillDetails on KitchenStaffs.Id = BillDetails.StaffId where KitchenStaffs.StaffTypeId = ?) as t
+        group by Id order by sum(num) asc`, [itemType])
         if (!rows.length)
             return null;
 
         return rows[0];
     },
 
+    // async getStaffByTypeId(typeId) {
+    //     let [rows, _] = await Database.raw(`select ks.Id, ks.PersonalId,ks.FirstName,ks.LastName, ks.StaffTypeId from KitchenStaffs as ks
+    //     join stafftypes on ks.stafftypeId = stafftypes.Id
+    //     where ks.staffTypeId =?`, [typeId]);
+    //     if (!rows.length)
+    //         return null;
+
+    //     return rows[0];
+    // },
 
     /*===================MANAGER================*/
+
+    async getAccountByManagerId(id) {
+        let [rows, _] = await Database.raw(
+            `select UserName,Password, ManagerId from accounts where managerId=?`, [parseInt(id)]);
+        if (!rows.length)
+            return null;
+        return rows[0];
+    },
 
     async getStaffByPersonalId(personalId) {
         let [rows, _] = await Database.raw('select * from KitchenStaffs where personalId = ?', [personalId]);
@@ -205,10 +246,16 @@ module.exports = {
     },
 
     async getComboByName(name) {
-        let [rows, _] = await Database.raw('select * from Combos where Combos.Name = ?', name);
+        let [rows, _] = await Database.raw('select * from Combos where Name = ?', [name]);
         if (!rows.length)
             return null;
 
         return rows[0];
+    },
+    async getItemTypeIdByItemType(type) {
+        let [rows, _] = await Database.raw('select Id from itemtypes where itemtypes.ItemType=?', [type]);
+        if (!rows.length)
+            return null;
+        return rows[0].Id;
     }
 }

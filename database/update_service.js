@@ -11,33 +11,33 @@ module.exports = {
     },
     async updateItem(itemId, itemName, itemPrice, duration, available, itemTypeId) {
         var updated = false;
-        let params = [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available), parseInt(itemId), parseInt(itemTypeId)];
+        let params = [itemName, parseFloat(itemPrice), parseInt(duration), parseInt(available), parseInt(itemTypeId), parseInt(itemId)];
         await Database.raw(`UPDATE menuitems SET
 	Name = ?,
 	Price = ?,
 	DefaultDuration = ?,
     Available = ?,
-    ItemTypeId=?,
+    ItemTypeId=?
 	WHERE Id = ?`, params);
         updated = true;
         return updated;
     },
 
-    async addCombo(name, price, mItemIds, available) {
+    async addCombo(comboName, comboPrice, mItemIds, available) {
         //console.log("run addCombo");
         //create new combo
-        await Database.raw(`insert into Combos (Name, Price, Available) values (?, ?, ?)`, [name, parseFloat(price), parseInt(available)]);
+        await Database.raw(`insert into Combos (Name, Price, Available) values (?, ?, ?)`, [comboName, parseFloat(comboPrice), parseInt(available)]);
 
-        let combo = await general.getComboByName(name);
+        let combo = await query_service.getComboByName(comboName);
         //the add item into combo
         for (var i = 0; i < mItemIds.length; i++) {
-            await addComboItem(mItemIds[i], combo.Id);
+            await this.addComboItem(mItemIds[i], combo.Id);
         }
     },
     async addComboItem(menuItemId, comboId) {
         console.log("run addComboItem");
-        let menuItem = await general.getMenuItemById(menuItemId);
-        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), menuItem.Price]);
+        let menuItem = await query_service.getMenuItemById(menuItemId);
+        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), parseInt(menuItem.Price)]);
 
     },
     async updateCombo(comboId, name, price, itemIds, available) {
@@ -48,12 +48,12 @@ module.exports = {
 	Available = ?
 	WHERE Id = ?`, [name, parseFloat(price), parseInt(available), parseInt(comboId)]);
         //delete old combo items
-        await deleteComboItemByComboId(comboId);
+        await this.deleteComboItemByComboId(comboId);
         //console.log("delete old items");
 
         //add new combo items
         for (var i = 0; i < itemIds.length; i++) {
-            await addComboItem(itemIds[i], comboId);
+            await this.addComboItem(itemIds[i], comboId);
         }
         //console.log("add new items")
     },
@@ -77,7 +77,9 @@ module.exports = {
     },
     async orderItem(billId, item) {
         let staff = await query_service.getLowestInQueueStaff(item.ItemTypeId);
-
+        // if (!staff)
+        //     staff = await query_service.getStaffByTypeId(item.ItemTypeId);
+        console.log("staff Id: ", staff.Id);
         let params = [parseInt(billId), parseInt(item.Id), parseInt(staff.Id), parseFloat(item.Price), 0, null, null, null, parseInt(item.DefaultDuration)];
         console.log('params', params);
         await Database.raw(`INSERT INTO Billdetails

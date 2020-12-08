@@ -102,7 +102,7 @@ Route.post('/table/order', async ({ request, session }) => {
         console.log('bill id', bill.Id);
         for (var itemId of menuItemIds) {
             let item = await query_service.getMenuItemById(parseInt(itemId));
-            console.log('item', item.ItemTypeId);
+            //console.log('item', item.ItemTypeId);
             if (item) {
                 await update_service.orderItem(bill.Id, item);
             }
@@ -134,7 +134,7 @@ Route.post('/table/order', async ({ request, session }) => {
     }
 
     return {
-        result: "ordered successfully."
+        result: "Ordered successfully."
     }
 
 })

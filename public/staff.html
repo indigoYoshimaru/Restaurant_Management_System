@@ -1,267 +1,246 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 
 <head>
-	<meta charset="utf-8">
-
-	<title>Autorant - cook screen</title>
-
-	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-	<meta name="author" content="Vi">
-
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-	<meta name="viewport" content="width=device-width, initial-scale=0.7">
-
-	<link rel="stylesheet" href="reveal/css/reset.css">
-	<link rel="stylesheet" href="reveal/css/reveal.css">
-	<link rel="stylesheet" href="reveal/css/theme/solarized.css" id="theme">
-
-	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="reveal/lib/css/monokai.css">
-
-	<!-- Printing and PDF exports -->
-	<script>
-		var link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
-		document.getElementsByTagName('head')[0].appendChild(link);
-	</script>
-
-	<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
+	<meta charset="UTF-8">
+	<!-- import CSS -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- Font -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Martel:wght@900&family=Open+Sans:wght@600&display=swap"
+		rel="stylesheet">
 
 	<style>
-		.mealsGrid {
-			display: grid;
-			grid-template-rows: 1fr 1fr;
-			grid-gap: 10px;
-			text-align: left;
+		.el-row {
+			margin-bottom: 20px;
 		}
 
-		.textBoxStyle {
-			width: 100%;
-			height: 30%;
-			text-align: center;
-			font-size: 18pt;
-			border: 2px solid green;
-			border-radius: 2px;
-		}
-
-		.buttonStyle {
-			background-color: #006400;
-			border: none;
-			color: white;
-			padding: 10px 24px;
-			text-align: center;
-			display: inline-block;
-			font-size: 20pt;
-			margin: 4px 2px;
-			cursor: pointer;
+		.el-col {
 			border-radius: 4px;
 		}
+
+		.center {
+			text-align: center
+		}
 	</style>
+
 </head>
-<script src="js/vue.js"></script>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="js/client.js"></script>
-</script>
 
 <body>
+	<template id="ui-template">
+		<div>
+			<section id="setup-staff" v-if="screenName ==='setup-staff'" style="background-position: center center;
+				background-size: cover;
+				height: auto;
+				left: 0;
+				min-height: 100%;
+				min-width: 100%;
+				position: absolute;
+				top: 0;
+				background-repeat: no-repeat;
+				background-image: url('./assets/img/staff-bg-2.jpg')">
+				<el-container>
+					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
+						Setup
+					</el-header>
+					<el-main>
+						<el-col style="font-size: 18pt; font-family: 'Open Sans', sans-serif;" :xs="{span:20, offset:2}"
+							:sm="{span:16, offset:4}" :md="{span:16, offset:4}" :lg="{span:8, offset:8}"
+							:xl="{span:6, offset:9}">
+							<el-table ref="singleTable" :data="staffData" highlight-current-row
+								@current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
+								<el-table-column type="index" label="Index" width="80">
+								</el-table-column>
 
-	<div class="reveal">
-
-		<!-- Any section element inside of this container is displayed as a slide -->
-		<div class="slides">
-			<section id="select-cook-screen">
-				<h2 style="color:#006400; font-family:Impact">Select Cook</h2>
-				<div>
-					<table>
-						<tr style="font-family:Arial Black; font-size:24pt; color:#006400">
-							<th>Personal Id</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-						</tr>
-						<tr style="font-family:Arial Black; font-size:22pt; color: black; cursor:pointer"
-							v-for="staff in staffs" v-on:click="setup(staff.Id)">
-							<td>{{staff.PersonalId}}</td>
-							<td>{{staff.FirstName}}</td>
-							<td>{{staff.LastName}}</td>
-						</tr>
-					</table>
-				</div>
+								<el-table-column property="FirstName" label="First Name" width="120">
+								</el-table-column>
+								<el-table-column property="LastName" label="Last Name" width="120">
+								</el-table-column>
+								<el-table-column property="StaffType" label="Staff Type">
+								</el-table-column>
+							</el-table>
+						</el-col>
+						<el-col class="center">
+							<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+								@click="setUp()">Set Up Staff
+							</el-button>
+						</el-col>
+					</el-main>
+				</el-container>
 			</section>
-			<!-- meals slide-->
-			<section id="meals-screen">
-				<h2 style="color:#006400; font-family:Impact">Setup Meals </h2>
-				<div class="mealsGrid">
-					<div>
-						<p style="font-family:Arial Black; font-size:24pt; color:#006400; text-align: left">Current
-							Meal:</p>
-						<table style="width:100%">
-							<!--
-							<tr style="font-size:20pt;color:black">
-								<th>Meal</th>
-								<th>Finished</th>
-							</tr>
-							-->
-							<tr style="font-family:Arial Black; font-size:22pt; color:black">
-								<td style="width:80%">
-									<div v-if="currentInfo.currentItem!=null">
-										{{currentInfo.currentItem.ItemName}}
-									</div>
-									<div v-else>
-										No current item found.
-									</div>
-								</td>
-								<td style="width:20%">
-									<button class="buttonStyle" v-on:click="finishMeal">Finish</button>
 
-								</td>
-							</tr>
-						</table>
+			</section>
 
-					</div>
+			<section id="prepare-process" v-if="screenName ==='prepare-process'" style="background-position: center center;
+				background-size: cover;
+				height: auto;
+				left: 0;
+				min-height: 100%;
+				min-width: 100%;
+				position: absolute;
+				top: 0;
+				background-repeat: no-repeat; background-image: url('./assets/img/staff-bg-1.jpg')">
+				<el-container>
+					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
+						Preparing Process
+					</el-header>
+					<el-main style="margin-left: 150px;">
+						<el-row>
+							<el-col :xs="24" :sm="24" :md="24" :lg="6">
+								<span style="color:#030d38; font-family: 'Martel', serif; font-size: 20pt;">
+									Staff Name:
+								</span>
+								<span style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
+									{{mainData.currentInfo.staff.FirstName}}
+									{{mainData.currentInfo.staff.LastName}}
+								</span>
+							</el-col>
+							<el-col style="color:#030d38; font-family: 'Open Sans', sans-serif; font-size: 20pt;"
+								:xs="24" :sm="24" :md="24" :lg="12">
+								<span style="color:#030d38; font-family: 'Martel', serif; font-size: 20pt;">
+									Staff Type:
+								</span>
+								<span style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
+									{{mainData.currentInfo.staff.StaffType}}
+								</span>
 
-					<div>
-						<p style="font-family:Arial Black; font-size:24pt; color:#006400; text-align: left">In-queue
-							Meal:</p>
+							</el-col>
+						</el-row>
 
-						<table style="width:100%">
-							<tr style="font-family:Arial Black; font-size:22pt; color:black">
-								<td style="width:50%">
-									<div v-if="currentInfo.nextItem!=null">
-										{{currentInfo.nextItem.ItemName}}
-									</div>
-									<div v-else>
-										No next item found.
-									</div>
-								</td>
-
-								<td style="width:30%">
-									<input class="textBoxStyle" type="number" v-model="time"
-										placeholder="Predicted time (in mins)">
-								</td>
-								<td style="width:20%">
-									<button class="buttonStyle" v-on:click="startMeal(time)">Start</button>
-								</td>
-							</tr>
-						</table>
-						<p style="font-size:18pt; color:black; text-align:right">Time Entered: {{time}} minutes</p>
-					</div>
+						<el-row>
+							<p style="color:#030b2e; font-family: 'Martel', serif; font-size: 20pt;">
+								Current:</p>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24"
+								style="font-family: 'Open Sans', sans-serif;font-size: 16pt">
+								<div v-if="mainData.currentInfo.currentItem!=null">
+									{{mainData.currentInfo.currentItem.ItemName}}
+								</div>
+								<div v-else>
+									<P>No current item found.</P>
+								</div>
+								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+									@click="finishProcess">Finish</el-button>
+							</el-col>
+						</el-row>
 
 
+						<el-row>
+							<p style="color:#030b2e; font-family: 'Martel', serif; font-size: 20pt;">
+								Next:
+							</p>
+							<el-col :xs="24" :sm="24" :md="24" :lg="12"
+								style="font-family: 'Open Sans', sans-serif;;font-size: 16pt">
+								<div v-if="mainData.currentInfo.nextItem!=null">
+									{{mainData.currentInfo.nextItem.ItemName}}
+								</div>
+								<div v-else>
+									No next item found.
+								</div>
+							</el-col>
 
-				</div>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24"
+								style="margin-top: 25px; color:#030d38; font-family: 'Martel', serif; font-size: 18pt;">
+								Estimated Making Time:
+								<span style="margin-left: 20px; margin-right: 20px;">
+									<el-input-number v-model="mainData.time" @change="handleChange" :min="0">
+									</el-input-number>
+								</span>
 
+
+								<el-button style="font-family: 'Open Sans', sans-serif;" type="primary" plain
+									@click="startProcess">Start</el-button>
+
+							</el-col>
+						</el-row>
+					</el-main>
+				</el-container>
 			</section>
 		</div>
-	</div>
-
-	<script src="reveal/js/reveal.js"></script>
-
-	<script>
-
-		// More info https://github.com/hakimel/reveal.js#configuration
-		Reveal.initialize({
-			controls: true,
-			progress: true,
-			center: true,
-			hash: true,
-
-			transition: 'convex', // none/fade/slide/convex/concave/zoom
-
-			// More info https://github.com/hakimel/reveal.js#dependencies
-			dependencies: [
-				{ src: 'reveal/plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-				{ src: 'reveal/plugin/highlight/highlight.js' },
-				{ src: 'reveal/plugin/search/search.js', async: true },
-				{ src: 'reveal/plugin/zoom-js/zoom.js', async: true },
-				{ src: 'reveal/plugin/notes/notes.js', async: true }
-			]
-		});
-
-	</script>
-	<script>
-		//------------------------------------- screen 1
-		let mainData = {
-			staffs: [],
-			currentInfo: {},
-			chosenBillDetailIds: [],
-			time: {}
-		}
-		async function getStaffs() {
-			let response = await fetch('/api/general/get-staffs');
-			let data = await response.json();
-
-			if (data.error) {
-				throw new Error();
-			}
-
-			return data.result;
-
-		}
-
-		getStaffs().then(function (result) {
-			console.log("Success!", result);
-			mainData.staffs = result;
-			return result;
-		}).catch(function (error) {
-			console.log("Failed!", error);
-		});
-
-		var screen1 = new Vue({
-			el: '#select-cook-screen',
-			data: mainData,
-			methods: {
-				setup: async function (id) {
-					let result = await setUpStaff(id);
-
-					mainData.currentInfo = await getCurrentStaffInfo();
-					alert(result);
-					console.log(mainData.currentInfo);
-					Reveal.slide(1);
-
-				}
-			}
-
-
-		})
-
-
-		var screen2 = new Vue({
-			el: '#meals-screen',
-			data: mainData,
-
-			methods: {
-				finishMeal: async function () {
-
-					let result = await finishProcessing();
-					mainData.currentInfo = await getCurrentStaffInfo();
-					alert(result);
-					console.log("Success");
-				},
-
-				startMeal: async function (time) {
-					let result = await startProcessing(time);
-					mainData.currentInfo = await getCurrentStaffInfo();
-					alert(result);
-					console.log("Success");
-				}
-			}
-
-		})
-
-
-
-
-
-	</script>
-
-
+	</template>
 </body>
+
+<script>
+	let mainData = {
+		staffList: [],
+		currentInfo: {},
+		chosenBillDetailIds: [],
+		staffName: {},
+		time: 0
+	}
+
+	var uiData = {
+		template: "#ui-template",
+		data() {
+			return {
+				screenName: 'setup-staff',
+				staffData: mainData.staffList,
+				staffType: ['null', 'Cook', 'Bartender'],
+				currentRow: null,
+				mainData
+			}
+		},
+
+		methods: {
+			setUp: async function () {
+				let result = await setUpStaff(this.currentRow.Id);
+				mainData.currentInfo = await getCurrentStaffInfo();
+				this.$alert('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
+					confirmButtonText: 'OK'
+				}).then(() => {
+					staffName = mainData.currentInfo.FirstName + mainData.currentInfo.LastName;
+					this.screenName = "prepare-process";
+				})
+				console.log(mainData.currentInfo);
+			},
+			startProcess: async function () {
+				let result = await startProcessing(mainData.time);
+				mainData.currentInfo = await getCurrentStaffInfo();
+				this.$alert(result, 'Start preparing'), {
+					confirmButtonText: 'OK'
+				}
+				console.log("Success");
+			},
+			finishProcess: async function () {
+				let result = await finishProcessing();
+				mainData.currentInfo = await getCurrentStaffInfo();
+				this.$alert(result, 'Finish preparing', {
+					confirmButtonText: 'OK'
+				})
+				console.log("Success");
+			},
+			handleCurrentChange(val) {
+				this.currentRow = val;
+				console.log(this.currentRow);
+			},
+			handleChange(value) {
+				mainData.time = value;
+				console.log(value);
+			},
+			enterScreen(screenName) {
+				this.screenName = screenName;
+			}
+
+		}
+	}
+
+	var v;
+	var Ctor;
+	getStaffList().then(function (result) {
+		console.log("Success!", result);
+		mainData.staffList = result;
+		Ctor = Vue.extend(uiData);
+		v = new Ctor().$mount('#ui-template');
+		return result;
+	}).catch(function (error) {
+		console.log("Failed!", error);
+	});
+
+</script>
 
 </html>

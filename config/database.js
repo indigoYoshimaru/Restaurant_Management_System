@@ -53,7 +53,7 @@ module.exports = {
       host: Env.get('DB_HOST', 'localhost'),
       port: Env.get('DB_PORT', '3306'),
       user: Env.get('DB_USER', 'root'),
-      password: Env.get('DB_PASSWORD', '12211991'),
+      password: Env.get('DB_PASSWORD', 'dangkhoa2000'),
       database: Env.get('DB_DATABASE', 'new_restaurant') //schema
     }
   },
