@@ -12,6 +12,7 @@
     <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
     <script src="js/vue.js"></script>
     <script src="js/client.js"></script>
+
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
         type="text/css" />
@@ -62,7 +63,8 @@
                             </br>
                             <div class="select">
                                 <select v-model="item.available">
-                                    <option selected disabled type="">Available?</option>
+                                    <option value="" disabled placeholder="Available?">Available?
+                                    </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -70,7 +72,7 @@
                             </div>
                             <div class="select">
                                 <select v-model="item.type">
-                                    <option selected disabled type="">Item type?</option>
+                                    <option value="" disabled>Item type?</option>
                                     <option>Food</option>
                                     <option>Drink</option>
                                 </select>
@@ -141,18 +143,30 @@
                             <input class="textBoxStyle" type="number" placeholder="Enter Combo's Price"
                                 v-bind:v-value="combo.price" v-model="combo.price">
                             </br>
-                            <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
+                            <!-- <input class="textBoxStyle" type="text" placeholder="Enter Combo's ItemIds"
                                 v-bind:v-value="combo.mItemIds" v-model="combo.mItemIds">
-                            </br>
+                            </br> -->
                             <div class="select">
                                 <select v-model="combo.available">
-                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    <option value="" disabled placeholder="Available?">Available?
                                     </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
+
+                            <table>
+                                <tr v-for="item in items">
+                                    <td>{{item.Id}}. {{item.Name}}</td>
+                                    <td>
+                                        <input type="checkbox" id="checkboxItem" v-model="combo.mItemIds"
+                                            v-bind:value="item.Id">
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
+
+
                     </div>
                     <button class="button" v-on:click="addCo">ADD</button>
 
@@ -177,9 +191,9 @@
                             <input class="textBoxStyle" type="number" placeholder="Enter new price"
                                 v-bind:v-value="uCombo.price" v-model="uCombo.price">
                             </br>
-                            <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
+                            <!-- <input class="textBoxStyle" type="text" placeholder="Include items with ids?"
                                 v-bind:v-value="uCombo.itemIds" v-model="uCombo.itemIds">
-                            </br>
+                            </br> -->
                             <div class="select">
                                 <select v-model="uCombo.available">
                                     <option selected disabled type="text" style="text-align: center;">Available?
@@ -188,6 +202,16 @@
                                     <option value="0">No</option>
                                 </select>
                             </div>
+
+                            <table>
+                                <tr v-for="item in items">
+                                    <td>{{item.Id}}. {{item.Name}}</td>
+                                    <td>
+                                        <input type="checkbox" id="NItemIds" v-model="uCombo.itemIds"
+                                            v-bind:value="item.Id">
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <button class="button" v-on:click="updateCo">CONFIRM</button>
@@ -250,7 +274,7 @@
             combo: {
                 name: "",
                 price: "",
-                mItemIds: "",
+                mItemIds: [],
                 available: ""
             },
             uItem: {
@@ -265,11 +289,18 @@
                 comboId: "",
                 name: "",
                 price: "",
-                itemIds: "",
+                itemIds: [],
                 available: ""
-            }
+            },
+            items: []
         }
 
+        getMenuItems().then(function (result) {
+            mainData.items = result;
+            return result;
+        }).catch(function (error) {
+            console.log("Failed!", error);
+        });
 
         var screen0 = new Vue({
             el: '#add-item',
@@ -280,7 +311,7 @@
 
                     alert('added');
                     console.log("Success!", result);
-                    Reveal.slide(0);
+
                 }
             }
         })
@@ -290,11 +321,11 @@
             data: mainData,
             methods: {
                 addCo: async function () {
-                    let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.available);
+                    let result = await addCombo(mainData.combo.name, mainData.combo.price, mainData.combo.mItemIds, mainData.combo.available);
 
                     alert('added');
                     console.log("Success!", result);
-                    Reveal.slide(0);
+
                 }
             }
         })
@@ -308,7 +339,7 @@
 
                     alert("updated");
                     console.log("Success!", result.result);
-                    Reveal.slide(0);
+
                 }
             }
         })
@@ -322,7 +353,7 @@
 
                     alert("updated");
                     console.log("Success!", result.result);
-                    Reveal.slide(0);
+
                 }
             }
         })
