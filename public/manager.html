@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
         type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
 </head>
@@ -45,8 +46,8 @@
     <!-- Page Content-->
     <div class="container-fluid p-0">
         <!-- Add Item-->
-        <section class="resume-section" style="background-size: cover; background-image: url('assets/img/res1_adj.jpg')"
-            id="addItem">
+        <section class="resume-section"
+            style="background-size: cover; background-image: url('assets/img/table_bg_test1.jpg')" id="addItem">
             <div class="resume-section-content">
                 <section id="add-item">
                     <h2 class="mb-5" style="text-align: center">ADD ITEM</h2>
@@ -63,7 +64,7 @@
                             </br>
                             <div class="select">
                                 <select v-model="item.available">
-                                    <option value="" disabled placeholder="Available?">Available?
+                                    <option value="" disabled>Available?
                                     </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
@@ -72,7 +73,7 @@
                             </div>
                             <div class="select">
                                 <select v-model="item.type">
-                                    <option value="" disabled>Item type?</option>
+                                    <option value="" selected disabled>Item type?</option>
                                     <option>Food</option>
                                     <option>Drink</option>
                                 </select>
@@ -80,15 +81,15 @@
                             </div>
                         </div>
                     </div>
-                    <button class="button" v-on:click="addI">CONFIRM</button>
+                    <button id="button2" class="noselect" v-on:click="addI">ADD<div id="circle"></div></button>
 
                 </section>
             </div>
         </section>
         <hr class="m-0" />
         <!-- Update Item-->
-        <section class="resume-section" style="background-size: cover; background-image: url('./assets/img/res2.jpg');"
-            id="updateItem">
+        <section class="resume-section"
+            style="background-size: cover; background-image: url('./assets/img/testbg.jpg');" id="updateItem">
             <div class="resume-section-content">
                 <section id="update-item">
                     <h2 class="mb-5" style="text-align: center">UPDATE ITEM</h2>
@@ -108,7 +109,7 @@
                             </br>
                             <div class="select">
                                 <select v-model="uItem.available">
-                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    <option value="" selected disabled>Available?
                                     </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
@@ -116,22 +117,22 @@
                             </div>
                             <div class="select">
                                 <select v-model="uItem.type">
-                                    <option selected disabled type="text" style="text-align: center;">Item Type?
-                                    </option>
-                                    <option value="1">Food</option>
-                                    <option value="2">Drink</option>
+                                    <option value="" selected disabled>Item type?</option>
+                                    <option>Food</option>
+                                    <option>Drink</option>
                                 </select>
+
                             </div>
                         </div>
                     </div>
-                    <button class="button" v-on:click="updateI">CONFIRM</button>
+                    <button id="button2" class="noselect" v-on:click="updateI">UPDATE<div id="circle"></div></button>
                 </section>
             </div>
         </section>
         <hr class="m-0" />
         <!-- Add Combo-->
-        <section class="resume-section" style="background-size: cover; background-image: url('./assets/img/res3.jpg'); "
-            id="addCombo">
+        <section class="resume-section"
+            style="background-size: cover; background-image: url('./assets/img/testbg2.jpg'); " id="addCombo">
             <div class="resume-section-content">
                 <section id="add-combo">
                     <h2 class="mb-5" style="text-align: center">ADD COMBO</h2>
@@ -155,20 +156,22 @@
                                 </select>
                             </div>
 
-                            <table>
-                                <tr v-for="item in items">
-                                    <td>{{item.Id}}. {{item.Name}}</td>
-                                    <td>
-                                        <input type="checkbox" id="checkboxItem" v-model="combo.mItemIds"
-                                            v-bind:value="item.Id">
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="container1">
+                                <table>
+                                    <tr v-for="item in items">
+                                        <td>{{item.Id}}. {{item.Name}}</td>
+                                        <td>
+                                            <input type="checkbox" id="checkboxItem" v-model="combo.mItemIds"
+                                                v-bind:value="item.Id">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
 
 
                     </div>
-                    <button class="button" v-on:click="addCo">ADD</button>
+                    <button id="button2" class="noselect" v-on:click="addCo">ADD<div id="circle"></div></button>
 
                 </section>
             </div>
@@ -179,7 +182,7 @@
             id="updateCombo">
             <div class="resume-section-content">
                 <section id="update-combo">
-                    <h2 ckass="mb-5" style="text-align: center">UPDATE COMBO</h2>
+                    <h2 ckass="mb-5" style="text-align: center">UPDATE</h2>
                     <div class="cookGrid">
                         <div>
                             <input class="textBoxStyle" type="number" placeholder="Enter Id of combo you want to update"
@@ -196,25 +199,28 @@
                             </br> -->
                             <div class="select">
                                 <select v-model="uCombo.available">
-                                    <option selected disabled type="text" style="text-align: center;">Available?
+                                    <option value="" selected disabled type="text" style="text-align: center;">
+                                        Available?
                                     </option>
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
 
-                            <table>
-                                <tr v-for="item in items">
-                                    <td>{{item.Id}}. {{item.Name}}</td>
-                                    <td>
-                                        <input type="checkbox" id="NItemIds" v-model="uCombo.itemIds"
-                                            v-bind:value="item.Id">
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="container1">
+                                <table>
+                                    <tr v-for="item in items">
+                                        <td>{{item.Id}}. {{item.Name}}</td>
+                                        <td>
+                                            <input type="checkbox" id="NItemIds" v-model="uCombo.itemIds"
+                                                v-bind:value="item.Id">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <button class="button" v-on:click="updateCo">CONFIRM</button>
+                    <button id="button2" class="noselect" v-on:click="updateCo">UPDATE<div id="circle"></div></button>
                 </section>
             </div>
         </section>
@@ -311,7 +317,7 @@
 
                     alert('added');
                     console.log("Success!", result);
-
+                    await location.reload();
                 }
             }
         })
@@ -325,7 +331,7 @@
 
                     alert('added');
                     console.log("Success!", result);
-
+                    await location.reload();
                 }
             }
         })
@@ -335,11 +341,11 @@
             data: mainData,
             methods: {
                 updateI: async function () {
-                    let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available);
+                    let result = await updateItem(mainData.uItem.itemId, mainData.uItem.itemName, mainData.uItem.itemPrice, mainData.uItem.duration, mainData.uItem.available, mainData.uItem.type);
 
                     alert("updated");
                     console.log("Success!", result.result);
-
+                    await location.reload();
                 }
             }
         })
@@ -353,7 +359,7 @@
 
                     alert("updated");
                     console.log("Success!", result.result);
-
+                    await location.reload();
                 }
             }
         })
