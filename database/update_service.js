@@ -30,14 +30,16 @@ module.exports = {
 
         let combo = await query_service.getComboByName(comboName);
         //the add item into combo
+        // provide new price for each item
+        var newPrice = parseFloat(comboPrice / mItemIds.length);
         for (var i = 0; i < mItemIds.length; i++) {
-            await this.addComboItem(mItemIds[i], combo.Id);
+            // then we update the comboitem table with the newPrice
+            await this.addComboItem(mItemIds[i], combo.Id, newPrice);
         }
     },
-    async addComboItem(menuItemId, comboId) {
+    async addComboItem(menuItemId, comboId, newPrice) {
         console.log("run addComboItem");
-        let menuItem = await query_service.getMenuItemById(menuItemId);
-        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), parseInt(menuItem.Price)]);
+        await Database.raw(`INSERT INTO comboitems (MenuItemsId, CombosId, Price) VALUES (?, ?, ?)`, [parseInt(menuItemId), parseInt(comboId), parseFloat(newPrice)]);
 
     },
     async updateCombo(comboId, name, price, itemIds, available) {
@@ -52,8 +54,11 @@ module.exports = {
         //console.log("delete old items");
 
         //add new combo items
+        // provide new price for each item
+        var newPrice = parseFloat(price / itemIds.length);
         for (var i = 0; i < itemIds.length; i++) {
-            await this.addComboItem(itemIds[i], comboId);
+            // then we update the comboitem table with the newPrice
+            await this.addComboItem(itemIds[i], comboId, newPrice);
         }
         //console.log("add new items")
     },

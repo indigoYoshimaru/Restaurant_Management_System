@@ -16,7 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 const Database = use('Database'); // use database
-var query_service = require('./../../database/query_service');
+var query_service = require('./../../database/query_service'); // require the query_service from the database directory
 Route.on('/').render('welcome') // take the 'welcome' template in view, render it --> create a website
 
 /*******************************/
@@ -88,7 +88,6 @@ Route.post('/general/get-menu-items-by-combo-id', async ({ request }) => {
 Route.post('/general/get-item-id', async ({ request }) => {
     let query = request.all();
     let items = await query_service.getMenuItemsByComboId(parseInt(query.comboId)); // the function will be called here
-    // the module.exports is used that other routes from ther files can call the function in this files
     // now it is quite similar to the non-parameter
     if (!items)
         return {
