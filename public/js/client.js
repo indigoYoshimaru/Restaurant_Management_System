@@ -101,18 +101,6 @@ async function checkPayment(cardNo, cvv) {
 }
 
 //=================================STAFF=============================//
-async function getStaffList() {
-    let data = await (await fetch('/general/get-staffs')).json();
-
-    if (data.error) {
-        throw new Error();
-    }
-
-    return data.result;
-
-    
-
-}
 /************************** */
 async function getCurrentStaffInfo() {
     let data = await (await fetch('/staff/info')).json();
@@ -143,16 +131,25 @@ async function finishProcessing() {
         throw new Error(data.error);
     return data.result;
 }
+/************************** */
+async function getStaffList() {
+    let data = await (await fetch('/general/get-staffs')).json();
 
+    if (data.error) {
+        throw new Error(data.error);
+    }
 
+    return data.result;
+
+}
 //=================================MANAGER=============================//
 /*************************** */
-async function addCook(personalId, firstName, lastName) {
-    let data = await getJson('/manager/cook/add', { personalId, firstName, lastName });
-    if (data.error)
-        throw new Error(data.error);
-    return data.result;
-}
+// async function addCook(personalId, firstName, lastName) {
+//     let data = await getJson('/manager/cook/add', { personalId, firstName, lastName });
+//     if (data.error)
+//         throw new Error(data.error);
+//     return data.result;
+// }
 
 /**************************** */
 async function addTable(Code) {
@@ -163,7 +160,7 @@ async function addTable(Code) {
 }
 
 /**************************** */
-async function addItem(itemName, itemPrice, duration, available,itemType) {
+async function addItem(itemName, itemPrice, duration, available, itemType) {
     let data = await getJson('/manager/item/add', { itemName, itemPrice, duration, available, itemType });
     if (data.error)
         throw new Error(data.error);
@@ -171,32 +168,32 @@ async function addItem(itemName, itemPrice, duration, available,itemType) {
 }
 
 /**************************** */
-async function addCombo(name, price, mItemIds, available) {
-    let data = await getJson('/manager/combo/add', { name, price, mItemIds, available });
+async function addCombo(comboName, comboPrice, mItemIds, available) {
+    let data = await getJson('/manager/combo/add', { comboName, comboPrice, mItemIds, available });
     if (data.error)
         throw new Error(data.error);
     return data.result;
 }
 
 /**************************** */
-async function updateCook(cookId, personalId, firstName, lastName) {
-    let data = await getJson('/manager/cook/update', { cookId, personalId, firstName, lastName });
-    if (data.error)
-        throw new Error(data.error);
-    return data.result;
-}
+// async function updateCook(cookId, personalId, firstName, lastName) {
+//     let data = await getJson('/manager/cook/update', { cookId, personalId, firstName, lastName });
+//     if (data.error)
+//         throw new Error(data.error);
+//     return data.result;
+// }
 
-/***************************** */
-async function updateTable(tableId, Code, ServedState, PayState) {
-    let data = await getJson('/manager/table/update', { tableId, Code, ServedState, PayState });
-    if (data.error)
-        throw new Error(data.error);
-    return data.result;
-}
+// /***************************** */
+// async function updateTable(tableId, Code, ServedState, PayState) {
+//     let data = await getJson('/manager/table/update', { tableId, Code, ServedState, PayState });
+//     if (data.error)
+//         throw new Error(data.error);
+//     return data.result;
+// }
 
 /****************************** */
-async function updateItem(itemId, itemName, itemPrice,  duration, available, itemType) {
-    let data = await getJson('/manager/item/update', { itemId, itemName, itemPrice, duration, available,itemType });
+async function updateItem(itemId, itemName, itemPrice, duration, available, itemType) {
+    let data = await getJson('/manager/item/update', { itemId, itemName, itemPrice, duration, available, itemType });
     if (data.error)
         throw new Error(data.error);
     return data.result;

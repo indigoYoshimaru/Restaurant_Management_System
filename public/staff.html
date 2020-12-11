@@ -3,6 +3,8 @@
 
 <head>
 	<meta charset="UTF-8">
+	<title>Kitchen Staff - Autorant</title>
+	<link rel="icon" type="image/x-icon" href="./assets/logo/logo_crop.png"/>
 	<!-- import CSS -->
 	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 	<!-- Font -->
@@ -44,14 +46,15 @@
 				position: absolute;
 				top: 0;
 				background-repeat: no-repeat;
-				background-image: url('.//photo/staff-bg-2.jpg')">
+				background-image: url('./assets/img/staff-bg-2.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Setup
 					</el-header>
 					<el-main>
-						<el-col style="margin-left: 500px; font-size: 18pt; font-family: 'Open Sans', sans-serif;"
-							:xs="24" :sm="24" :md="24" :lg="12">
+						<el-col style="font-size: 18pt; font-family: 'Open Sans', sans-serif;" :xs="{span:20, offset:2}"
+							:sm="{span:16, offset:4}" :md="{span:16, offset:4}" :lg="{span:8, offset:8}"
+							:xl="{span:6, offset:9}">
 							<el-table ref="singleTable" :data="staffData" highlight-current-row
 								@current-change="handleCurrentChange" height="80vh" margin style="width: 60vw">
 								<el-table-column type="index" label="Index" width="80">
@@ -84,7 +87,7 @@
 				min-width: 100%;
 				position: absolute;
 				top: 0;
-				background-repeat: no-repeat; background-image: url('.//photo/staff-bg-1.jpg')">
+				background-repeat: no-repeat; background-image: url('./assets/img/staff-bg-1.jpg')">
 				<el-container>
 					<el-header style="text-align:center; color:#030b2e; font-size: 26pt; font-family: 'Martel', serif;">
 						Preparing Process
@@ -189,20 +192,33 @@
 			setUp: async function () {
 				let result = await setUpStaff(this.currentRow.Id);
 				mainData.currentInfo = await getCurrentStaffInfo();
-				this.$alert('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
-					confirmButtonText: 'OK'
+				this.$confirm('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
+					confirmButtonText: 'OK',
+					cancelButtonText: 'Cancel'
 				}).then(() => {
+					this.$message({
+						showClose: true,
+						type: 'success',
+						message: 'Set up successfully'
+					});
 					staffName = mainData.currentInfo.FirstName + mainData.currentInfo.LastName;
 					this.screenName = "prepare-process";
+				}).catch(() => {
+					this.$message({
+						showClose: true,
+						type: 'info',
+						message: 'Set up canceled'
+					});
+					mainData.currentInfo = {}
 				})
 				console.log(mainData.currentInfo);
 			},
 			startProcess: async function () {
 				let result = await startProcessing(mainData.time);
 				mainData.currentInfo = await getCurrentStaffInfo();
-				this.$alert(result, 'Start preparing'), {
+				this.$alert(result, 'Start preparing', {
 					confirmButtonText: 'OK'
-				}
+				})
 				console.log("Success");
 			},
 			finishProcess: async function () {

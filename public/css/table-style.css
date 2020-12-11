@@ -1,0 +1,97 @@
+.bg {
+            background-image: url("../assets/img/bg2.png");
+            background-position: center;
+            background-size: cover;
+            height: auto;
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            background-repeat: no-repeat;
+
+        }
+
+        .bg2 {
+            background-image: url("../assets/img/table_bg_test.jpg");
+            background-position: center;
+            background-size: cover;
+            height: auto;
+            left: 0;
+            min-height: 100%;
+            min-width: 100%;
+            position: absolute;
+            top: 0;
+            background-repeat: no-repeat;
+
+        }
+
+        .bg3 {
+            
+            background: rgb(0, 0, 0);
+            /* Fallback color */
+            background: rgba(0, 0, 0, 0.5);
+            /* Black background with 0.5 opacity */
+            color: #f1f1f1;
+            /* Grey text */
+        }
+
+        .title {
+            margin-top: 50px;
+            position: relative;
+            color: #253C5F;
+            text-align: center;
+            font-size: 50px;
+            /* font-family: 'Dancing Script', cursive; */
+            font-family: 'Righteous', cursive;
+
+        }
+
+        .header {
+            position: relative;
+            color: black;
+            font-size: 25px;
+            font-family: 'Righteous', cursive;
+            text-align: center;
+
+        }
+
+        .content {
+            position: relative;
+            font-size: 1.5rem;
+            font-family: 'Cormorant Upright', serif !important;
+        }
+
+        .subcontent {
+            position: relative;
+            font-size: 1.1rem;
+            /* font-family: 'Martel Sans', sans-serif  */
+            font-family: 'Alef', sans-serif !important;
+        }
+
+        .el-menu-vertical:not(.el-menu--collapse) {
+            width: 200px;
+            min-height: 400px;
+        }
+
+        .el-row {
+            margin-bottom: 20px;
+        }
+
+        .el-col {
+            border-radius: 4px;
+        }
+
+        .textBox {
+            width: 50%;
+            height: 20%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            margin-left: 25%;
+            margin-top: 1%;
+        }
+
+        html {
+            font-size: 100%;
+        }
