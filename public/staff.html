@@ -3,6 +3,9 @@
 
 <head>
 	<meta charset="UTF-8">
+	<title>Kitchen Staff - Autorant</title>
+	<link rel="icon" type="image/x-icon" href="./assets/logo/logo_crop.png" />
+	<meta name="author" content="Le Thi Tuong Vi" />
 	<!-- import CSS -->
 	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 	<!-- Font -->
@@ -190,20 +193,33 @@
 			setUp: async function () {
 				let result = await setUpStaff(this.currentRow.Id);
 				mainData.currentInfo = await getCurrentStaffInfo();
-				this.$alert('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
-					confirmButtonText: 'OK'
+				this.$confirm('You are set up as ' + this.currentRow.FirstName + ' ' + this.currentRow.LastName, result, {
+					confirmButtonText: 'OK',
+					cancelButtonText: 'Cancel'
 				}).then(() => {
+					this.$message({
+						showClose: true,
+						type: 'success',
+						message: 'Set up successfully'
+					});
 					staffName = mainData.currentInfo.FirstName + mainData.currentInfo.LastName;
 					this.screenName = "prepare-process";
+				}).catch(() => {
+					this.$message({
+						showClose: true,
+						type: 'info',
+						message: 'Set up canceled'
+					});
+					mainData.currentInfo = {}
 				})
 				console.log(mainData.currentInfo);
 			},
 			startProcess: async function () {
 				let result = await startProcessing(mainData.time);
 				mainData.currentInfo = await getCurrentStaffInfo();
-				this.$alert(result, 'Start preparing'), {
+				this.$alert(result, 'Start preparing', {
 					confirmButtonText: 'OK'
-				}
+				})
 				console.log("Success");
 			},
 			finishProcess: async function () {
