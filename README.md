@@ -1,31 +1,11 @@
-# Adonis fullstack application
+# Simple Restaurant Management System
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
+Aiming to make restaurant a safer place during the pandemic age, the team created a simple RMS using AdonisJs, VueJS, and Element. 
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
+Assumming that the restaurant contains 3 actors: customers, kitchen staffs, and managers; each type of actors will be able to interact to perform 3 corresponding tasks: order food or drink, process the ordered items and combos and edit the menu's information.
 
-## Setup
-
-Use the adonis command to install the blueprint
-
-```bash
-adonis new yardstick
-```
-
-or manually clone the repo and then run `npm install`.
-
-
-### Migrations
-
-Run the following command to run startup migrations.
-
-```js
-adonis migration:run
-```
+Take a look at the hosted webpages and documentations for more information: 
+- Customer's page: http://35.185.166.56/table.html
+- Staff's page: http://35.185.166.56/staff.html
+- Manager's page: http://35.185.166.56/manager.html
+- Documentations: https://pdfhost.io/v/USs79h~oq_RMS_FinalReportpdf.pdf
