@@ -15,6 +15,7 @@ Route.get('/table/info', async ({ request, session }) => {
         }
     }
     try {
+        //get the bill to query its courses
         let bill = await query_service.getCurrentBillByTableId(id);
         let table = await query_service.getTableById(id);
         if (!bill) {
@@ -26,6 +27,7 @@ Route.get('/table/info', async ({ request, session }) => {
                 }
             }
         }
+        // get the courses and the total amount of money
         let billDetail = await query_service.getBillDetailsByBillId(bill.Id);
         let totalMoney = await query_service.getBillTotal(bill.Id);
 
@@ -60,7 +62,7 @@ Route.get('/table/info', async ({ request, session }) => {
 
 Route.post('/table/setup', async ({ request, session }) => {
     let query = request.all(); // get all request from the client
-    // get the table by its id
+    // get the table by its id 
     let table = await query_service.getTableById(parseInt(query.tableId));
     // if there is no such table, we return error
     if (!table) {
@@ -81,28 +83,24 @@ Route.post('/table/setup', async ({ request, session }) => {
 Route.post('/table/order', async ({ request, session }) => {
     let query = request.all();
     let tableId = session.get('tableId', null);
-    let menuItemIds = query.menuItemIds;
-    let comboIds = query.comboIds;
-
-
-    let bill = await query_service.getCurrentBillByTableId(tableId);
-
-    if (!bill) //if the table has not got any bill at that moment
-        bill = await update_service.openNewBill(tableId);
-    console.log('Bill ID: ', bill.Id);
     if (!tableId) {
         return {
             error: "No table found"
         }
     }
+    let menuItemIds = query.menuItemIds; // get the menuItemIds list from the request
+    let comboIds = query.comboIds;  //get the comboIds list from the request
+    let bill = await query_service.getCurrentBillByTableId(tableId);
 
+    if (!bill) //if the table has not got any bill at that moment --> table is available
+        bill = await update_service.openNewBill(tableId); //we open new bill
+    console.log('Bill ID: ', bill.Id);
     try {
         //logic
-
         console.log('bill id', bill.Id);
         for (var itemId of menuItemIds) {
             let item = await query_service.getMenuItemById(parseInt(itemId));
-            console.log('item', item.ItemTypeId);
+            //console.log('item', item.ItemTypeId);
             if (item) {
                 await update_service.orderItem(bill.Id, item);
             }
@@ -134,7 +132,7 @@ Route.post('/table/order', async ({ request, session }) => {
     }
 
     return {
-        result: "ordered successfully."
+        result: "Ordered successfully."
     }
 
 })
